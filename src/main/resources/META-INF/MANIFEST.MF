@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+FMLCorePlugin: com.porpit.minecamera.transform.CamPatchingLoader
+FMLCorePluginContainsFMLMod: com.porpit.minecamera.transform.CamDummy
+ForceLoadAsMod: true

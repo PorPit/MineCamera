@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "minecamera:photoprocessor"},
+		"facing=east": { "model": "minecamera:photoprocessor" ,"y": 90},
+		"facing=south": { "model": "minecamera:photoprocessor" ,"y": 180},
+		"facing=west": { "model": "minecamera:photoprocessor" ,"y": 270}
+    }
+}

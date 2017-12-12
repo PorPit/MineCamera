@@ -1,0 +1,112 @@
+{
+    "multipart": [
+        {   "when": { "rendertype": 0 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_mid"}
+        },
+		{   "when": { "rendertype": 0 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_mid","y": 90}
+        },
+		{   "when": { "rendertype": 0 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_mid","y": 180}
+        },
+		{   "when": { "rendertype": 0 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_mid","y": 270}
+        },
+        {   "when": { "rendertype": 1 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner"}
+        },
+		{   "when": { "rendertype": 1 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y": 90}
+        },
+		{   "when": { "rendertype": 1 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y": 180}
+        },
+		{   "when": { "rendertype": 1 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y": 270}
+        },
+        {   "when": { "rendertype": 2 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y":180 ,"x": 180}
+        },
+		{   "when": { "rendertype": 2 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y": 270,"x": 180}
+        },
+		{   "when": { "rendertype": 2 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y": 0,"x": 180}
+        },
+		{   "when": { "rendertype": 2 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y": 90,"x": 180}
+        },
+        {   "when": { "rendertype": 3 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y":180 ,"x": 180}
+        },
+		{   "when": { "rendertype": 3 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y": 270,"x": 180}
+        },
+		{   "when": { "rendertype": 3 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y": 0,"x": 180}
+        },
+		{   "when": { "rendertype": 3 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner" ,"y": 90,"x": 180}
+        },
+        {   "when": { "rendertype": 4 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1"}
+        },
+		{   "when": { "rendertype": 4 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y": 90}
+        },
+		{   "when": { "rendertype": 4 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y": 180}
+        },
+		{   "when": { "rendertype": 4 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_corner_1" ,"y": 270}
+        },
+        {   "when": { "rendertype": 5 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge"}
+        },
+		{   "when": { "rendertype": 5 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge","y":90}
+        },
+		{   "when": { "rendertype": 5 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge","y":180}
+        },
+		{   "when": { "rendertype": 5 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge","y":270}
+        },
+        {   "when": { "rendertype": 6 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1", "y": 180,"x": 180}
+        },
+		{   "when": { "rendertype": 6 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1", "y": 270,"x": 180}
+        },
+		{   "when": { "rendertype": 6 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1", "y": 0,"x": 180}
+        },
+		{   "when": { "rendertype": 6 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1", "y": 90,"x": 180}
+        },
+        {   "when": { "rendertype": 7  ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge", "y": 180,"x": 180}
+        },
+		{   "when": { "rendertype": 7  ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge", "y": 270,"x": 180}
+        },
+		{   "when": { "rendertype": 7  ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge", "y": 0,"x": 180}
+        },
+		{   "when": { "rendertype": 7  ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge", "y": 90,"x": 180}
+        },
+        {   "when": { "rendertype": 8 ,"facing": "north"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1"}
+        },
+        {   "when": { "rendertype": 8 ,"facing": "east"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1","y": 90}
+        },
+        {   "when": { "rendertype": 8 ,"facing": "south"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1","y": 180}
+        },
+        {   "when": { "rendertype": 8 ,"facing": "west"},
+            "apply": { "model": "minecamera:pictureframe_multiple_edge_1","y": 270}
+        }
+    ]
+}

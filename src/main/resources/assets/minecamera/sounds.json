@@ -1,0 +1,8 @@
+{
+    "minecamera.kacha": {
+        "category": "player", 
+        "sounds": [ 
+            "minecamera:kacha" 
+        ] 
+    }
+}

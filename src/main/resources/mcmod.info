@@ -1,0 +1,16 @@
+[
+{
+  "modid": "minecamera",
+  "name": "MineCamera",
+  "description": "A MineCraft CameraMOD",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [""],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

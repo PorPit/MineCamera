@@ -1,0 +1,37 @@
+{
+    "__createdwith": "opl's Model Creator",
+    "ambientocclusion": false,
+    "textures": {
+		"particle": "minecraft:blocks/planks_oak",
+        "main": "minecamera:blocks/pictureframe",
+        "planks": "minecraft:blocks/planks_oak"
+    },
+    "elements": [
+        {
+            "from": [0,2,15],
+            "to": [16,14,16],
+            "faces": {
+                "up": {
+                    "texture": "#planks"
+                },
+                "down": {
+                    "texture": "#planks"
+                },
+                "west": {
+                    "texture": "#planks"
+                },
+                "east": {
+                    "texture": "#planks"
+                },
+                "north": {
+                    "uv": [0,2.25,16,13.75],
+                    "texture": "#main"
+                },
+                "south": {
+                    "uv": [0,2,16,14],
+                    "texture": "#planks"
+                }
+            }
+        }
+    ]
+}

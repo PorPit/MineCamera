@@ -1,0 +1,50 @@
+{
+    "__createdwith": "opl's Model Creator",
+    "ambientocclusion": false,
+    "textures": {
+		"particle": "minecraft:blocks/planks_oak",
+        "main": "minecamera:blocks/pictureframe",
+        "planks": "minecraft:blocks/planks_oak"
+    },
+	"elements": [ 
+	{
+		"from": [ 0, -0.625, 10.5922 ],
+		"to": [ 16, 11.375, 11.5922 ],
+		"rotation": { "origin": [ 0, 11.375, 10.5922 ], "axis": "x", "angle": 22.5 },
+		"faces": {
+			"down":  { "uv": [ 16, 16, 0, 15 ], "texture": "#planks" },
+			"up":    { "uv": [ 0, 15, 16, 16 ], "texture": "#planks" },
+			"north": { "uv": [ 0, 2.3125, 16, 13.8125 ], "texture": "#main" },
+			"south": { "uv": [ 0, 2, 16, 14 ], "texture": "#planks" },
+			"west":  { "uv": [ 15, 2, 16, 14 ], "texture": "#planks" },
+			"east":  { "uv": [ 0, 2, 1, 14 ], "texture": "#planks" }
+		}
+	},
+	{
+		"from": [ 4, -0.4375, 8.25 ],
+		"to": [ 5, 4.75, 9.3125 ],
+		"rotation": { "origin": [ 4, 4.75, 8.25 ], "axis": "x", "angle": -22.5 },
+		"faces": {
+			"down":  { "uv": [ 0, 14.9375, 1, 16 ], "texture": "#planks" },
+			"up":    { "uv": [ 0.0625, 14.875, 1.0625, 15.9375 ], "texture": "#planks" },
+			"north": { "uv": [ 0, 10.75, 1, 15.9375 ], "texture": "#planks" },
+			"south": { "uv": [ 0, 10.75, 1, 15.9375 ], "texture": "#planks" },
+			"west":  { "uv": [ 0, 10.8125, 1.0625, 16 ], "texture": "#planks" },
+			"east":  { "uv": [ 0, 10.8125, 1.0625, 16 ], "texture": "#planks" }
+		}
+	},
+	{
+		"from": [ 11, -0.531601, 8.25 ],
+		"to": [ 12, 4.6559, 9.3125 ],
+		"rotation": { "origin": [ 11, 4.6559, 8.25 ], "axis": "x", "angle": -22.5 },
+		"faces": {
+			"down":  { "uv": [ 0, 14.9375, 1, 16 ], "texture": "#planks" },
+			"up":    { "uv": [ 0.0625, 14.875, 1.0625, 15.9375 ], "texture": "#planks" },
+			"north": { "uv": [ 0, 10.75, 1, 15.9375 ], "texture": "#planks" },
+			"south": { "uv": [ 0, 10.75, 1, 15.9375 ], "texture": "#planks" },
+			"west":  { "uv": [ 0, 10.8125, 1.0625, 16 ], "texture": "#planks" },
+			"east":  { "uv": [ 0, 10.8125, 1.0625, 16 ], "texture": "#planks" }
+		}
+	}
+	]
+}
