@@ -479,7 +479,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 						TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) world
 								.getTileEntity(pos.offset(fatherfacing, i - 1).down(j - 1));
 						if (te != null) {
-							System.out.println(pos.offset(fatherfacing, i - 1).down(j - 1));
+							//System.out.println(pos.offset(fatherfacing, i - 1).down(j - 1));
 							if (!te.imagename.equals("")) {
 								if (!world.isRemote) {
 									ItemStack picture = new ItemStack(ItemLoader.itemPicture);
@@ -654,7 +654,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				te.shouldrender = true;
 				te.width = width;
 				te.height = height;
-				System.out.println("可以放置,消耗时间" + (System.currentTimeMillis() - timebefore));
+				//System.out.println("可以放置,消耗时间" + (System.currentTimeMillis() - timebefore));
 			} else {
 				if (!worldIn.isRemote) {
 					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.framemultiple.mustusehead"));
@@ -699,7 +699,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 			int meta, EntityLivingBase placer) {
 		// System.out.println("hitX:=" + hitX + ",hitY:" + hitY + ",hitZ:" +
 		// hitZ);
-		System.out.println(worldIn.getLight(pos));
+		//System.out.println(worldIn.getLight(pos));
 		IBlockState origin = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
 		// placer.getHorizontalFacing().
 		// return origin.withProperty(FACING,

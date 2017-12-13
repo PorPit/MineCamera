@@ -26,6 +26,8 @@ public class NetworkLoader {
 		registerMessage(MessageTripodFilmOut.Handler.class, MessageTripodFilmOut.class, Side.SERVER);
 		registerMessage(MessageSpawnParticle.Handler.class, MessageSpawnParticle.class, Side.CLIENT);
 		registerMessage(MessageFailLoadImage.Handler.class, MessageFailLoadImage.class, Side.CLIENT);
+		registerMessage(MessagePictureBookIndex.Handler.class,MessagePictureBookIndex.class,Side.SERVER);
+		registerMessage(MessagePictureBookInput.Handler.class,MessagePictureBookInput.class,Side.SERVER);
 	}
 
 	private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(

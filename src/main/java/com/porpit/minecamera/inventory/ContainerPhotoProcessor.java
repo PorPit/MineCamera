@@ -147,7 +147,7 @@ public class ContainerPhotoProcessor extends Container {
 	        
 	        if (index >= 0 && index <= 4)
 	        {
-	            isMerged = mergeItemStack(newStack, 3, 39, true);
+	            isMerged = mergeItemStack(newStack, 5, 41, true);
 	        }else if (index >= 5 && index < 32)
 	        {
 	            isMerged = AllSlot.getStackInSlot(0)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 0, 1, false)

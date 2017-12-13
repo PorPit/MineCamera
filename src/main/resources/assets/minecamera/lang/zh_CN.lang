@@ -7,7 +7,7 @@ text.info.FileNoFound=服务端图片不存在,照片无法读取。
 text.info.ErrorToLoadFile=服务端图片损坏,读取失败。
 text.info.ErrorToLoadLocalFile=本地图片缓存损坏,需要重启游戏加载
 
-container.picture_book.text.inputinfo=放入照片位置=>
+container.picture_book.text.inputinfo=放入相册位置=>>
 container.picture_book.text.pictureindex=当前页:
 container.picture_book.text.totalpicturenum=总页:
 

@@ -149,7 +149,7 @@ public class BlockPictureFrame extends BlockContainer {
 		// System.out.println(((TileEntityPictureFrame)
 		// worldIn.getTileEntity(pos)).imagename);
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()&&heldItem.getTagCompound().hasKey("pid")) {
-			System.out.println(hand);
+			//System.out.println(hand);
 			String imagename = heldItem.getTagCompound().getString("pid");
 			TileEntityPictureFrame te = (TileEntityPictureFrame) worldIn.getTileEntity(pos);
 			if (!worldIn.isRemote && !te.imagename.equals("")) {

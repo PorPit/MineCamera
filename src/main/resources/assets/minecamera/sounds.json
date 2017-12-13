@@ -4,5 +4,17 @@
         "sounds": [ 
             "minecamera:kacha" 
         ] 
+    },
+	"minecamera.book": {
+        "category": "player", 
+        "sounds": [ 
+            "minecamera:book" 
+        ] 
+    },
+	"minecamera.output": {
+        "category": "player", 
+        "sounds": [ 
+            "minecamera:output" 
+        ] 
     }
 }

@@ -38,7 +38,7 @@ public class MessageImage implements IMessage {
 		byte namebyte[] = new byte[namelength];
 		buf.readBytes(namebyte);
 		imageName = new String(namebyte);
-		System.out.println(imageName);
+		//System.out.println(imageName);
 		// read pack
 		packMax = buf.readInt();
 		packIndex = buf.readInt();
@@ -50,7 +50,7 @@ public class MessageImage implements IMessage {
 			ByteArrayInputStream in = new ByteArrayInputStream(imagebyte);
 			try {
 				image = ImageIO.read(in);
-				System.out.println("获取数据" + image.getHeight());
+				//System.out.println("获取数据" + image.getHeight());
 			} catch (IOException e) {
 				flag = false;
 				e.printStackTrace();
@@ -74,12 +74,12 @@ public class MessageImage implements IMessage {
 			ByteArrayInputStream in = new ByteArrayInputStream(fulldata);
 			try {
 				image = ImageIO.read(in);
-				System.out.println("获取数据" + image.getHeight());
+				//System.out.println("获取数据" + image.getHeight());
 			} catch (IOException e) {
 				flag = false;
 				e.printStackTrace();
 			} finally {
-				System.out.println("删除传输缓存");
+				//System.out.println("删除传输缓存");
 				imagecatchdata.remove(imageName);
 			}
 
@@ -95,15 +95,15 @@ public class MessageImage implements IMessage {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("写入数据1" + out.toByteArray().length);
-			System.out.println(buf.readerIndex());
+			//System.out.println("写入数据1" + out.toByteArray().length);
+			//System.out.println(buf.readerIndex());
 			buf.writeInt(imageName.getBytes().length);
 			buf.writeBytes(imageName.getBytes());
 			buf.writeInt(packMax);
 			buf.writeInt(packIndex);
 			buf.writeInt(out.toByteArray().length);
 			buf.writeBytes(out.toByteArray());
-			System.out.println("写入数据2" + buf.array().length);
+			//System.out.println("写入数据2" + buf.array().length);
 
 			// ByteBufUtils.writeTag(buf, nbt);
 		} else {
@@ -119,12 +119,12 @@ public class MessageImage implements IMessage {
 	public static class Handler implements IMessageHandler<MessageImage, IMessage> {
 		@Override
 		public IMessage onMessage(MessageImage message, MessageContext ctx) {
-			System.out.println(ctx.side.toString());
+			//System.out.println(ctx.side.toString());
 			if (ctx.side == Side.CLIENT) {
 				final BufferedImage image = message.image;
 				final String name = message.imageName;
 
-				System.out.println("读取服务器发送的图片中...");
+				//System.out.println("读取服务器发送的图片中...");
 				try {
 					File file = new File(MineCamera.ClientCatchFile+ message.imageName + ".jpeg");
 					if (!file.getParentFile().exists()) {
@@ -146,14 +146,14 @@ public class MessageImage implements IMessage {
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("读取客户端发送的图片中");
+				//System.out.println("读取客户端发送的图片中");
 				if (message.packMax == message.packIndex) {
 					final BufferedImage image = message.image;
 					//判断是否为本地服务器
 					File fileclient = new File(
 							MineCamera.ClientCatchFile);
 					if(fileclient.exists()){
-						System.out.println("检测为本地客户端,不保存图片");
+						//System.out.println("检测为本地客户端,不保存图片");
 						return null;
 					}
 					File file = new File(
@@ -169,7 +169,7 @@ public class MessageImage implements IMessage {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					System.out.println("大小：" + image.getHeight());
+					//System.out.println("大小：" + image.getHeight());
 				}
 			}
 			return null;

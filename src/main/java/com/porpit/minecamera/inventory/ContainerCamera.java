@@ -210,7 +210,9 @@ public class ContainerCamera extends Container {
 	@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
-		saveToNBT(playerIn);
+		if(!playerIn.getEntityWorld().isRemote){
+			saveToNBT(playerIn);
+		}
 	}
 
 	@Override
@@ -274,7 +276,7 @@ public class ContainerCamera extends Container {
 		}
 	}
 
-	public void saveToNBT(EntityPlayer playerIn) {
+	private void saveToNBT(EntityPlayer playerIn) {
 		if (!playerIn.getEntityWorld().isRemote) {
 			ItemStack cameraStack = playerIn.getActiveItemStack();
 			if (cameraStack == null) {

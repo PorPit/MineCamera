@@ -129,7 +129,7 @@ public class EntityTripod extends Entity {
 
 	@Override
 	public void setDead() {
-		System.out.println("death and drop");
+		//System.out.println("death and drop");
 		if (!this.getEntityWorld().isRemote) {
 			Block.spawnAsEntity(this.getEntityWorld(), this.getPosition(), new ItemStack(ItemLoader.itemTripod, 1));
 			// last slot useless,so= -2 !=-1
@@ -145,7 +145,7 @@ public class EntityTripod extends Entity {
 
 	@Nullable
 	public AxisAlignedBB getCollisionBox(Entity entityIn) {
-		System.out.println(entityIn.getPosition());
+		//System.out.println(entityIn.getPosition());
 		return new AxisAlignedBB(entityIn.getPosition().getX() - 0.5, entityIn.getPosition().getY() - 0.5,
 				entityIn.getPosition().getZ() - 0.5, entityIn.getPosition().getX() + 0.5,
 				entityIn.getPosition().getY() + 2, entityIn.getPosition().getZ() + 0.5);

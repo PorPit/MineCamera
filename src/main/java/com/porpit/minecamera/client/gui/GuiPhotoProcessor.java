@@ -11,6 +11,7 @@ import com.porpit.minecamera.util.EnumFailLoadImage;
 import com.porpit.minecamera.util.LoadImageFileThread;
 import com.porpit.minecamera.util.PictureFactory;
 
+import ibxm.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -67,10 +68,6 @@ public class GuiPhotoProcessor extends GuiContainer {
 
 			@Override
 			public void mouseReleased(int mouseX, int mouseY) {
-				imageW = 129;
-				imageH = 73;
-				imageRelativeX = 33;
-				imageRelativeY = 16;
 				infolock = true;
 				int lightlevel=container.getTileEntity().getWorld().getLight(container.getTileEntity().getPos());
 				if (!container.getSlot(0).getHasStack()) {
@@ -111,7 +108,6 @@ public class GuiPhotoProcessor extends GuiContainer {
 				}
 			}
 		});
-
 	}
 
 	@Override
@@ -155,53 +151,43 @@ public class GuiPhotoProcessor extends GuiContainer {
 			}
 		}
 		// speed
-		float test = 100F / (float) Minecraft.getDebugFPS();
+		float speedFloat = 100F / (float) Minecraft.getDebugFPS();
 		if (mouseX > offsetX + 33 && mouseX < offsetX + 33 + 129 && mouseY > offsetY + 16
 				&& mouseY < offsetY + 16 + 73) {
-			System.out.println("test:" + test);
-			System.out.println("MinecraftDisplayWidth:" + Minecraft.getMinecraft().displayWidth);
-			System.out.println("MinecraftDisplayHeight:" + Minecraft.getMinecraft().displayHeight);
 			if (imageRelativeX > Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX) {
-				imageRelativeX -= 8 * test;
-				System.out.println("imageRelativeX:" + imageRelativeX);
+				imageRelativeX -= 8 * speedFloat;
 				if (imageRelativeX <= Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX) {
 					imageRelativeX = (float) (Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX);
 				}
 			}
 			if (imageRelativeY > Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY) {
-				imageRelativeY -= 2 * test;
+				imageRelativeY -= 2 * speedFloat;
 				if (imageRelativeY <= Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY) {
 					imageRelativeY = (float) (Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY);
 				}
 			}
 			if (imageW < Minecraft.getMinecraft().displayWidth / 2 * 0.7) {
-				imageW += 12 * test;
+				imageW += 12 * speedFloat;
 				if (imageW >= Minecraft.getMinecraft().displayWidth / 2 * 0.7) {
 					imageW = (float) (Minecraft.getMinecraft().displayWidth / 2 * 0.7);
 				}
 			}
 			imageH=imageW*0.6F;
-			/*if (imageH < Minecraft.getMinecraft().displayHeight / 2 * 0.8) {
-				imageH += 9 * test;
-				if (imageH >= Minecraft.getMinecraft().displayHeight / 2 * 0.8) {
-					imageH = (float) (Minecraft.getMinecraft().displayHeight / 2 * 0.8);
-				}
-			}*/
 		} else {
 			if (imageRelativeX < 33) {
-				imageRelativeX += 8 * test;
+				imageRelativeX += 8 * speedFloat;
 				if (imageRelativeX >= 33) {
 					imageRelativeX = 33;
 				}
 			}
 			if (imageRelativeY < 16) {
-				imageRelativeY += 2 * test;
+				imageRelativeY += 2 * speedFloat;
 				if (imageRelativeY >= 16) {
 					imageRelativeY = 16;
 				}
 			}
 			if (imageW > 129) {
-				imageW -= 12 * test;
+				imageW -= 12 * speedFloat;
 				if (imageW <= 129) {
 					imageW = 129;
 				}
@@ -244,7 +230,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 							+ imagename.split("%_%")[0];
 				}
 				if (!PictureFactory.lodingPicture.contains(imagename)) {
-					System.out.println("需要加载");
+					//System.out.println("需要加载");
 					PictureFactory.lodingPicture.add(imagename);
 					LoadImageFileThread thread = new LoadImageFileThread(imagename);
 					thread.start();

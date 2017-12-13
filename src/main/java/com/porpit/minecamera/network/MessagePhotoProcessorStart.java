@@ -1,12 +1,20 @@
 package com.porpit.minecamera.network;
 
+import java.util.List;
+
 import com.porpit.minecamera.item.ItemLoader;
 import com.porpit.minecamera.tileentity.TileEntityPhotoProcessor;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketCustomSound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -49,7 +57,7 @@ public class MessagePhotoProcessorStart implements IMessage {
 		@Override
 		public IMessage onMessage(MessagePhotoProcessorStart message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				System.out.println("收到：" + message.dimid + "," + message.bp);
+				//System.out.println("收到：" + message.dimid + "," + message.bp);
 				if (DimensionManager.getWorld(message.dimid).isBlockLoaded(message.bp) && DimensionManager
 						.getWorld(message.dimid).getTileEntity(message.bp) instanceof TileEntityPhotoProcessor) {
 					TileEntityPhotoProcessor te = (TileEntityPhotoProcessor) (DimensionManager.getWorld(message.dimid)
@@ -75,6 +83,16 @@ public class MessagePhotoProcessorStart implements IMessage {
 						}
 					}
 					te.setBurnTime(0);
+					List<EntityPlayer> listentity = te.getWorld().getEntitiesWithinAABB(EntityPlayer.class,
+							new AxisAlignedBB(te.getPos().getX() - 16, te.getPos().getY() - 16, te.getPos().getZ() - 16, te.getPos().getX() + 16,
+									te.getPos().getY() + 16, te.getPos().getZ() + 16));
+					if (listentity != null) {
+						for (EntityPlayer i : listentity) {
+							EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
+							entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.output",
+									SoundCategory.PLAYERS, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), 1.0F, 1.0F));
+						}
+					}
 				}
 			}
 			return null;

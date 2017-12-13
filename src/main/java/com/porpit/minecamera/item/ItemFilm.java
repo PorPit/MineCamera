@@ -7,6 +7,7 @@ import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -44,6 +45,13 @@ public class ItemFilm extends Item {
 		 * NBTTagCompound(); itemStackIn.writeToNBT(nc); nc.setTag("tag",
 		 * filmdata); itemStackIn.readFromNBT(nc);
 		 */
+		System.out.println("0:" + hand);
+		System.out.println("1:" + playerIn.getActiveHand());
+		playerIn.setActiveHand(hand);
+		if (playerIn instanceof EntityPlayerMP) {
+			((EntityPlayerMP) playerIn).setActiveHand(hand);
+		}
+		System.out.println("2:" + playerIn.getActiveHand());
 		System.out.println(itemStackIn.hasTagCompound());
 		// String id =itemStackIn.getTagCompound().getString("pid");
 		// String user =itemStackIn.getTagCompound().getString("user");

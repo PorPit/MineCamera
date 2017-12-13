@@ -54,8 +54,9 @@ public class ItemCamera extends Item {
 		} else {
 			System.out.println("activeitem" + playerIn.inventory.offHandInventory[0]);
 		}
-		System.out.println("worldtype=" + worldIn.isRemote);
+		System.out.println("1:"+playerIn.getActiveHand());
 		playerIn.setActiveHand(hand);
+		System.out.println("2:"+playerIn.getActiveHand());
 		if (playerIn.isSneaking()) {
 			if (!worldIn.isRemote) {
 				BlockPos pos = playerIn.getPosition();
