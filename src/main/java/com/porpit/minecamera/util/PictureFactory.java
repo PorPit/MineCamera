@@ -32,6 +32,8 @@ public final class PictureFactory {
 			MineCamera.MODID + ":" + "textures/gui/image/loding.png");
 	public static final ResourceLocation LODINGIMAGE = new ResourceLocation(
 			MineCamera.MODID + ":" + "textures/gui/image/loding.png");
+	public static final ResourceLocation DONATEIMAGE = new ResourceLocation(
+			MineCamera.MODID + ":" + "textures/gui/image/donate.png");
 	public static Map<String, Integer> loadedPicture = new HashMap<String, Integer>();
 	public static Map<String, EnumFailLoadImage> fildToLoadPicture = new HashMap<String, EnumFailLoadImage>();
 	public static Set<String> lodingPicture = new HashSet<String>();

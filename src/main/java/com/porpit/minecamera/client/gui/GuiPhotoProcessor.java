@@ -125,6 +125,18 @@ public class GuiPhotoProcessor extends GuiContainer {
 		this.mc.getTextureManager().bindTexture(TEXTURE);
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(PictureFactory.DONATEIMAGE);
+		float donateHeight=Minecraft.getMinecraft().displayWidth/10-Minecraft.getMinecraft().displayWidth%10;
+		if (mouseX > 0 && mouseX < 0.75F*donateHeight && mouseY > Minecraft.getMinecraft().displayHeight / 2/2-(int)donateHeight/2
+				&& mouseY < Minecraft.getMinecraft().displayHeight / 2/2-(int)donateHeight/2+0.75F*donateHeight) {
+			donateHeight=(float) (Minecraft.getMinecraft().displayWidth*0.2-(Minecraft.getMinecraft().displayWidth*0.2)%10);
+		}
+		float donateWidth=0.75F*donateHeight;
+		int displayY=Minecraft.getMinecraft().displayHeight / 2/2-(int)donateHeight/2;
+		this.drawModalRectWithCustomSizedTexture(0, displayY, 0F, 0F, (int) donateWidth, (int) donateHeight, donateWidth,
+				donateHeight);
+		
 		this.fontRendererObj.drawString(info, offsetX + 31, offsetY + 4, 0xD3D3D3);
 		this.fontRendererObj.drawString(I18n.format("container.photoprocessor.text.lightlevel"), offsetX + 7, offsetY + 7, 0x6495ED);
 		int lightlevel=this.container.getTileEntity().getWorld().getLight(this.container.getTileEntity().getPos());
