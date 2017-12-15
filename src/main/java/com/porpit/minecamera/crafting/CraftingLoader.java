@@ -43,7 +43,7 @@ public class CraftingLoader
     	GameRegistry.addRecipe(new ItemStack(BlockLoader.photoprocessor), new Object[]{
                 "!@!", "!#!","!$!", '!', Blocks.IRON_BLOCK, '@', Items.DIAMOND,'#',Items.ENDER_PEARL,'$',Blocks.REDSTONE_BLOCK
         });
-    	GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.itemPhotoPaper), Items.MILK_BUCKET,Items.PAPER);
+    	GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.itemPhotoPaper), Items.MILK_BUCKET,Items.PAPER,Items.IRON_INGOT,Items.GOLD_INGOT);
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemCntsTempLiquid), new Object[]{
                 "!!!", "@!@","@#@", '!', Items.BLAZE_ROD, '@', Blocks.GLASS_PANE,'#',Items.WATER_BUCKET
         });
@@ -55,6 +55,9 @@ public class CraftingLoader
         });
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemGlassesHelmet), new Object[]{
     			"!$!", "@#@","! !", '!', Items.STICK, '@', Blocks.GLASS_PANE,'#',Blocks.OBSIDIAN,'$',Items.ENDER_EYE
+        });
+    	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemPictureBook), new Object[]{
+    			"!!!", "!@#","!##", '!', Items.PAPER, '@', Items.SLIME_BALL,'#',Items.LEATHER
         });
     }
 

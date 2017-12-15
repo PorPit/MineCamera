@@ -15,7 +15,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -24,32 +23,23 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class MessageTripodFilmOut implements IMessage {
-	public String playername;
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		int playernamelength = buf.readInt();
-		byte playernamebyte[] = new byte[playernamelength];
-		buf.readBytes(playernamebyte);
-		playername = new String(playernamebyte);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(playername.getBytes().length);
-		buf.writeBytes(playername.getBytes());
 	}
 
 	public static class Handler implements IMessageHandler<MessageTripodFilmOut, IMessage> {
 		@Override
 		public IMessage onMessage(MessageTripodFilmOut message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = DimensionManager.getWorld(0).getMinecraftServer().getPlayerList()
-						.getPlayerByUsername(message.playername);
+				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 				EntityTripod entity = (EntityTripod) player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
-				if (entity != null) {
-
+				if (player != null && entity != null) {
 					IItemHandler items = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
 							player.getHorizontalFacing());
 					if (items.getStackInSlot(3) != null) {
@@ -78,7 +68,8 @@ public class MessageTripodFilmOut implements IMessage {
 						items.extractItem(0, 1, false);
 					}
 					items.extractItem(1, 64, false);
-					String imagename = message.playername + "%_%" + System.currentTimeMillis();
+					String imagename = ctx.getServerHandler().playerEntity.getName() + "%_%"
+							+ System.currentTimeMillis();
 					ItemStack itemfilm = new ItemStack(ItemLoader.itemFilm, 1);
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("pid", imagename);
@@ -102,7 +93,7 @@ public class MessageTripodFilmOut implements IMessage {
 						for (EntityPlayer i : listentity) {
 							EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
 							entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.kacha",
-									SoundCategory.PLAYERS, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+									SoundCategory.BLOCKS, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
 							MessageSpawnParticle message2 = new MessageSpawnParticle();
 							message2.delay = 200;
 							message2.typeid = EnumParticleTypes.FIREWORKS_SPARK.getParticleID();

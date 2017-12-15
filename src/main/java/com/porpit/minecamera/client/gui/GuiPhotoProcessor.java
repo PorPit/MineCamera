@@ -101,9 +101,6 @@ public class GuiPhotoProcessor extends GuiContainer {
 						return;
 					}
 					MessagePhotoProcessorStart message = new MessagePhotoProcessorStart();
-					message.dimid = container.getTileEntity().getWorld().provider.getDimension();
-					message.bp = container.getTileEntity().getPos();
-					message.playername = container.getPlayer().getName();
 					NetworkLoader.instance.sendToServer(message);
 				}
 			}

@@ -12,7 +12,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageCameraDelaySet implements IMessage {
 	public int delay;
-	public String playername;
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
@@ -21,24 +20,21 @@ public class MessageCameraDelaySet implements IMessage {
 		int playernamelength = buf.readInt();
 		byte playernamebyte[] = new byte[playernamelength];
 		buf.readBytes(playernamebyte);
-		playername = new String(playernamebyte);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(delay);
-		buf.writeInt(playername.getBytes().length);
-		buf.writeBytes(playername.getBytes());
 	}
 
 	public static class Handler implements IMessageHandler<MessageCameraDelaySet, IMessage> {
 		@Override
 		public IMessage onMessage(MessageCameraDelaySet message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = DimensionManager.getWorld(0).getMinecraftServer().getPlayerList()
-						.getPlayerByUsername(message.playername);
+				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 				EntityTripod entity = (EntityTripod) player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("usingGui"));
+				if(player==null||entity==null){return null;}
 				entity.setDelay(message.delay);
 			}
 			return null;

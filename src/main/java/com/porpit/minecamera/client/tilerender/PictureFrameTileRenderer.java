@@ -93,10 +93,6 @@ public class PictureFrameTileRenderer extends TileEntitySpecialRenderer<TileEnti
 			GlStateManager.disableRescaleNormal();
 			GlStateManager.disableBlend();
 			GlStateManager.enableLighting();
-
-			GlStateManager.disableRescaleNormal();
-			GlStateManager.disableBlend();
-			GlStateManager.enableLighting();
 		}
 	}
 

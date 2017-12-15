@@ -117,10 +117,10 @@ public class ContainerCamera extends Container {
 				this.filmOutCatch = items.getStackInSlot(3);
 				this.burnTime = entity.getBurnTime();
 
-				System.out.println("recodeid:" + entity.getEntityId());
+				//System.out.println("recodeid:" + entity.getEntityId());
 			}
 		}
-		System.out.println("time" + burnTime);
+		//System.out.println("time" + burnTime);
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -142,7 +142,7 @@ public class ContainerCamera extends Container {
 			if (this.burnTime < this.totalBurnTime) {
 				this.burnTime++;
 				if (this.burnTime == this.totalBurnTime) {
-					System.out.println("success");
+					//System.out.println("success");
 					if (filmOutCatch != null) {
 						filmOutSlot.putStack(filmOutCatch);
 						if (type == 0) {
@@ -333,7 +333,6 @@ public class ContainerCamera extends Container {
 		if (delay <= 30 && delay >= 0) {
 			MessageCameraDelaySet message = new MessageCameraDelaySet();
 			message.delay = delay;
-			message.playername = this.player.getName();
 			NetworkLoader.instance.sendToServer(message);
 		}
 	}

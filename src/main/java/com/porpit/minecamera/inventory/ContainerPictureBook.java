@@ -73,7 +73,7 @@ public class ContainerPictureBook extends Container {
 			ItemStack itemStackBook = player.getActiveItemStack();
 			if (itemStackBook.hasTagCompound() && itemStackBook.getTagCompound().hasKey("listPid")
 					&&!itemStackBook.getTagCompound().getString("listPid").equals("")&& itemStackBook.getTagCompound().hasKey("index")) {
-				System.out.println(itemStackBook.getTagCompound());
+				//System.out.println(itemStackBook.getTagCompound());
 				for(String i:itemStackBook.getTagCompound().getString("listPid").split("%,%")){
 					listPid.add(i);
 				}
@@ -91,7 +91,7 @@ public class ContainerPictureBook extends Container {
 					itemPicture.setTagCompound(nbt);
 					pictureOutSlot.putStack(itemPicture);
 				}
-				System.out.println(totalPictureNum);
+				//System.out.println(totalPictureNum);
 			} else {
 				totalPictureNum = 0;
 				index = -1;
@@ -169,7 +169,7 @@ public class ContainerPictureBook extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		Slot slot = inventorySlots.get(index);
-		System.out.println(index);
+		//System.out.println(index);
 		if (slot == null || !slot.getHasStack()) {
 			return null;
 		}
@@ -231,7 +231,7 @@ public class ContainerPictureBook extends Container {
 	
 	public static int extractDragMode(int eventButton)
     {
-		System.out.println("button"+eventButton);
+		//System.out.println("button"+eventButton);
         return eventButton >> 2 & 3;
     }
 	
@@ -244,7 +244,7 @@ public class ContainerPictureBook extends Container {
 					listPidTotal+="%,%";
 				}
 			}
-			System.out.println(listPid.size());
+			//System.out.println(listPid.size());
 			ItemStack itemStackBook = playerIn.getActiveItemStack();
 			if (itemStackBook != null) {
 				NBTTagCompound nbt = new NBTTagCompound();

@@ -7,9 +7,12 @@ text.info.FileNoFound=服务端图片不存在,照片无法读取。
 text.info.ErrorToLoadFile=服务端图片损坏,读取失败。
 text.info.ErrorToLoadLocalFile=本地图片缓存损坏,需要重启游戏加载
 
-container.picture_book.text.inputinfo=放入相册位置=>>
+container.picture_book.text.inputinfo=放入照片=>>
 container.picture_book.text.pictureindex=当前页:
 container.picture_book.text.totalpicturenum=总页:
+container.picture_book.text.owner=作者:
+container.picture_book.text.time=拍摄时间:
+container.picture_book.text.error=照片无信息
 
 container.photoprocessor.button.start=冲洗
 container.photoprocessor.text.success=冲洗完成,请取出照片!
@@ -89,6 +92,8 @@ lore.film.info.unused=未使用
 lore.tripod.info=可以摆放在地上进行拍摄
 lore.tripod.info2=并且使用黑框眼镜交换视野
 
+lore.picturebook.info=照片数量:
+
 chat.tripod.mustuseglass=你必须戴上黑框眼镜才可以与三脚架相机交换视野
 
 chat.minecamera.isouting=胶卷还未处理,请打开摄像机进行胶卷处理
@@ -98,6 +103,8 @@ chat.minecamera.nobettery=请在相机内放入电池以拍摄!
 chat.minecamera.filmcantwrite=这个胶卷已被使用!
 chat.minecamera.betteryrunout=电池已用尽!请注意补充~
 chat.minecamera.success=拍摄成功,请打开照相机进行处理~
+
+chat.picturebook.tomany=相册照片数量过多,已无法添加
 
 achievement.minecamera.craftcamera=怀旧摄影师
 achievement.minecamera.craftcamera.desc=在当今数码时代,使用胶卷摄像机真是件稀奇的事情!
@@ -115,3 +122,7 @@ achievement.minecamera.crafttripod=尝试脚架拍摄
 achievement.minecamera.crafttripod.desc=自我陶醉,或者与你的朋友合照吧
 achievement.minecamera.craftglasses=香港记者?
 achievement.minecamera.craftglasses.desc=香港记者?(误;试试感受脚架拍摄的魅力吧
+achievement.minecamera.craftpicture_book=沉甸甸的书
+achievement.minecamera.craftpicture_book.desc=装着记忆的小册子
+achievement.minecamera.craftpicture=带有色彩的记忆
+achievement.minecamera.craftpicture.desc=好好保存好你的照片吧,最好准备个小册子？

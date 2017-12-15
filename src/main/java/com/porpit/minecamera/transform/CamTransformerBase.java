@@ -26,7 +26,7 @@ public abstract class CamTransformerBase implements IClassTransformer {
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] basicClass) {
-		if (name.contains("com.PorPit"))
+		if (name.contains("com.porpit"))
 			return basicClass;
 		return transform(transformedName, basicClass);
 	}

@@ -46,7 +46,6 @@ public class EntityTripod extends Entity {
 
 	@Override
 	protected void entityInit() {
-		// TODO 自动生成的方法存根
 	}
 
 	@Override
@@ -109,7 +108,6 @@ public class EntityTripod extends Entity {
 			player.rotationPitch = player.prevRotationPitch;
 			if (this.timer == 0) {
 				MessageUpdatePitchYaw message = new MessageUpdatePitchYaw();
-				message.playername = player.getName();
 				message.rotationYaw = this.rotationYaw;
 				message.rotationPitch = this.rotationPitch;
 				NetworkLoader.instance.sendToServer(message);

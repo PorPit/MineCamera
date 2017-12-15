@@ -39,7 +39,6 @@ public class TripodActiveThread extends Thread {
 			e.printStackTrace();
 		}
 		MessageTripodFilmOut message = new MessageTripodFilmOut();
-		message.playername = this.playername;
 		NetworkLoader.instance.sendToServer(message);
 
 		isshooting = false;

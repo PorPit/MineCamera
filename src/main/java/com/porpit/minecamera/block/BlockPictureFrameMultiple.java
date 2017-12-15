@@ -647,13 +647,15 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 						picture.setTagCompound(nbt);
 						Block.spawnAsEntity(worldIn, pos, picture);
 					}
-					heldItem.stackSize--;
 				}
 
 				te.imagename = heldItem.getTagCompound().getString("pid");
 				te.shouldrender = true;
 				te.width = width;
 				te.height = height;
+				if(!worldIn.isRemote){
+					heldItem.stackSize--;
+				}
 				//System.out.println("可以放置,消耗时间" + (System.currentTimeMillis() - timebefore));
 			} else {
 				if (!worldIn.isRemote) {

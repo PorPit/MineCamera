@@ -49,14 +49,9 @@ public class ItemCamera extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		if (playerIn.getActiveHand() == EnumHand.MAIN_HAND) {
-			System.out.println("activeitem" + playerIn.inventory.mainInventory[playerIn.inventory.currentItem]);
-		} else {
-			System.out.println("activeitem" + playerIn.inventory.offHandInventory[0]);
-		}
-		System.out.println("1:"+playerIn.getActiveHand());
+		//System.out.println("1:"+playerIn.getActiveHand());
 		playerIn.setActiveHand(hand);
-		System.out.println("2:"+playerIn.getActiveHand());
+		//System.out.println("2:"+playerIn.getActiveHand());
 		if (playerIn.isSneaking()) {
 			if (!worldIn.isRemote) {
 				BlockPos pos = playerIn.getPosition();

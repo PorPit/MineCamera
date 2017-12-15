@@ -11,18 +11,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class MessagePictureBookIndex implements IMessage {
-
 	public int index;
-	
+
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		// TODO 自动生成的方法存根
-		index=buf.readInt();
+		index = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		// TODO 自动生成的方法存根
 		buf.writeInt(index);
 	}
 
@@ -30,13 +27,12 @@ public class MessagePictureBookIndex implements IMessage {
 		@Override
 		public IMessage onMessage(MessagePictureBookIndex message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				if(ctx.getServerHandler().playerEntity!=null){
-					EntityPlayerMP player=ctx.getServerHandler().playerEntity;
-					if(player.openContainer instanceof ContainerPictureBook){
-						ContainerPictureBook contaner=(ContainerPictureBook) player.openContainer;
-						if(message.index>=0&&message.index<contaner.getTotalPictureNum()){
-							contaner.setIndex(message.index);
-						}
+				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+				if (player != null && player.openContainer != null
+						&& player.openContainer instanceof ContainerPictureBook) {
+					ContainerPictureBook contaner = (ContainerPictureBook) player.openContainer;
+					if (message.index >= 0 && message.index < contaner.getTotalPictureNum()) {
+						contaner.setIndex(message.index);
 					}
 				}
 			}

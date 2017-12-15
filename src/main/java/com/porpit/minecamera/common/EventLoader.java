@@ -24,6 +24,7 @@ import com.porpit.minecamera.item.ItemGlassesHelmet;
 import com.porpit.minecamera.item.ItemLoader;
 import com.porpit.minecamera.item.ItemPhotoPaper;
 import com.porpit.minecamera.item.ItemPicture;
+import com.porpit.minecamera.item.ItemPictureBook;
 import com.porpit.minecamera.item.ItemTripod;
 import com.porpit.minecamera.network.MessagePlayerViewRender;
 import com.porpit.minecamera.network.MessageUpdatePitchYaw;
@@ -292,7 +293,6 @@ public class EventLoader {
 					 * (double)Minecraft.getMinecraft().thePlayer.width));
 					 */
 					MessagePlayerViewRender message = new MessagePlayerViewRender();
-					message.playername = Minecraft.getMinecraft().thePlayer.getName();
 					NetworkLoader.instance.sendToServer(message);
 				}
 			}
@@ -417,6 +417,9 @@ public class EventLoader {
 		}
 		if(event.crafting.getItem() instanceof ItemTripod&&!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.crafttripod)){
 			event.player.addStat(AchievementLoader.crafttripod);
+		}
+		if(event.crafting.getItem() instanceof ItemPictureBook&&!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftpicture_book)){
+			event.player.addStat(AchievementLoader.craftpicture_book);
 		}
 		if (event.crafting.getItem() instanceof ItemCamera) {
 			if(!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftcamera)){

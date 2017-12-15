@@ -2,7 +2,10 @@ package com.porpit.minecamera.network;
 
 import java.util.List;
 
+import com.porpit.minecamera.achievement.AchievementLoader;
+import com.porpit.minecamera.inventory.ContainerPhotoProcessor;
 import com.porpit.minecamera.item.ItemLoader;
+import com.porpit.minecamera.item.ItemTripod;
 import com.porpit.minecamera.tileentity.TileEntityPhotoProcessor;
 
 import io.netty.buffer.ByteBuf;
@@ -25,32 +28,13 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class MessagePhotoProcessorStart implements IMessage {
-	public int dimid;
-	public BlockPos bp;
-	public String playername;
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		dimid = buf.readInt();
-		int x, y, z;
-		x = buf.readInt();
-		y = buf.readInt();
-		z = buf.readInt();
-		bp = new BlockPos(x, y, z);
-		int length = buf.readInt();
-		byte namebyte[] = new byte[length];
-		buf.readBytes(namebyte);
-		playername = new String(namebyte);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(dimid);
-		buf.writeInt(bp.getX());
-		buf.writeInt(bp.getY());
-		buf.writeInt(bp.getZ());
-		buf.writeInt(playername.getBytes().length);
-		buf.writeBytes(playername.getBytes());
 	}
 
 	public static class Handler implements IMessageHandler<MessagePhotoProcessorStart, IMessage> {
@@ -58,41 +42,42 @@ public class MessagePhotoProcessorStart implements IMessage {
 		public IMessage onMessage(MessagePhotoProcessorStart message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
 				//System.out.println(" ’µΩ£∫" + message.dimid + "," + message.bp);
-				if (DimensionManager.getWorld(message.dimid).isBlockLoaded(message.bp) && DimensionManager
-						.getWorld(message.dimid).getTileEntity(message.bp) instanceof TileEntityPhotoProcessor) {
-					TileEntityPhotoProcessor te = (TileEntityPhotoProcessor) (DimensionManager.getWorld(message.dimid)
-							.getTileEntity(message.bp));
-					IItemHandler items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
-					items.getStackInSlot(0).damageItem(1, DimensionManager.getWorld(0).getMinecraftServer()
-							.getPlayerList().getPlayerByUsername(message.playername));
-					items.getStackInSlot(1).damageItem(1, DimensionManager.getWorld(0).getMinecraftServer()
-							.getPlayerList().getPlayerByUsername(message.playername));
-					items.extractItem(3, 1, false);
-					ItemStack itemstack = new ItemStack(ItemLoader.itemPicture);
-					String imagename = items.getStackInSlot(2).getTagCompound().getString("pid");
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("pid", imagename);
-					itemstack.setTagCompound(nbt);
-					if (items.getStackInSlot(5) != null) {
-						items.extractItem(5, items.getStackInSlot(2).stackSize, false);
-					}
-					items.insertItem(5, itemstack, false);
-					for (int i = 0; i <= 1; i++) {
-						if (items.getStackInSlot(i).stackSize == 0) {
-							items.extractItem(i, 1, false);
+				EntityPlayerMP playerMP=ctx.getServerHandler().playerEntity;
+				if (playerMP!=null&&playerMP.openContainer!=null&&playerMP.openContainer instanceof ContainerPhotoProcessor&&((ContainerPhotoProcessor)playerMP.openContainer).getTileEntity()!=null) {
+						ContainerPhotoProcessor container=(ContainerPhotoProcessor) playerMP.openContainer;
+						TileEntityPhotoProcessor te = container.getTileEntity();
+						IItemHandler items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
+						items.getStackInSlot(0).damageItem(1, playerMP);
+						items.getStackInSlot(1).damageItem(1, playerMP);
+						items.extractItem(3, 1, false);
+						ItemStack itemstack = new ItemStack(ItemLoader.itemPicture);
+						String imagename = items.getStackInSlot(2).getTagCompound().getString("pid");
+						NBTTagCompound nbt = new NBTTagCompound();
+						nbt.setString("pid", imagename);
+						itemstack.setTagCompound(nbt);
+						if (items.getStackInSlot(5) != null) {
+							items.extractItem(5, items.getStackInSlot(2).stackSize, false);
 						}
-					}
-					te.setBurnTime(0);
-					List<EntityPlayer> listentity = te.getWorld().getEntitiesWithinAABB(EntityPlayer.class,
-							new AxisAlignedBB(te.getPos().getX() - 16, te.getPos().getY() - 16, te.getPos().getZ() - 16, te.getPos().getX() + 16,
-									te.getPos().getY() + 16, te.getPos().getZ() + 16));
-					if (listentity != null) {
-						for (EntityPlayer i : listentity) {
-							EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
-							entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.output",
-									SoundCategory.PLAYERS, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), 1.0F, 1.0F));
+						items.insertItem(5, itemstack, false);
+						for (int i = 0; i <= 1; i++) {
+							if (items.getStackInSlot(i).stackSize == 0) {
+								items.extractItem(i, 1, false);
+							}
 						}
-					}
+						te.setBurnTime(0);
+						List<EntityPlayer> listentity = te.getWorld().getEntitiesWithinAABB(EntityPlayer.class,
+								new AxisAlignedBB(te.getPos().getX() - 16, te.getPos().getY() - 16, te.getPos().getZ() - 16, te.getPos().getX() + 16,
+										te.getPos().getY() + 16, te.getPos().getZ() + 16));
+						if (listentity != null) {
+							for (EntityPlayer i : listentity) {
+								EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
+								entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.output",
+										SoundCategory.PLAYERS, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), 1.0F, 1.0F));
+							}
+						}
+						if(!playerMP.hasAchievement(AchievementLoader.craftpicture)){
+							playerMP.addStat(AchievementLoader.crafttripod);
+						}
 				}
 			}
 			return null;

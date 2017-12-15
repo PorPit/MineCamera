@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class PictureFactory {
 	public static final ResourceLocation FailToLoadImage = new ResourceLocation(
-			MineCamera.MODID + ":" + "textures/gui/image/loding.png");
+			MineCamera.MODID + ":" + "textures/gui/image/failtoload.png");
 	public static final ResourceLocation LODINGIMAGE = new ResourceLocation(
 			MineCamera.MODID + ":" + "textures/gui/image/loding.png");
 	public static final ResourceLocation DONATEIMAGE = new ResourceLocation(
