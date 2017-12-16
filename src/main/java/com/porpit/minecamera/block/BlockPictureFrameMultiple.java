@@ -295,7 +295,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				break;
 			}
 		}
-		System.out.println("width:" + width);
+		//System.out.println("width:" + width);
 		if (width > 16) {
 			worldIn.setBlockToAir(pos);
 			placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));

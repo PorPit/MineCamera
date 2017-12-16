@@ -69,7 +69,7 @@ public class TileEntityPictureFrame extends TileEntity {
 	@Override
 	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		System.out.println("update");
+		//System.out.println("update");
 		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
 	}
 

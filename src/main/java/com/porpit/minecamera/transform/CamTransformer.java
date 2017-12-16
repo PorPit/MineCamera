@@ -2,8 +2,11 @@ package com.porpit.minecamera.transform;
 
 import static org.objectweb.asm.Opcodes.RETURN;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -15,12 +18,14 @@ import com.porpit.minecamera.MineCamera;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 
-public class CamTransformer extends CamTransformerBase implements IClassTransformer {
+public class CamTransformer implements IClassTransformer {
+
 	public CamTransformer() {
-		super(MineCamera.MODID);
+		initTransformers();
 	}
 
-	@Override
+	private final ArrayList<Transformer> transformers = new ArrayList<Transformer>();
+
 	protected void initTransformers() {
 		addTransformer(new Transformer("net.minecraft.client.entity.EntityPlayerSP") {
 			@Override
@@ -58,5 +63,40 @@ public class CamTransformer extends CamTransformerBase implements IClassTransfor
 
 			}
 		});
+	}
+
+	protected void addTransformer(Transformer transformer) {
+		transformers.add(transformer);
+	}
+
+	@Override
+	public byte[] transform(String name, String transformedName, byte[] basicClass) {
+		if (name.contains("com.porpit"))
+			return basicClass;
+		return transform(transformedName, basicClass);
+	}
+
+	public byte[] transform(String name, byte[] basicClass) {
+		int i = 0;
+		while (i < transformers.size()) {
+			if (transformers.get(i).is(name)) {
+				ClassNode classNode = new ClassNode();
+				ClassReader classReader = new ClassReader(basicClass);
+				classReader.accept(classNode, 0);
+
+				transformers.get(i).transform(classNode);
+
+				ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS + ClassWriter.COMPUTE_FRAMES);
+				classNode.accept(writer);
+				basicClass = writer.toByteArray();
+
+				System.out.println("[" + MineCamera.MODID + "] Patched " + transformers.get(i).className + " ...");
+				transformers.get(i).done();
+				i++;
+				// transformers.remove(i);
+			} else
+				i++;
+		}
+		return basicClass;
 	}
 }

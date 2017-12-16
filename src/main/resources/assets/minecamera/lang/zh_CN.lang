@@ -1,5 +1,6 @@
-gui.camgameoverlay.unlocked=处理模式:旋转摄像头(CTRL)
+gui.camgameoverlay.unlocked=处理模式:脚架控制(CTRL)
 gui.camgameoverlay.locked=处理模式:玩家控制(CTRL)
+
 container.camera.text.outing=处理中
 container.camera.text.delay=延时
 
@@ -95,6 +96,8 @@ lore.tripod.info2=并且使用黑框眼镜交换视野
 lore.picturebook.info=照片数量:
 
 chat.tripod.mustuseglass=你必须戴上黑框眼镜才可以与三脚架相机交换视野
+chat.tripod.mustup=脚架必须放在地面上
+chat.tripod.info=按键CTRL切换控制模式,SHIFT离开摄像头
 
 chat.minecamera.isouting=胶卷还未处理,请打开摄像机进行胶卷处理
 chat.minecamera.nofilm=请在相机内放入胶卷以拍摄!

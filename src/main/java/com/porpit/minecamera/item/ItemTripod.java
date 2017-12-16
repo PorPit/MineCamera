@@ -14,6 +14,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,6 +32,10 @@ public class ItemTripod extends Item {
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		if (!worldIn.isRemote) {
+			if(!facing.equals(EnumFacing.UP)){
+				playerIn.addChatComponentMessage(new TextComponentTranslation("chat.itemtripod.text.mustup"));
+				return EnumActionResult.PASS;
+			}
 			Entity entity = new EntityTripod(worldIn);
 			entity.setPositionAndUpdate(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 			entity.rotationYaw = playerIn.rotationYaw;

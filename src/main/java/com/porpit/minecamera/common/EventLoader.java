@@ -214,11 +214,11 @@ public class EventLoader {
 					if (player.getEntityWorld().isRemote) {
 						// System.out.println("123");
 						Minecraft.getMinecraft().setRenderViewEntity(target);
+						Minecraft.getMinecraft().ingameGUI.setRecordPlaying(new TextComponentTranslation("chat.tripod.info"), false);
 					}
 					player.getEntityData().setInteger("renderViewCamera", target.getEntityId());
-				}else{
-					Minecraft.getMinecraft().thePlayer
-					.addChatComponentMessage(new TextComponentTranslation("chat.tripod.mustuseglass"));
+				}else if(!event.getWorld().isRemote&&event.getHand().equals(EnumHand.MAIN_HAND)){
+					player.addChatComponentMessage(new TextComponentTranslation("chat.tripod.mustuseglass"));
 				}
 			} else {
 				player.getEntityData().setInteger("usingGui", target.getEntityId());
