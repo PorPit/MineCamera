@@ -33,7 +33,7 @@ public class ItemTripod extends Item {
 
 		if (!worldIn.isRemote) {
 			if(!facing.equals(EnumFacing.UP)){
-				playerIn.addChatComponentMessage(new TextComponentTranslation("chat.itemtripod.text.mustup"));
+				playerIn.addChatComponentMessage(new TextComponentTranslation("chat.tripod.mustup"));
 				return EnumActionResult.PASS;
 			}
 			Entity entity = new EntityTripod(worldIn);

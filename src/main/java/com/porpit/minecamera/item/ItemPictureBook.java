@@ -28,6 +28,7 @@ public class ItemPictureBook extends Item {
 		super();
 		this.setUnlocalizedName("picture_book");
 		this.setCreativeTab(CreativeTabsLoader.tabMineCamera);
+		this.setMaxStackSize(1);
 	}
 
 	@Override

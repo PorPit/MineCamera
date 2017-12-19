@@ -1,7 +1,8 @@
 # MineCamera|摄影工艺
-A MineCraft mod porject|我的世界Mod
+A MineCraft mod porject|我的世界模组
 
-minecraft version：1.10.2|游戏版本： 1.10.2
+support minecraft version：1.8.9 1.10.2 1.11.2 1.12.2
+支持游戏版本：1.8.9 1.10.2 1.11.2 1.12.2
 
 Contacts|联系方式:
 

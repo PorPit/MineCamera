@@ -6,6 +6,7 @@ import com.porpit.minecamera.entity.EntityTripod;
 import com.porpit.minecamera.item.ItemLoader;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -37,9 +38,9 @@ public class MessageTripodFilmOut implements IMessage {
 		public IMessage onMessage(MessageTripodFilmOut message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
 				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-				EntityTripod entity = (EntityTripod) player.getEntityWorld()
+				Entity entity = player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
-				if (player != null && entity != null) {
+				if (player != null && entity != null&&entity instanceof EntityTripod) {
 					IItemHandler items = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
 							player.getHorizontalFacing());
 					if (items.getStackInSlot(3) != null) {
@@ -79,7 +80,7 @@ public class MessageTripodFilmOut implements IMessage {
 					 * items.getStackInSlot(3).stackSize=0; }
 					 */
 					items.insertItem(3, itemfilm, false);
-					entity.setBurnTime(0);
+					((EntityTripod)entity).setBurnTime(0);
 					player.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.success")));
 					// effect
 					double particlePosX = entity.posX, particlePosY = entity.posY + 1.35, particlePosZ = entity.posZ;

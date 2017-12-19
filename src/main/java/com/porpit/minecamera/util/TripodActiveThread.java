@@ -17,7 +17,9 @@ public class TripodActiveThread extends Thread {
 	}
 
 	public void run() {
+		synchronized(this){
 		isshooting = true;
+		}
 		try {
 			for (int i = delay; i > 0; i--) {
 				Minecraft.getMinecraft().thePlayer

@@ -356,6 +356,7 @@ public class EventLoader {
 			if (event.getType().equals(ElementType.HOTBAR)) {
 				String TEXTURE_PATH = MineCamera.MODID + ":" + "textures/gui/image/cameragui.png";
 				ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
+				GlStateManager.color(1F, 1F, 1F);
 				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(0, 0, 0, 0, 82, 82);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(Minecraft.getMinecraft().displayWidth / 2 - 81,

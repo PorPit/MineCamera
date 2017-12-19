@@ -391,7 +391,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public boolean canReplace(World worldIn, BlockPos pos, EnumFacing side, @Nullable ItemStack stack) {
+	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		if (worldIn.getBlockState(pos.down()).getBlock() instanceof BlockPictureFrameMultiple) {
 			return this.canPlaceBlockOnSide(worldIn, pos, side);
 		}
