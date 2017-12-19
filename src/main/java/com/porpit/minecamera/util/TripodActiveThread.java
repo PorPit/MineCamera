@@ -4,7 +4,7 @@ import com.porpit.minecamera.network.MessageTripodFilmOut;
 import com.porpit.minecamera.network.NetworkLoader;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.ChatComponentTranslation;
 
 public class TripodActiveThread extends Thread {
 	public static boolean isshooting = false;
@@ -17,23 +17,25 @@ public class TripodActiveThread extends Thread {
 	}
 
 	public void run() {
+		synchronized(this){
 		isshooting = true;
+		}
 		try {
 			for (int i = delay; i > 0; i--) {
 				Minecraft.getMinecraft().thePlayer
-						.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.delayinfo", i));
+						.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.delayinfo", i));
 
 				Thread.sleep(1000);
 
 				if (!Minecraft.getMinecraft().thePlayer.getEntityData().hasKey("renderViewCamera")) {
 					Minecraft.getMinecraft().thePlayer
-							.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.leavetripod"));
+							.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.leavetripod"));
 					isshooting = false;
 					return;
 				}
 			}
 			Minecraft.getMinecraft().thePlayer
-					.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.trytoshoot"));
+					.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.trytoshoot"));
 		} catch (InterruptedException e) {
 			isshooting = false;
 			e.printStackTrace();

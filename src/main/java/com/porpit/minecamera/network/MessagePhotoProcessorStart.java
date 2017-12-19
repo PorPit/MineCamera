@@ -5,21 +5,16 @@ import java.util.List;
 import com.porpit.minecamera.achievement.AchievementLoader;
 import com.porpit.minecamera.inventory.ContainerPhotoProcessor;
 import com.porpit.minecamera.item.ItemLoader;
-import com.porpit.minecamera.item.ItemTripod;
 import com.porpit.minecamera.tileentity.TileEntityPhotoProcessor;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketCustomSound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -71,13 +66,10 @@ public class MessagePhotoProcessorStart implements IMessage {
 						if (listentity != null) {
 							for (EntityPlayer i : listentity) {
 								EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
-								entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.output",
-										SoundCategory.PLAYERS, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), 1.0F, 1.0F));
+								entityplayermp.playSound("minecamera:minecamera.output", 1.0F, 1.0F);
 							}
 						}
-						if(!playerMP.hasAchievement(AchievementLoader.craftpicture)){
-							playerMP.addStat(AchievementLoader.crafttripod);
-						}
+						playerMP.triggerAchievement(AchievementLoader.craftpicture);
 				}
 			}
 			return null;

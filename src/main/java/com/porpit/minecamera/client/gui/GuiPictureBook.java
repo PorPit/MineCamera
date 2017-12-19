@@ -4,11 +4,9 @@ import java.text.SimpleDateFormat;
 
 import com.porpit.minecamera.MineCamera;
 import com.porpit.minecamera.inventory.ContainerPictureBook;
-import com.porpit.minecamera.network.MessagePhotoProcessorStart;
 import com.porpit.minecamera.network.MessagePictureBookIndex;
 import com.porpit.minecamera.network.MessagePictureBookInput;
 import com.porpit.minecamera.network.NetworkLoader;
-import com.porpit.minecamera.util.EnumFailLoadImage;
 import com.porpit.minecamera.util.LoadImageFileThread;
 import com.porpit.minecamera.util.PictureFactory;
 
@@ -17,11 +15,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextFormatting;
 
 public class GuiPictureBook extends GuiContainer {
 	private static final int BUTTON_UP = 0;
@@ -89,7 +84,7 @@ public class GuiPictureBook extends GuiContainer {
 				message.index = inventory.getIndex() + 1;
 				NetworkLoader.instance.sendToServer(message);
 				Minecraft.getMinecraft().thePlayer
-						.playSound(new SoundEvent(new ResourceLocation("minecamera:minecamera.book")), 1F, 1F);
+						.playSound("minecamera:minecamera.book", 1F, 1F);
 			}
 		});
 		this.buttonList.add(new GuiButton(BUTTON_DOWN, offsetX + 225, offsetY + 82, 14, 8, "") {
@@ -113,7 +108,7 @@ public class GuiPictureBook extends GuiContainer {
 				message.index = inventory.getIndex() - 1;
 				NetworkLoader.instance.sendToServer(message);
 				Minecraft.getMinecraft().thePlayer
-						.playSound(new SoundEvent(new ResourceLocation("minecamera:minecamera.book")), 1F, 1F);
+						.playSound("minecamera:minecamera.book", 1F, 1F);
 			}
 		});
 	}

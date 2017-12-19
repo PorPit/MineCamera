@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +23,10 @@ import com.porpit.minecamera.network.MessageImage;
 import com.porpit.minecamera.network.NetworkLoader;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ScreenShotHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,7 +42,11 @@ public final class PictureFactory {
 	public static Map<String, Integer> loadedPicture = new HashMap<String, Integer>();
 	public static Map<String, EnumFailLoadImage> fildToLoadPicture = new HashMap<String, EnumFailLoadImage>();
 	public static Set<String> lodingPicture = new HashSet<String>();
-
+	/** A buffer to hold pixel values returned by OpenGL. */
+    private static IntBuffer pixelBuffer;
+    /** The built-up array that contains all the pixel values returned by OpenGL. */
+    private static int[] pixelValues;
+    
 	private PictureFactory() {
 	}
 
@@ -51,14 +60,14 @@ public final class PictureFactory {
 
 	@SideOnly(Side.CLIENT)
 	public static BufferedImage getScreenshot() {
-		BufferedImage image = ScreenShotHelper.createScreenshot(Minecraft.getMinecraft().displayWidth,
+		BufferedImage image = createScreenshot(Minecraft.getMinecraft().displayWidth,
 				Minecraft.getMinecraft().displayHeight, Minecraft.getMinecraft().getFramebuffer());
 		return image;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static BufferedImage getFormattingScreenshot() {
-		BufferedImage image = ScreenShotHelper.createScreenshot(Minecraft.getMinecraft().displayWidth,
+		BufferedImage image = createScreenshot(Minecraft.getMinecraft().displayWidth,
 				Minecraft.getMinecraft().displayHeight, Minecraft.getMinecraft().getFramebuffer());
 		return FormattingPicture(image);
 	}
@@ -182,4 +191,59 @@ public final class PictureFactory {
 
 		return result;
 	}
+	
+	public static BufferedImage createScreenshot(int width, int height, Framebuffer buffer)
+    {
+		if (OpenGlHelper.isFramebufferEnabled())
+        {
+            width = buffer.framebufferTextureWidth;
+            height = buffer.framebufferTextureHeight;
+        }
+
+        int i = width * height;
+
+        if (pixelBuffer == null || pixelBuffer.capacity() < i)
+        {
+            pixelBuffer = BufferUtils.createIntBuffer(i);
+            pixelValues = new int[i];
+        }
+
+        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+        pixelBuffer.clear();
+
+        if (OpenGlHelper.isFramebufferEnabled())
+        {
+            GlStateManager.bindTexture(buffer.framebufferTexture);
+            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+        }
+        else
+        {
+            GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+        }
+
+        pixelBuffer.get(pixelValues);
+        TextureUtil.processPixelValues(pixelValues, width, height);
+        BufferedImage bufferedimage = null;
+
+        if (OpenGlHelper.isFramebufferEnabled())
+        {
+            bufferedimage = new BufferedImage(buffer.framebufferWidth, buffer.framebufferHeight, 1);
+            int j = buffer.framebufferTextureHeight - buffer.framebufferHeight;
+
+            for (int k = j; k < buffer.framebufferTextureHeight; ++k)
+            {
+                for (int l = 0; l < buffer.framebufferWidth; ++l)
+                {
+                    bufferedimage.setRGB(l, k - j, pixelValues[k * buffer.framebufferTextureWidth + l]);
+                }
+            }
+        }
+        else
+        {
+            bufferedimage = new BufferedImage(width, height, 1);
+            bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
+        }
+        return bufferedimage;
+    }
 }

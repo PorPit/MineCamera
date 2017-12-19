@@ -1,7 +1,7 @@
 package com.porpit.minecamera.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.model.ModelLoader;
@@ -42,7 +42,7 @@ public class BlockLoader {
 
 	@SideOnly(Side.CLIENT)
 	private static void registerRender(Block block) {
-		registerRender(block, 0, block.getRegistryName().getResourcePath());
+		registerRender(block, 0, block.getRegistryName());
 	}
 
 	private static void register(Block block, ItemBlock itemBlock, String name) {

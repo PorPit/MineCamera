@@ -6,15 +6,15 @@ import com.porpit.minecamera.entity.EntityTripod;
 import com.porpit.minecamera.item.ItemLoader;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.audio.SoundCategory;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketCustomSound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -37,30 +37,31 @@ public class MessageTripodFilmOut implements IMessage {
 		public IMessage onMessage(MessageTripodFilmOut message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
 				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-				EntityTripod entity = (EntityTripod) player.getEntityWorld()
+				Entity entity = player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
-				if (player != null && entity != null) {
-					IItemHandler items = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+				if (player != null && entity != null&&entity instanceof EntityTripod) {
+					EntityTripod entityTripod=(EntityTripod)entity;
+					IItemHandler items = entityTripod.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
 							player.getHorizontalFacing());
 					if (items.getStackInSlot(3) != null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.isouting"));
+						player.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.isouting"));
 						return null;
 					}
 					if (items.getStackInSlot(0) == null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nobettery"));
+						player.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.nobettery"));
 						return null;
 					}
 					if (items.getStackInSlot(1) == null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nofilm"));
+						player.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.nofilm"));
 						return null;
 					}
 					if (items.getStackInSlot(2) != null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.hasfilmout"));
+						player.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.hasfilmout"));
 						return null;
 					}
 					if (items.getStackInSlot(1).hasTagCompound()
 							&& items.getStackInSlot(1).getTagCompound().hasKey("pid")) {
-						player.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.filmcantwrite")));
+						player.addChatComponentMessage((new ChatComponentTranslation("chat.minecamera.filmcantwrite")));
 						return null;
 					}
 					items.getStackInSlot(0).damageItem(1, player);
@@ -79,21 +80,20 @@ public class MessageTripodFilmOut implements IMessage {
 					 * items.getStackInSlot(3).stackSize=0; }
 					 */
 					items.insertItem(3, itemfilm, false);
-					entity.setBurnTime(0);
-					player.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.success")));
+					entityTripod.setBurnTime(0);
+					player.addChatComponentMessage((new ChatComponentTranslation("chat.minecamera.success")));
 					// effect
-					double particlePosX = entity.posX, particlePosY = entity.posY + 1.35, particlePosZ = entity.posZ;
-					particlePosX = particlePosX + (-Math.sin(Math.toRadians(entity.rotationYaw + 15)) * 0.7);
-					particlePosZ = particlePosZ + (Math.cos(Math.toRadians(entity.rotationYaw + 15)) * 0.7);
-					List<EntityPlayer> listentity = entity.getEntityWorld().getEntitiesWithinAABB(EntityPlayer.class,
-							new AxisAlignedBB(entity.posX - 16, entity.posY - 16, entity.posZ - 16, entity.posX + 16,
-									entity.posY + 16, entity.posZ + 16));
-					// System.out.println("listsize:"+listentity.size());
+					double particlePosX = entityTripod.posX, particlePosY = entityTripod.posY + 1.35, particlePosZ = entityTripod.posZ;
+					particlePosX = particlePosX + (-Math.sin(Math.toRadians(entityTripod.rotationYaw + 15)) * 0.7);
+					particlePosZ = particlePosZ + (Math.cos(Math.toRadians(entityTripod.rotationYaw + 15)) * 0.7);
+					List<EntityPlayer> listentity = entityTripod.getEntityWorld().getEntitiesWithinAABB(EntityPlayer.class,
+							new AxisAlignedBB(entityTripod.posX - 16, entityTripod.posY - 16, entityTripod.posZ - 16, entityTripod.posX + 16,
+									entityTripod.posY + 16, entityTripod.posZ + 16));
+					// System.out.println("listsize:"+listentityTripod.size());
 					if (listentity != null) {
 						for (EntityPlayer i : listentity) {
 							EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
-							entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.kacha",
-									SoundCategory.BLOCKS, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+							entityplayermp.playSound("minecamera:minecamera.kacha", 1F, 1F);;
 							MessageSpawnParticle message2 = new MessageSpawnParticle();
 							message2.delay = 200;
 							message2.typeid = EnumParticleTypes.FIREWORKS_SPARK.getParticleID();

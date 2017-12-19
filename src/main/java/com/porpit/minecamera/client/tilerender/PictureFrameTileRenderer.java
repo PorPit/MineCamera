@@ -95,11 +95,11 @@ public class PictureFrameTileRenderer extends TileEntitySpecialRenderer<TileEnti
 			GlStateManager.enableLighting();
 		}
 	}
-
+/*
 	@Override
 	public boolean isGlobalRenderer(TileEntityPictureFrame te) {
 		return false;
-	}
+	}*/
 
 	public static void applyDirection(EnumFacing direction) {
 		int rotation = 0;

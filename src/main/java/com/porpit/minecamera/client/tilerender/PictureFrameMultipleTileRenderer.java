@@ -93,12 +93,12 @@ public class PictureFrameMultipleTileRenderer extends TileEntitySpecialRenderer<
 			}
 		}
 	}
-
+/*
 	@Override
 	public boolean isGlobalRenderer(TileEntityPictureFrameMultiple te) {
 		return true;
 	}
-
+*/
 	public static void applyDirection(EnumFacing direction) {
 		int rotation = 0;
 		switch (direction.getIndex()) {

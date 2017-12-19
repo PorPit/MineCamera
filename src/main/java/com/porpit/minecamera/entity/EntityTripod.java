@@ -6,30 +6,24 @@ import com.porpit.minecamera.inventory.ContainerCamera;
 import com.porpit.minecamera.item.ItemLoader;
 import com.porpit.minecamera.network.MessageUpdatePitchYaw;
 import com.porpit.minecamera.network.NetworkLoader;
+import com.sun.javafx.geom.Vec3d;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.Block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -89,54 +83,11 @@ public class EntityTripod extends Entity {
 		return axisalignedbb;
 	}
 
-	@Override
-	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
-		if (!this.isInWater())
-        {
-            this.handleWaterMovement();
-        }
-
-        if (!this.worldObj.isRemote && this.fallDistance > 3.0F && onGroundIn)
-        {
-            float f = (float)MathHelper.ceiling_float_int(this.fallDistance - 3.0F);
-
-            if (!state.getBlock().isAir(state, worldObj, pos))
-            {
-                double d0 = Math.min((double)(0.2F + f / 15.0F), 2.5D);
-                int i = (int)(150.0D * d0);
-            }
-        }
-
-        super.updateFallState(y, onGroundIn, state, pos);
-	}
 
 	@Override
 	public boolean canBeCollidedWith() {
 		return true;
 	}
-	
-	@Override
-    public void fall(float distance, float damageMultiplier)
-    {
-        super.fall(distance, damageMultiplier);
-        int i = MathHelper.ceiling_float_int((distance - 3.0F) * damageMultiplier);
-
-        if (i > 0)
-        {
-            this.attackEntityFrom(DamageSource.fall, (float)i);
-            int j = MathHelper.floor_double(this.posX);
-            int k = MathHelper.floor_double(this.posY - 0.20000000298023224D);
-            int l = MathHelper.floor_double(this.posZ);
-            IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(j, k, l));
-
-            if (iblockstate.getMaterial() != Material.AIR)
-            {
-                SoundType soundtype = iblockstate.getBlock().getSoundType(iblockstate, worldObj, new BlockPos(j, k, l), this);
-                this.playSound(soundtype.getFallSound(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
-            }
-        }
-    }
-	
 
 	@Override
 	public void onUpdate() {
@@ -193,7 +144,7 @@ public class EntityTripod extends Entity {
 	}
 
 	@Override
-	public boolean processInitialInteract(EntityPlayer player, @Nullable ItemStack stack, EnumHand hand) {
+	public boolean interactFirst(EntityPlayer playerIn) {
 		this.timer = 90;
 		return false;
 	}
@@ -203,11 +154,6 @@ public class EntityTripod extends Entity {
 		return 2.5F;
 	}
 
-	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, @Nullable ItemStack stack,
-			EnumHand hand) {
-		return EnumActionResult.PASS;
-	}
 
 	public int getDelay() {
 		return delay;

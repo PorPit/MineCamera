@@ -5,7 +5,7 @@ import com.porpit.minecamera.inventory.ContainerPictureBook;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -41,7 +41,7 @@ public class MessagePictureBookInput implements IMessage {
 								contaner.setIndex(0);
 							}
 						} else {
-							player.addChatComponentMessage(new TextComponentTranslation("chat.picturebook.tomany"));
+							player.addChatComponentMessage(new ChatComponentTranslation("chat.picturebook.tomany"));
 							return null;
 						}
 					}

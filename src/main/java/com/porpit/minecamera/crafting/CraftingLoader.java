@@ -25,39 +25,39 @@ public class CraftingLoader
     private static void registerRecipe()
     {
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemCamera), new Object[]{
-    	                "!@#", "$%@", "@@@", '@', Blocks.OBSIDIAN, '!', Blocks.GLOWSTONE , '#',Blocks.STONE_BUTTON,'$',Items.ENDER_EYE,'%',Blocks.REDSTONE_BLOCK
+    	                "!@#", "$%@", "@@@", '@', Blocks.obsidian, '!', Blocks.glowstone , '#',Blocks.stone_button,'$',Items.ender_eye,'%',Blocks.redstone_block
     	        });
     	GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.itemCamera),ItemLoader.itemTripod);
     	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.pictureFrame), new Object[]{
-                "!!", "@@", '!', "plankWood", '@', Blocks.WOOL
+                "!!", "@@", '!', "plankWood", '@', Blocks.wool
         }));
     	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.pictureFrameMultiple), new Object[]{
-                "!!!", "@@@","@@@", '!', "plankWood", '@', Blocks.WOOL
+                "!!!", "@@@","@@@", '!', "plankWood", '@', Blocks.wool
         }));
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemBattery), new Object[]{
-                "!#!", "!@!","!@!", '!', Blocks.REDSTONE_BLOCK, '@', Blocks.OBSIDIAN,'#',Blocks.STONE_BUTTON
+                "!#!", "!@!","!@!", '!', Blocks.redstone_block, '@', Blocks.obsidian,'#',Blocks.stone_button
         });
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemFilm), new Object[]{
-                "!!!", "@@@","!!!", '!', Items.ENDER_PEARL, '@', Blocks.GLASS_PANE
+                "!!!", "@@@","!!!", '!', Items.ender_pearl, '@', Blocks.glass_pane
         });
     	GameRegistry.addRecipe(new ItemStack(BlockLoader.photoprocessor), new Object[]{
-                "!@!", "!#!","!$!", '!', Blocks.IRON_BLOCK, '@', Items.DIAMOND,'#',Items.ENDER_PEARL,'$',Blocks.REDSTONE_BLOCK
+                "!@!", "!#!","!$!", '!', Blocks.iron_block, '@', Items.diamond,'#',Items.ender_pearl,'$',Blocks.redstone_block
         });
-    	GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.itemPhotoPaper), Items.MILK_BUCKET,Items.PAPER,Items.IRON_INGOT,Items.GOLD_INGOT);
+    	GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.itemPhotoPaper), Items.milk_bucket,Items.paper,Items.iron_ingot,Items.gold_ingot);
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemCntsTempLiquid), new Object[]{
-                "!!!", "@!@","@#@", '!', Items.BLAZE_ROD, '@', Blocks.GLASS_PANE,'#',Items.WATER_BUCKET
+                "!!!", "@!@","@#@", '!', Items.blaze_rod, '@', Blocks.glass_pane,'#',Items.water_bucket
         });
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemDevelopingAgent), new Object[]{
-                "!@#", "$%$","^&^", '!', new ItemStack(Items.DYE, 1, EnumDyeColor.RED.getDyeDamage()), '@',  new ItemStack(Items.DYE, 1, EnumDyeColor.YELLOW.getDyeDamage()),'#', new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()),'$',Items.GOLD_INGOT,'%',Items.ENDER_PEARL,'^',Blocks.GLASS_PANE,'&',Items.WATER_BUCKET
+                "!@#", "$%$","^&^", '!', new ItemStack(Items.dye, 1, EnumDyeColor.RED.getDyeDamage()), '@',  new ItemStack(Items.dye, 1, EnumDyeColor.YELLOW.getDyeDamage()),'#', new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()),'$',Items.gold_ingot,'%',Items.ender_pearl,'^',Blocks.glass_pane,'&',Items.water_bucket
         });
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemTripod), new Object[]{
-    			" ! ", " @ ","@#@", '!', ItemLoader.itemCamera, '@', Blocks.IRON_BLOCK,'#',Items.ENDER_EYE
+    			" ! ", " @ ","@#@", '!', ItemLoader.itemCamera, '@', Blocks.iron_block,'#',Items.ender_eye
         });
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemGlassesHelmet), new Object[]{
-    			"!$!", "@#@","! !", '!', Items.STICK, '@', Blocks.GLASS_PANE,'#',Blocks.OBSIDIAN,'$',Items.ENDER_EYE
+    			"!$!", "@#@","! !", '!', Items.stick, '@', Blocks.glass_pane,'#',Blocks.obsidian,'$',Items.ender_eye
         });
     	GameRegistry.addRecipe(new ItemStack(ItemLoader.itemPictureBook), new Object[]{
-    			"!!!", "!@#","!##", '!', Items.PAPER, '@', Items.SLIME_BALL,'#',Items.LEATHER
+    			"!!!", "!@#","!##", '!', Items.paper, '@', Items.slime_ball,'#',Items.leather
         });
     }
 

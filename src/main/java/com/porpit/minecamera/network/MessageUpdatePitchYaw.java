@@ -3,6 +3,7 @@ package com.porpit.minecamera.network;
 import com.porpit.minecamera.entity.EntityTripod;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -31,10 +32,10 @@ public class MessageUpdatePitchYaw implements IMessage {
 		public IMessage onMessage(MessageUpdatePitchYaw message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
 				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-				EntityTripod entity = (EntityTripod) player.getEntityWorld()
+				Entity entity =player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
 				// entity.setDelay(message.delay);
-				if (player != null && entity != null) {
+				if (player != null && entity != null&&entity instanceof EntityTripod) {
 					entity.rotationYaw = message.rotationYaw;
 					entity.rotationPitch = message.rotationPitch;
 				}

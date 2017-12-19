@@ -10,7 +10,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -130,7 +129,7 @@ public class GuiCamera extends GuiContainer {
 		}
 		if (type == 1) {
 			this.drawTexturedModalRect(47, 6, 84, 133, 11, 11);
-			this.fontRendererObj.drawString(TextFormatting.GREEN + I18n.format("container.camera.text.delay"), 6, 7,
+			this.fontRendererObj.drawString("¡ì2" + I18n.format("container.camera.text.delay"), 6, 7,
 					0x191970);
 			int delaysecond = inventory.getDelay();
 			this.fontRendererObj.drawString(delaysecond + "s", 48, 7, 0x191970);

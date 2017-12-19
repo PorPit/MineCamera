@@ -2,6 +2,8 @@ package com.porpit.minecamera.client.gui;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Red;
+
 import com.porpit.minecamera.MineCamera;
 import com.porpit.minecamera.inventory.ContainerPhotoProcessor;
 import com.porpit.minecamera.network.MessagePhotoProcessorStart;
@@ -11,7 +13,6 @@ import com.porpit.minecamera.util.EnumFailLoadImage;
 import com.porpit.minecamera.util.LoadImageFileThread;
 import com.porpit.minecamera.util.PictureFactory;
 
-import ibxm.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -19,7 +20,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -71,24 +71,24 @@ public class GuiPhotoProcessor extends GuiContainer {
 				infolock = true;
 				int lightlevel=container.getTileEntity().getWorld().getLight(container.getTileEntity().getPos());
 				if (!container.getSlot(0).getHasStack()) {
-					info = TextFormatting.RED + I18n.format("container.photoprocessor.text.nonectl");
+					info = "¡ìc" + I18n.format("container.photoprocessor.text.nonectl");
 					return;
 				} else if (!container.getSlot(1).getHasStack()) {
-					info = TextFormatting.RED + I18n.format("container.photoprocessor.text.noneda");
+					info = "¡ìc" + I18n.format("container.photoprocessor.text.noneda");
 					return;
 				} else if (!container.getSlot(2).getHasStack()) {
-					info = TextFormatting.RED + I18n.format("container.photoprocessor.text.nonefilm");
+					info = "¡ìc" + I18n.format("container.photoprocessor.text.nonefilm");
 					return;
 				} else if (!container.getSlot(3).getHasStack()) {
-					info = TextFormatting.RED + I18n.format("container.photoprocessor.text.nonepaper");
+					info = "¡ìc" + I18n.format("container.photoprocessor.text.nonepaper");
 					return;
 				} else if (container.getSlot(4).getHasStack()) {
-					info = TextFormatting.RED + I18n.format("container.photoprocessor.text.hasphotoout");
+					info = "¡ìc" + I18n.format("container.photoprocessor.text.hasphotoout");
 					return;
 				} else if (container.getBurnTime() != container.totalBurnTime) {
 					return;
 				}else if(lightlevel>5){
-					info = TextFormatting.RED + I18n.format("container.photoprocessor.text.lightleveltoohigh");
+					info = "¡ìc" + I18n.format("container.photoprocessor.text.lightleveltoohigh");
 					return;
 				}
 				if (container.getSlot(2).getStack().hasTagCompound()
@@ -96,7 +96,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 					String imagename = container.getSlot(2).getStack().getTagCompound().getString("pid");
 					EnumFailLoadImage flag = PictureFactory.isFailedToLoad(imagename);
 					if (flag != null) {
-						info = TextFormatting.RED
+						info = "¡ìc"
 								+ I18n.format("container.photoprocessor.text.failed." + flag.toString());
 						return;
 					}
@@ -151,12 +151,12 @@ public class GuiPhotoProcessor extends GuiContainer {
 		if (burnTime >= TileEntityPhotoProcessor.totalburnTime) {
 			textureWidth = 0;
 		} else {
-			info = TextFormatting.GREEN + I18n.format("container.photoprocessor.text.outing");
+			info = "¡ì2" + I18n.format("container.photoprocessor.text.outing");
 			textureWidth = (int) (25.0 * burnTime / TileEntityPhotoProcessor.totalburnTime);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
 			this.drawTexturedModalRect(114, 101, 0, 206, textureWidth, 15);
 			if (textureWidth == 24) {
-				info = TextFormatting.GREEN + I18n.format("container.photoprocessor.text.success");
+				info = "¡ì2" + I18n.format("container.photoprocessor.text.success");
 			}
 		}
 		// speed
@@ -223,7 +223,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 							imageH);
 					GlStateManager.enableDepth();
 					if (infolock == false) {
-						info = TextFormatting.GREEN + I18n.format("container.photoprocessor.text.readsuccess")
+						info = "¡ì2" + I18n.format("container.photoprocessor.text.readsuccess")
 								+ imagename.split("%_%")[0];
 					}
 				}
@@ -235,7 +235,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 						imageH);
 				GlStateManager.enableDepth();
 				if (infolock == false) {
-					info = TextFormatting.GREEN + I18n.format("container.photoprocessor.text.lodingfilm")
+					info = "¡ì2" + I18n.format("container.photoprocessor.text.lodingfilm")
 							+ imagename.split("%_%")[0];
 				}
 				if (!PictureFactory.lodingPicture.contains(imagename)) {
@@ -252,7 +252,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 						imageH);
 				GlStateManager.enableDepth();
 				if (infolock == false) {
-					info = TextFormatting.RED
+					info = "¡ìc"
 							+ I18n.format("text.info." + PictureFactory.fildToLoadPicture.get(imagename).toString());
 				}
 			}

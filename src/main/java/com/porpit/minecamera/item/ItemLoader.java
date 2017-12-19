@@ -1,6 +1,6 @@
 package com.porpit.minecamera.item;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.client.model.ModelLoader;
@@ -49,7 +49,7 @@ public class ItemLoader {
 	}
 
 	private static void register(Item item, String name) {
-		GameRegistry.register(item.setRegistryName(name));
+		GameRegistry.registerItem(item.setRegistryName(name));
 	}
 
 	@SideOnly(Side.CLIENT)

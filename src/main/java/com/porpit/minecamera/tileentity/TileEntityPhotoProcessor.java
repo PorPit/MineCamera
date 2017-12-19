@@ -4,11 +4,10 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -48,11 +47,10 @@ public class TileEntityPhotoProcessor extends TileEntity implements ITickable {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setTag("Inventory", this.Inventory.serializeNBT());
 		compound.setInteger("BurnTime", this.burnTime);
-		return compound;
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class TileEntityPhotoProcessor extends TileEntity implements ITickable {
 		}
 	}
 
-	@Override
+/*	@Override
 	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
@@ -87,7 +85,7 @@ public class TileEntityPhotoProcessor extends TileEntity implements ITickable {
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		return this.writeToNBT(new NBTTagCompound());
-	}
+	}*/
 
 	public void setBurnTime(int i) {
 		this.burnTime = i;

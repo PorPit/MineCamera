@@ -23,11 +23,10 @@ public class TileEntityPictureFrameMultiple extends TileEntityPictureFrame {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setBoolean("shouldrender", shouldrender);
 		compound.setInteger("width", width);
 		compound.setInteger("height", height);
-		return compound;
 	}
 }

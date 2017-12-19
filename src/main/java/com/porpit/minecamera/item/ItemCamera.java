@@ -9,24 +9,18 @@ import com.porpit.minecamera.network.MessageImageSyncSave;
 import com.porpit.minecamera.network.MessageSpawnParticle;
 import com.porpit.minecamera.network.NetworkLoader;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketCustomSound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class ItemCamera extends Item {
@@ -38,19 +32,8 @@ public class ItemCamera extends Item {
 	}
 
 	@Override
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target,
-			EnumHand hand) {
-		if (target instanceof EntityZombie) {
-			target.setHeldItem(EnumHand.MAIN_HAND, stack);
-		}
-		return false;
-	}
-
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
-			EnumHand hand) {
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		//System.out.println("1:"+playerIn.getActiveHand());
-		playerIn.setActiveHand(hand);
 		//System.out.println("2:"+playerIn.getActiveHand());
 		if (playerIn.isSneaking()) {
 			if (!worldIn.isRemote) {
@@ -65,30 +48,30 @@ public class ItemCamera extends Item {
 			}
 			if (itemStackIn.getTagCompound().hasKey("filmOutCatch")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.isouting"));
-				return new ActionResult(EnumActionResult.PASS, itemStackIn);
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.isouting"));
+				return itemStackIn;
 			}
 			if (!itemStackIn.getTagCompound().hasKey("filmSlot")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nofilm"));
-				return new ActionResult(EnumActionResult.PASS, itemStackIn);
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.nofilm"));
+				return itemStackIn;
 			}
 			if (!itemStackIn.getTagCompound().hasKey("betterySlot")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nobettery"));
-				return new ActionResult(EnumActionResult.PASS, itemStackIn);
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.nobettery"));
+				return itemStackIn;
 			}
 			if (itemStackIn.getTagCompound().hasKey("filmOutSlot")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.hasfilmout"));
-				return new ActionResult(EnumActionResult.PASS, itemStackIn);
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.hasfilmout"));
+				return itemStackIn;
 			}
 			ItemStack betteryStack = ItemStack
 					.loadItemStackFromNBT(itemStackIn.getTagCompound().getCompoundTag("betterySlot"));
 			if (betteryStack.getItemDamage() == betteryStack.getMaxDamage()) {
 				itemStackIn.getTagCompound().removeTag("betterySlot");
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.betteryrunout"));
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("chat.minecamera.betteryrunout"));
 			} else {
 				betteryStack.damageItem(1, playerIn);
 				NBTTagCompound itemTag = new NBTTagCompound();
@@ -100,8 +83,8 @@ public class ItemCamera extends Item {
 			String createdpid = playerIn.getName() + "%_%" + System.currentTimeMillis();
 			if (filmStack.hasTagCompound() && filmStack.getTagCompound().hasKey("pid")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.filmcantwrite")));
-				return new ActionResult(EnumActionResult.PASS, itemStackIn);
+					playerIn.addChatComponentMessage((new ChatComponentTranslation("chat.minecamera.filmcantwrite")));
+				return itemStackIn;
 			} else {
 				itemStackIn.getTagCompound().removeTag("filmSlot");
 				NBTTagCompound nbt = new NBTTagCompound();
@@ -131,8 +114,7 @@ public class ItemCamera extends Item {
 				if (listentity != null) {
 					for (EntityPlayer i : listentity) {
 						EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
-						entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.kacha",
-								SoundCategory.PLAYERS, playerIn.posX, playerIn.posY, playerIn.posZ, 1.0F, 1.0F));
+						entityplayermp.playSound("minecamera:minecamera.kacha", 1.0F, 1.0F);
 						MessageSpawnParticle message = new MessageSpawnParticle();
 						message.delay = 200;
 						message.typeid = EnumParticleTypes.FIREWORKS_SPARK.getParticleID();
@@ -156,10 +138,10 @@ public class ItemCamera extends Item {
 			} 
 
 			if (!worldIn.isRemote)
-				playerIn.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.success")));
+				playerIn.addChatComponentMessage((new ChatComponentTranslation("chat.minecamera.success")));
 		}
 
-		return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+		return itemStackIn;
 	}
 
 	@Override
@@ -173,9 +155,8 @@ public class ItemCamera extends Item {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		return true;
 	}
 }

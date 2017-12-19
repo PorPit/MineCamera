@@ -9,11 +9,8 @@ import com.porpit.minecamera.network.NetworkLoader;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -80,7 +77,7 @@ public class ContainerCamera extends Container {
 		});
 		if (!player.getEntityWorld().isRemote) {
 			if (type == 0) {
-				ItemStack cameraStack = player.getActiveItemStack();
+				ItemStack cameraStack = player.getHeldItem();
 				if (!cameraStack.hasTagCompound()) {
 					NBTTagCompound newnbt = new NBTTagCompound();
 					cameraStack.setTagCompound(newnbt);
@@ -138,7 +135,7 @@ public class ContainerCamera extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		// System.out.println(player.getEntityWorld().isRemote);
-		for (IContainerListener i : this.listeners) {
+		for (ICrafting i : this.crafters) {
 			if (this.burnTime < this.totalBurnTime) {
 				this.burnTime++;
 				if (this.burnTime == this.totalBurnTime) {
@@ -148,8 +145,8 @@ public class ContainerCamera extends Container {
 						if (type == 0) {
 							NBTTagCompound itemTag = new NBTTagCompound();
 							filmOutCatch.writeToNBT(itemTag);
-							player.getActiveItemStack().getTagCompound().setTag("filmOutSlot", itemTag);
-							player.getActiveItemStack().getTagCompound().removeTag("filmOutCatch");
+							player.getHeldItem().getTagCompound().setTag("filmOutSlot", itemTag);
+							player.getHeldItem().getTagCompound().removeTag("filmOutCatch");
 						}
 						if (type == 1) {
 							items.extractItem(3, 64, false);
@@ -261,8 +258,8 @@ public class ContainerCamera extends Container {
 
 	@Override
 	@Nullable
-	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
-		ItemStack i = super.slotClick(slotId, dragType, clickTypeIn, player);
+	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
+		ItemStack i = super.slotClick(slotId, clickedButton, mode, playerIn);
 		saveToNBT(player);
 		return i;
 	}
@@ -270,7 +267,7 @@ public class ContainerCamera extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		if (type == 0) {
-			return new ItemStack(ItemLoader.itemCamera).isItemEqual(playerIn.getActiveItemStack());
+			return new ItemStack(ItemLoader.itemCamera).isItemEqual(playerIn.getHeldItem());
 		} else {
 			return true;
 		}
@@ -278,7 +275,7 @@ public class ContainerCamera extends Container {
 
 	private void saveToNBT(EntityPlayer playerIn) {
 		if (!playerIn.getEntityWorld().isRemote) {
-			ItemStack cameraStack = playerIn.getActiveItemStack();
+			ItemStack cameraStack = playerIn.getHeldItem();
 			if (cameraStack == null) {
 				return;
 			}

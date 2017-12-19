@@ -4,43 +4,31 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.porpit.minecamera.block.BlockPictureFrame.EnumStateType;
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 import com.porpit.minecamera.item.ItemLoader;
-import com.porpit.minecamera.tileentity.TileEntityPictureFrame;
 import com.porpit.minecamera.tileentity.TileEntityPictureFrameMultiple;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.collection.parallel.ParIterableLike.Forall;
-import scala.reflect.internal.util.TableDef.Column;
 
 public class BlockPictureFrameMultiple extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -52,10 +40,10 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	public static final PropertyInteger RENDERTYPE = PropertyInteger.create("rendertype", 0, 8);
 
 	public BlockPictureFrameMultiple() {
-		super(Material.GROUND);
+		super(Material.ground);
 		this.setUnlocalizedName("pictureframe_multiple");
 		this.setHardness(0.5F);
-		this.setSoundType(SoundType.WOOD);
+		this.setStepSound(soundTypeWood);
 		this.setCreativeTab(CreativeTabsLoader.tabMineCamera);
 		/*
 		 * this.setDefaultState(
@@ -181,14 +169,10 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 			state = state.withProperty(RENDERTYPE, 3);
 			break;
 		default:
+			state = state.withProperty(RENDERTYPE, 0);
 			break;
 		}
 		return state;
-	}
-
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
 	}
 
 	@Override
@@ -197,18 +181,18 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube() {
 		return false;
 	}
 
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
+	public int getRenderType() {
+		return 3;
 	}
 
 	/*
@@ -298,23 +282,23 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 		//System.out.println("width:" + width);
 		if (width > 16) {
 			worldIn.setBlockToAir(pos);
-			placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
+			placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
 			return;
 		}
 		if (height > 16) {
 			worldIn.setBlockToAir(pos);
-			placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
+			placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
 			return;
 		}
 		if (placer.isSneaking() && stack.stackSize >= 6) {
 			if (width + 2 > 16) {
 				worldIn.setBlockToAir(pos);
-				placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
+				placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
 				return;
 			}
 			if (height + 1 > 16) {
 				worldIn.setBlockToAir(pos);
-				placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
+				placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
 				return;
 			}
 			stack.stackSize -= 5;
@@ -323,7 +307,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				if (!worldIn.isAirBlock(pos.offset(facing, i)) || !worldIn.isAirBlock(pos.up().offset(facing, i))) {
 					worldIn.setBlockToAir(pos);
 					if (!worldIn.isRemote) {
-						placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+						placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.failmultipleplace"));
 					}
 					return;
 				}
@@ -333,7 +317,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 					.getBlockState(pos.offset(facing, 3).up()).getBlock() instanceof BlockPictureFrameMultiple) {
 				worldIn.setBlockToAir(pos);
 				if (!worldIn.isRemote) {
-					placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+					placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.failmultipleplace"));
 				}
 				return;
 			}
@@ -345,7 +329,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 								.getBlock() instanceof BlockPictureFrameMultiple) {
 					worldIn.setBlockToAir(pos);
 					if (!worldIn.isRemote) {
-						placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+						placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.failmultipleplace"));
 					}
 					return;
 				}
@@ -359,7 +343,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 										.getBlock() instanceof BlockPictureFrameMultiple)) {
 					worldIn.setBlockToAir(pos);
 					if (!worldIn.isRemote) {
-						placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+						placer.addChatMessage(new ChatComponentTranslation("chat.framemultiple.failmultipleplace"));
 					}
 					return;
 				}
@@ -384,16 +368,16 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 	
 	@Override
-	protected BlockStateContainer createBlockState() {
+	protected BlockState createBlockState() {
 		// return new BlockStateContainer(this, FACING,
 		// ISHEAD,LINE,COLUMN,RENDERTYPE);
-		return new BlockStateContainer(this, FACING, RENDERTYPE);
+		return new BlockState(this, FACING, RENDERTYPE);
 	}
 
 	@Override
-	public boolean canReplace(World worldIn, BlockPos pos, EnumFacing side, @Nullable ItemStack stack) {
+	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		if (worldIn.getBlockState(pos.down()).getBlock() instanceof BlockPictureFrameMultiple) {
-			return this.canPlaceBlockOnSide(worldIn, pos, side);
+			return super.canPlaceBlockOnSide(worldIn, pos, side);
 		}
 		if (worldIn.getBlockState(pos.up()).getBlock() instanceof BlockPictureFrameMultiple) {
 			EnumFacing facing = worldIn.getBlockState(pos.up()).getValue(FACING).getOpposite().rotateY();
@@ -434,12 +418,12 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				return false;
 			}
 		}
-		return this.canPlaceBlockOnSide(worldIn, pos, side);
+		return super.canPlaceBlockOnSide(worldIn, pos, side);
 	}
 
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player,
-			boolean willHarvest) {
+	public boolean removedByPlayer(World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+		IBlockState state=world.getBlockState(pos);
 		EnumFacing facing = state.getValue(FACING).getOpposite().rotateY();
 		EnumFacing fatherfacing = facing.getOpposite();
 		if (player.isSneaking()) {
@@ -488,7 +472,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 									picture.setTagCompound(nbt);
 									Block.spawnAsEntity(world, pos, picture);
 									player.addChatComponentMessage(
-											new TextComponentTranslation("chat.framemultiple.changeanddrowpicture"));
+											new ChatComponentTranslation("chat.framemultiple.changeanddrowpicture"));
 								}
 								te.imagename = "";
 								te.shouldrender = false;
@@ -500,7 +484,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				break;
 			}
 		}
-		return super.removedByPlayer(state, world, pos, player, willHarvest);
+		return super.removedByPlayer(world, pos, player, willHarvest);
 	}
 
 	@Override
@@ -529,9 +513,9 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		// System.out.println("LINE:"+state.getValue(LINE));
+		ItemStack heldItem=playerIn.getHeldItem();
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()
 				&& heldItem.getTagCompound().hasKey("pid")) {
 			int width = 1;
@@ -565,7 +549,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				if (width == 1 || height == 1) {
 					if (!worldIn.isRemote) {
 						playerIn.addChatComponentMessage(
-								new TextComponentTranslation("chat.framemultiple.widthorheighttoosmall"));
+								new ChatComponentTranslation("chat.framemultiple.widthorheighttoosmall"));
 					}
 					TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
 					te.shouldrender = false;
@@ -581,7 +565,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 										.getBlock() instanceof BlockPictureFrameMultiple))) {
 							if (!worldIn.isRemote) {
 								playerIn.addChatComponentMessage(
-										new TextComponentTranslation("chat.framemultiple.failedtobuild"));
+										new ChatComponentTranslation("chat.framemultiple.failedtobuild"));
 							}
 							TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn
 									.getTileEntity(pos);
@@ -634,7 +618,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				if (hasuselesspart) {
 					if (!worldIn.isRemote) {
 						playerIn.addChatComponentMessage(
-								new TextComponentTranslation("chat.framemultiple.removeuselesspart"));
+								new ChatComponentTranslation("chat.framemultiple.removeuselesspart"));
 					}
 				}
 
@@ -659,7 +643,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				//System.out.println("可以放置,消耗时间" + (System.currentTimeMillis() - timebefore));
 			} else {
 				if (!worldIn.isRemote) {
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.framemultiple.mustusehead"));
+					playerIn.addChatComponentMessage(new ChatComponentTranslation("chat.framemultiple.mustusehead"));
 				}
 			}
 			return true;
@@ -668,17 +652,52 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		// System.out.println("123s");
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
+    {
 		int width = 1;
 		int height = 1;
-		if (source.getTileEntity(pos) != null
-				&& ((TileEntityPictureFrameMultiple) source.getTileEntity(pos)).shouldrender) {
-			TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) source.getTileEntity(pos);
+		if (worldIn.getTileEntity(pos) != null
+				&& ((TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos)).shouldrender) {
+			TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
 			width = te.width;
 			height = te.height;
 		}
-		switch (state.getValue(FACING).getIndex()) {
+		switch (worldIn.getBlockState(pos).getValue(FACING).getIndex()) {
+		// north
+		case 2:
+			super.setBlockBounds(-(width - 1), 0.0F, 1.0F, 1.0F, height, 0.9F);
+			return;
+		// south
+		case 3:
+			super.setBlockBounds(0.0F, 0.0F, 0.0F, width, height, 0.1F);
+			return;
+		// west
+		case 4:
+			super.setBlockBounds(0.9F, 0.0F, 0.0F, 1.0F, height, width);
+			return;
+		// east
+		case 5:
+			super.setBlockBounds(0.0F, 0.0F, -(width - 1), 0.1F, height, 1.0F);
+			return;
+		default:
+			super.setBlockBounds(0.0F, 0.1F, 0.95F, 1.0F, 0.9F, 1.0F);
+			return;
+		}
+    }
+	
+/*	
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+		// System.out.println("123s");
+		int width = 1;
+		int height = 1;
+		if (worldIn.getTileEntity(pos) != null
+				&& ((TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos)).shouldrender) {
+			TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
+			width = te.width;
+			height = te.height;
+		}
+		switch (worldIn.getBlockState(pos).getValue(FACING).getIndex()) {
 		// north
 		case 2:
 			return new AxisAlignedBB(-(width - 1), 0.0D, 1.0D, 1.0D, height, 0.9D);
@@ -694,7 +713,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 		default:
 			return new AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D, 1.0D);
 		}
-	}
+	}*/
 
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
@@ -709,12 +728,12 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 		// true).withProperty(LINE, 1).withProperty(COLUMN, 1);
 		return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
-
-	@Override
+	//TODO
+/*	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.pictureframe_multiple.info"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.pictureframe_multiple.info2"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.pictureframe_multiple.info3"));
-	}
+	}*/
 }

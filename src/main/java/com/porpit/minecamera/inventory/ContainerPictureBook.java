@@ -1,7 +1,6 @@
 package com.porpit.minecamera.inventory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -9,10 +8,8 @@ import javax.annotation.Nullable;
 import com.porpit.minecamera.item.ItemLoader;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -70,7 +67,7 @@ public class ContainerPictureBook extends Container {
 			this.addSlotToContainer(new Slot(player.inventory, i, 60 + i * 18, 196));
 		}
 		if (!player.getEntityWorld().isRemote) {
-			ItemStack itemStackBook = player.getActiveItemStack();
+			ItemStack itemStackBook = player.getHeldItem();
 			if (itemStackBook.hasTagCompound() && itemStackBook.getTagCompound().hasKey("listPid")
 					&&!itemStackBook.getTagCompound().getString("listPid").equals("")&& itemStackBook.getTagCompound().hasKey("index")) {
 				//System.out.println(itemStackBook.getTagCompound());
@@ -109,7 +106,7 @@ public class ContainerPictureBook extends Container {
 	}
 	
 	@Nullable
-	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
 		if (!player.getEntityWorld().isRemote) {
 			if (slotId == 1 && getSlot(1) != null && getSlot(1).getHasStack()) {
 				listPid.remove(index);
@@ -122,7 +119,7 @@ public class ContainerPictureBook extends Container {
 				}
 			}
 		}
-		ItemStack i = super.slotClick(slotId, dragType, clickTypeIn, player);
+		ItemStack i = super.slotClick(slotId, clickedButton, mode, playerIn);
 		saveToNBT(player);
 		return i;
 	}
@@ -143,7 +140,7 @@ public class ContainerPictureBook extends Container {
 			pictureOutSlot.putStack(itemPicture);
 		}
 		// System.out.println(tileEntity.getBurnTime());
-		for (IContainerListener i : this.listeners) {
+		for (ICrafting i : this.crafters) {
 			i.sendProgressBarUpdate(this, 0, totalPictureNum);
 			i.sendProgressBarUpdate(this, 1, index);
 		}
@@ -202,7 +199,7 @@ public class ContainerPictureBook extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return new ItemStack(ItemLoader.itemPictureBook).isItemEqual(playerIn.getActiveItemStack());
+		return new ItemStack(ItemLoader.itemPictureBook).isItemEqual(playerIn.getHeldItem());
 	}
 
 	public int getIndex() {
@@ -245,7 +242,7 @@ public class ContainerPictureBook extends Container {
 				}
 			}
 			//System.out.println(listPid.size());
-			ItemStack itemStackBook = playerIn.getActiveItemStack();
+			ItemStack itemStackBook = playerIn.getHeldItem();
 			if (itemStackBook != null) {
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("listPid", listPidTotal);

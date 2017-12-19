@@ -6,10 +6,8 @@ import com.porpit.minecamera.item.ItemLoader;
 import com.porpit.minecamera.tileentity.TileEntityPhotoProcessor;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -100,7 +98,7 @@ public class ContainerPhotoProcessor extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		// System.out.println(tileEntity.getBurnTime());
-		for (IContainerListener i : this.listeners) {
+		for (ICrafting i : this.crafters) {
 			i.sendProgressBarUpdate(this, 0, tileEntity.getBurnTime());
 		}
 
@@ -183,9 +181,9 @@ public class ContainerPhotoProcessor extends Container {
 
 	@Override
 	@Nullable
-	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
 		// System.out.println(slotId);
-		return super.slotClick(slotId, dragType, clickTypeIn, player);
+		return super.slotClick(slotId, clickedButton, mode, playerIn);
 	}
 
 	public EntityPlayer getPlayer() {

@@ -6,11 +6,10 @@ import com.porpit.minecamera.client.gui.GuiPhotoProcessor;
 import com.porpit.minecamera.client.gui.GuiPictureBook;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import scala.reflect.internal.Trees.Return;
 
 public class GuiElementLoader implements IGuiHandler {
 	public static final int GUI_CAMERA = 1;

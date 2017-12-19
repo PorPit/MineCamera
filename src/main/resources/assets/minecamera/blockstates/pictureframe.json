@@ -1,12 +1,12 @@
 {
     "variants": {
         "facing=north,statetype=standing": { "model": "minecamera:pictureframestand"},
-		"facing=east,statetype=standing": { "model": "minecamera:pictureframestand" ,"y": 90, "uvlock": true },
-		"facing=south,statetype=standing": { "model": "minecamera:pictureframestand" ,"y": 180, "uvlock": true },
-		"facing=west,statetype=standing": { "model": "minecamera:pictureframestand" ,"y": 270, "uvlock": true },
+		"facing=east,statetype=standing": { "model": "minecamera:pictureframestand" ,"y": 90},
+		"facing=south,statetype=standing": { "model": "minecamera:pictureframestand" ,"y": 180 },
+		"facing=west,statetype=standing": { "model": "minecamera:pictureframestand" ,"y": 270},
 		"facing=north,statetype=hanging": { "model": "minecamera:pictureframe"},
-		"facing=east,statetype=hanging": { "model": "minecamera:pictureframe" ,"y": 90, "uvlock": true },
-		"facing=south,statetype=hanging": { "model": "minecamera:pictureframe" ,"y": 180, "uvlock": true },
-		"facing=west,statetype=hanging": { "model": "minecamera:pictureframe" ,"y": 270, "uvlock": true }
+		"facing=east,statetype=hanging": { "model": "minecamera:pictureframe" ,"y": 90},
+		"facing=south,statetype=hanging": { "model": "minecamera:pictureframe" ,"y": 180},
+		"facing=west,statetype=hanging": { "model": "minecamera:pictureframe" ,"y": 270}
     }
 }

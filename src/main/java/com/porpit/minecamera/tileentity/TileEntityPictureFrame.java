@@ -7,9 +7,8 @@ import com.porpit.minecamera.util.PictureFactory;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityPictureFrame extends TileEntity {
@@ -60,13 +59,12 @@ public class TileEntityPictureFrame extends TileEntity {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setString("imagename", this.imagename);
-		return compound;
 	}
 
-	@Override
+/*	@Override
 	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		//System.out.println("update");
@@ -76,5 +74,5 @@ public class TileEntityPictureFrame extends TileEntity {
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		return this.writeToNBT(new NBTTagCompound());
-	}
+	}*/
 }

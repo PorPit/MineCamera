@@ -10,26 +10,21 @@ import com.porpit.minecamera.tileentity.TileEntityPictureFrame;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,10 +36,10 @@ public class BlockPictureFrame extends BlockContainer {
 	public AxisAlignedBB FACING_NORTH = new AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D, 1.0D);
 	
 	public BlockPictureFrame() {
-		super(Material.GROUND);
+		super(Material.ground);
 		this.setUnlocalizedName("pictureframe");
 		this.setHardness(0.5F);
-		this.setSoundType(SoundType.WOOD);
+		this.setStepSound(soundTypeWood);
 		this.setCreativeTab(CreativeTabsLoader.tabMineCamera);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
 				.withProperty(STATETYPE, EnumStateType.STANDING));
@@ -73,9 +68,70 @@ public class BlockPictureFrame extends BlockContainer {
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
 	}
-
+	
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	@SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
+    {
+        return true;
+    }
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
+    {
+		IBlockState state=worldIn.getBlockState(pos);
+		System.out.println(state.getValue(FACING).getIndex());
+		if (state.getValue(STATETYPE).equals(EnumStateType.HANDGING)) {
+			switch (state.getValue(FACING).getIndex()) {
+			// north
+			case 2:
+				super.setBlockBounds(0.0F, 0.1F, 0.95F, 1.0F, 0.9F, 1.0F);
+				return;
+			// south
+			case 3:
+				super.setBlockBounds(0.0F, 0.1F, 0.0F, 1.0F, 0.9F, 0.05F);
+				return;
+			// west
+			case 4:
+				super.setBlockBounds(0.95F, 0.1F, 0.0F, 1.0F, 0.9F, 1.0F);
+				return;
+			// east
+			case 5:
+				super.setBlockBounds(0.0F, 0.1F, 0.0F, 0.05F, 0.9F, 1.0F);
+				return;
+			default:
+				super.setBlockBounds(0.0F, 0.1F, 0.95F, 1.0F, 0.9F, 1.0F);
+				return;
+			}
+		} else {
+			switch (state.getValue(FACING).getIndex()) {
+			// north
+			case 2:
+				super.setBlockBounds(0.0F, 0.0F, 0.35F, 1.0F, 0.75F, 0.8F);
+				return;
+			// south
+			case 3:
+				super.setBlockBounds(0.0F, 0.0F, 0.20F, 1.0F, 0.75F, 0.65F);
+				return;
+			// west
+			case 4:
+				super.setBlockBounds(0.35F, 0.0F, 0.0F, 0.8F, 0.75F, 1.0F);
+				return;
+			// east
+			case 5:
+				super.setBlockBounds(0.2F, 0.0F, 0.0F, 0.65F, 0.75F, 1.0F);
+				return;
+			default:
+				super.setBlockBounds(0.0F, 0.0F, 0.35F, 1.0F, 0.75F, 0.8F);
+				return;
+			}
+		}
+    }
+	/*
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+		return super.getSelectedBoundingBox(worldIn, pos);
+		IBlockState state=worldIn.getBlockState(pos);
 		if (state.getValue(STATETYPE).equals(EnumStateType.HANDGING)) {
 			switch (state.getValue(FACING).getIndex()) {
 			// north
@@ -111,26 +167,32 @@ public class BlockPictureFrame extends BlockContainer {
 				return new AxisAlignedBB(0.0D, 0.0D, 0.35D, 1.0D, 0.75D, 0.8D);
 			}
 		}
+	}*/
+
+	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, FACING, STATETYPE);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING, STATETYPE);
-	}
-
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
+    {
+        return false;
+    }
+	
 	@Override
-	public boolean isFullCube(IBlockState state) {
+	public boolean isFullCube() {
 		return false;
 	}
 	
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
+	public int getRenderType() {
+		return 3;
 	}
 
 	@Override
@@ -144,10 +206,10 @@ public class BlockPictureFrame extends BlockContainer {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 		// System.out.println(((TileEntityPictureFrame)
 		// worldIn.getTileEntity(pos)).imagename);
+		ItemStack heldItem= playerIn.getHeldItem();
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()&&heldItem.getTagCompound().hasKey("pid")) {
 			//System.out.println(hand);
 			String imagename = heldItem.getTagCompound().getString("pid");
@@ -219,10 +281,10 @@ public class BlockPictureFrame extends BlockContainer {
 			return this.name;
 		}
 	}
-	
-	@Override
+	//TODO
+/*	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		tooltip.add(TextFormatting.BLUE+ I18n.format("lore.pictureframe.info"));
-	}
+	}*/
 }
