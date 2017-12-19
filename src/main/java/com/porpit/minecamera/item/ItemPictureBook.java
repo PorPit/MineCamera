@@ -32,15 +32,14 @@ public class ItemPictureBook extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
-			EnumHand hand) {
-		playerIn.setActiveHand(hand);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		playerIn.setActiveHand(handIn);
 		if (!worldIn.isRemote) {
 			BlockPos pos = playerIn.getPosition();
 			int id = GuiElementLoader.GUI_PICTURE_BOOK;
 			playerIn.openGui(MineCamera.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
-		return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+		return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
 	@Override
@@ -48,11 +47,11 @@ public class ItemPictureBook extends Item {
 		return 72000;
 	}
 
-	@Override
+/*	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-	}
+	}*/
 	
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -298,32 +298,32 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 		//System.out.println("width:" + width);
 		if (width > 16) {
 			worldIn.setBlockToAir(pos);
-			placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
+			placer.sendMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
 			return;
 		}
 		if (height > 16) {
 			worldIn.setBlockToAir(pos);
-			placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
+			placer.sendMessage(new TextComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
 			return;
 		}
-		if (placer.isSneaking() && stack.stackSize >= 6) {
+		if (placer.isSneaking() && stack.getCount() >= 6) {
 			if (width + 2 > 16) {
 				worldIn.setBlockToAir(pos);
-				placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
+				placer.sendMessage(new TextComponentTranslation("chat.framemultiple.widthbuildtoomore", 16));
 				return;
 			}
 			if (height + 1 > 16) {
 				worldIn.setBlockToAir(pos);
-				placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
+				placer.sendMessage(new TextComponentTranslation("chat.framemultiple.heightbuildtoomore", 16));
 				return;
 			}
-			stack.stackSize -= 5;
+			stack.shrink(5);
 			// 右方
 			for (int i = 1; i < 3; i++) {
 				if (!worldIn.isAirBlock(pos.offset(facing, i)) || !worldIn.isAirBlock(pos.up().offset(facing, i))) {
 					worldIn.setBlockToAir(pos);
 					if (!worldIn.isRemote) {
-						placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+						placer.sendMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
 					}
 					return;
 				}
@@ -333,7 +333,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 					.getBlockState(pos.offset(facing, 3).up()).getBlock() instanceof BlockPictureFrameMultiple) {
 				worldIn.setBlockToAir(pos);
 				if (!worldIn.isRemote) {
-					placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+					placer.sendMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
 				}
 				return;
 			}
@@ -345,7 +345,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 								.getBlock() instanceof BlockPictureFrameMultiple) {
 					worldIn.setBlockToAir(pos);
 					if (!worldIn.isRemote) {
-						placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+						placer.sendMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
 					}
 					return;
 				}
@@ -359,7 +359,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 										.getBlock() instanceof BlockPictureFrameMultiple)) {
 					worldIn.setBlockToAir(pos);
 					if (!worldIn.isRemote) {
-						placer.addChatMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
+						placer.sendMessage(new TextComponentTranslation("chat.framemultiple.failmultipleplace"));
 					}
 					return;
 				}
@@ -393,7 +393,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		if (worldIn.getBlockState(pos.down()).getBlock() instanceof BlockPictureFrameMultiple) {
-			return this.canPlaceBlockOnSide(worldIn, pos, side);
+			return this.canPlaceBlockAt(worldIn, pos);
 		}
 		if (worldIn.getBlockState(pos.up()).getBlock() instanceof BlockPictureFrameMultiple) {
 			EnumFacing facing = worldIn.getBlockState(pos.up()).getValue(FACING).getOpposite().rotateY();
@@ -434,7 +434,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				return false;
 			}
 		}
-		return this.canPlaceBlockOnSide(worldIn, pos, side);
+		return this.canPlaceBlockAt(worldIn, pos);
 	}
 
 	@Override
@@ -487,7 +487,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 									nbt.setString("pid", te.imagename);
 									picture.setTagCompound(nbt);
 									Block.spawnAsEntity(world, pos, picture);
-									player.addChatComponentMessage(
+									player.sendMessage(
 											new TextComponentTranslation("chat.framemultiple.changeanddrowpicture"));
 								}
 								te.imagename = "";
@@ -529,9 +529,9 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// System.out.println("LINE:"+state.getValue(LINE));
+		ItemStack heldItem=playerIn.getHeldItem(hand);
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()
 				&& heldItem.getTagCompound().hasKey("pid")) {
 			int width = 1;
@@ -564,7 +564,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				// 检查是否长宽等于1
 				if (width == 1 || height == 1) {
 					if (!worldIn.isRemote) {
-						playerIn.addChatComponentMessage(
+						playerIn.sendMessage(
 								new TextComponentTranslation("chat.framemultiple.widthorheighttoosmall"));
 					}
 					TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
@@ -580,7 +580,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 								|| !(worldIn.getBlockState(pos.offset(buildfacing, i).up(j))
 										.getBlock() instanceof BlockPictureFrameMultiple))) {
 							if (!worldIn.isRemote) {
-								playerIn.addChatComponentMessage(
+								playerIn.sendMessage(
 										new TextComponentTranslation("chat.framemultiple.failedtobuild"));
 							}
 							TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn
@@ -633,7 +633,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				}
 				if (hasuselesspart) {
 					if (!worldIn.isRemote) {
-						playerIn.addChatComponentMessage(
+						playerIn.sendMessage(
 								new TextComponentTranslation("chat.framemultiple.removeuselesspart"));
 					}
 				}
@@ -654,12 +654,12 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				te.width = width;
 				te.height = height;
 				if(!worldIn.isRemote){
-					heldItem.stackSize--;
+					heldItem.shrink(1);
 				}
 				//System.out.println("可以放置,消耗时间" + (System.currentTimeMillis() - timebefore));
 			} else {
 				if (!worldIn.isRemote) {
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.framemultiple.mustusehead"));
+					playerIn.sendMessage(new TextComponentTranslation("chat.framemultiple.mustusehead"));
 				}
 			}
 			return true;
@@ -697,12 +697,11 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
-			int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		// System.out.println("hitX:=" + hitX + ",hitY:" + hitY + ",hitZ:" +
 		// hitZ);
 		//System.out.println(worldIn.getLight(pos));
-		IBlockState origin = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+		IBlockState origin = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 		// placer.getHorizontalFacing().
 		// return origin.withProperty(FACING,
 		// placer.getHorizontalFacing().getOpposite()).withProperty(ISHEAD,

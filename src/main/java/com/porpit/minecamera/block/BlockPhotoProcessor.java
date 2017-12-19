@@ -16,6 +16,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -59,7 +60,7 @@ public class BlockPhotoProcessor extends BlockContainer {
 		for (int i = inv.getSlots() - 1; i >= 0; --i) {
 			if (inv.getStackInSlot(i) != null) {
 				Block.spawnAsEntity(worldIn, pos, inv.getStackInSlot(i));
-				((IItemHandlerModifiable) inv).setStackInSlot(i, null);
+				((IItemHandlerModifiable) inv).setStackInSlot(i, ItemStack.EMPTY);
 			}
 		}
 
@@ -74,8 +75,7 @@ public class BlockPhotoProcessor extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!worldIn.isRemote) {
 			int id = GuiElementLoader.GUI_PHOTOPROCESSOR;
 			playerIn.openGui(MineCamera.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -89,11 +89,17 @@ public class BlockPhotoProcessor extends BlockContainer {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
-			int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    {
+		IBlockState origin = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
+        return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }
+	
+	/*@Override
+	public IBlockState onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		IBlockState origin = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
 		return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-	}
+	}*/
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {

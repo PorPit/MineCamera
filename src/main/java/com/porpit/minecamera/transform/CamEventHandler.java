@@ -14,14 +14,14 @@ public class CamEventHandler {
 	public static Entity camera = null;
 
 	public static void setupMouseHandlerBefore() {
-		if (mc.thePlayer != null && mc.thePlayer.getEntityData().hasKey("renderViewCamera")) {
+		if (mc.player != null && mc.player.getEntityData().hasKey("renderViewCamera")) {
 			camera = mc.getRenderViewEntity();
-			mc.setRenderViewEntity(mc.thePlayer);
+			mc.setRenderViewEntity(mc.player);
 		}
 	}
 
 	public static void setupMouseHandlerAfter() {
-		if (mc.thePlayer != null && mc.thePlayer.getEntityData().hasKey("renderViewCamera")) {
+		if (mc.player != null && mc.player.getEntityData().hasKey("renderViewCamera")) {
 			mc.setRenderViewEntity(camera);
 			// camera = null;
 		}

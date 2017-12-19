@@ -41,7 +41,7 @@ public class MessagePictureBookInput implements IMessage {
 								contaner.setIndex(0);
 							}
 						} else {
-							player.addChatComponentMessage(new TextComponentTranslation("chat.picturebook.tomany"));
+							player.sendMessage(new TextComponentTranslation("chat.picturebook.tomany"));
 							return null;
 						}
 					}

@@ -43,29 +43,29 @@ public class MessageTripodFilmOut implements IMessage {
 				if (player != null && entity != null&&entity instanceof EntityTripod) {
 					IItemHandler items = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
 							player.getHorizontalFacing());
-					if (items.getStackInSlot(3) != null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.isouting"));
+					if (items.getStackInSlot(3) != null&&!items.getStackInSlot(3).isEmpty()) {
+						player.sendMessage(new TextComponentTranslation("chat.minecamera.isouting"));
 						return null;
 					}
-					if (items.getStackInSlot(0) == null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nobettery"));
+					if (items.getStackInSlot(0) == null||items.getStackInSlot(0).isEmpty()) {
+						player.sendMessage(new TextComponentTranslation("chat.minecamera.nobettery"));
 						return null;
 					}
-					if (items.getStackInSlot(1) == null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nofilm"));
+					if (items.getStackInSlot(1) == null||items.getStackInSlot(1).isEmpty()) {
+						player.sendMessage(new TextComponentTranslation("chat.minecamera.nofilm"));
 						return null;
 					}
-					if (items.getStackInSlot(2) != null) {
-						player.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.hasfilmout"));
+					if (items.getStackInSlot(2) != null&&!items.getStackInSlot(2).isEmpty()) {
+						player.sendMessage(new TextComponentTranslation("chat.minecamera.hasfilmout"));
 						return null;
 					}
 					if (items.getStackInSlot(1).hasTagCompound()
 							&& items.getStackInSlot(1).getTagCompound().hasKey("pid")) {
-						player.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.filmcantwrite")));
+						player.sendMessage((new TextComponentTranslation("chat.minecamera.filmcantwrite")));
 						return null;
 					}
 					items.getStackInSlot(0).damageItem(1, player);
-					if (items.getStackInSlot(0).stackSize == 0) {
+					if (items.getStackInSlot(0).getCount() == 0) {
 						items.extractItem(0, 1, false);
 					}
 					items.extractItem(1, 64, false);
@@ -81,7 +81,7 @@ public class MessageTripodFilmOut implements IMessage {
 					 */
 					items.insertItem(3, itemfilm, false);
 					((EntityTripod)entity).setBurnTime(0);
-					player.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.success")));
+					player.sendMessage((new TextComponentTranslation("chat.minecamera.success")));
 					// effect
 					double particlePosX = entity.posX, particlePosY = entity.posY + 1.35, particlePosZ = entity.posZ;
 					particlePosX = particlePosX + (-Math.sin(Math.toRadians(entity.rotationYaw + 15)) * 0.7);

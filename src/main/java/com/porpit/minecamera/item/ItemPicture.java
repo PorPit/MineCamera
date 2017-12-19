@@ -24,12 +24,12 @@ public class ItemPicture extends Item{
         this.setCreativeTab(CreativeTabsLoader.tabMineCamera);
 	}
 	
-	@Override
+/*	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
 		System.out.println(itemStackIn.getTagCompound());
 		return new ActionResult(EnumActionResult.PASS, itemStackIn);
-	}
+	}*/
 	
 	@Override
 	@SideOnly(Side.CLIENT)

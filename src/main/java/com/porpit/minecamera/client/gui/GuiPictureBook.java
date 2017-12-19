@@ -88,7 +88,7 @@ public class GuiPictureBook extends GuiContainer {
 				MessagePictureBookIndex message = new MessagePictureBookIndex();
 				message.index = inventory.getIndex() + 1;
 				NetworkLoader.instance.sendToServer(message);
-				Minecraft.getMinecraft().thePlayer
+				Minecraft.getMinecraft().player
 						.playSound(new SoundEvent(new ResourceLocation("minecamera:minecamera.book")), 1F, 1F);
 			}
 		});
@@ -112,7 +112,7 @@ public class GuiPictureBook extends GuiContainer {
 				MessagePictureBookIndex message = new MessagePictureBookIndex();
 				message.index = inventory.getIndex() - 1;
 				NetworkLoader.instance.sendToServer(message);
-				Minecraft.getMinecraft().thePlayer
+				Minecraft.getMinecraft().player
 						.playSound(new SoundEvent(new ResourceLocation("minecamera:minecamera.book")), 1F, 1F);
 			}
 		});

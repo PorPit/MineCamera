@@ -47,11 +47,12 @@ public class ItemCamera extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
-			EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		//System.out.println("1:"+playerIn.getActiveHand());
-		playerIn.setActiveHand(hand);
-		//System.out.println("2:"+playerIn.getActiveHand());
+		playerIn.setActiveHand(handIn);
+		ItemStack itemStackIn=playerIn.getHeldItem(handIn);
+		if(itemStackIn==null){new ActionResult(EnumActionResult.PASS, playerIn.getHeldItem(handIn));}
+		//System.out.println(itemStackIn.getTagCompound());
 		if (playerIn.isSneaking()) {
 			if (!worldIn.isRemote) {
 				BlockPos pos = playerIn.getPosition();
@@ -65,42 +66,46 @@ public class ItemCamera extends Item {
 			}
 			if (itemStackIn.getTagCompound().hasKey("filmOutCatch")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.isouting"));
+					playerIn.sendMessage(new TextComponentTranslation("chat.minecamera.isouting"));
 				return new ActionResult(EnumActionResult.PASS, itemStackIn);
 			}
 			if (!itemStackIn.getTagCompound().hasKey("filmSlot")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nofilm"));
+					playerIn.sendMessage(new TextComponentTranslation("chat.minecamera.nofilm"));
 				return new ActionResult(EnumActionResult.PASS, itemStackIn);
 			}
 			if (!itemStackIn.getTagCompound().hasKey("betterySlot")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.nobettery"));
+					playerIn.sendMessage(new TextComponentTranslation("chat.minecamera.nobettery"));
 				return new ActionResult(EnumActionResult.PASS, itemStackIn);
 			}
 			if (itemStackIn.getTagCompound().hasKey("filmOutSlot")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.hasfilmout"));
+					playerIn.sendMessage(new TextComponentTranslation("chat.minecamera.hasfilmout"));
 				return new ActionResult(EnumActionResult.PASS, itemStackIn);
 			}
-			ItemStack betteryStack = ItemStack
-					.loadItemStackFromNBT(itemStackIn.getTagCompound().getCompoundTag("betterySlot"));
+			/*ItemStack betteryStack = ItemStack
+					.loadItemStackFromNBT(itemStackIn.getTagCompound().getCompoundTag("betterySlot"));*/
+			ItemStack betteryStack=new ItemStack(ItemLoader.itemBattery);
+			betteryStack.deserializeNBT(itemStackIn.getTagCompound().getCompoundTag("betterySlot"));
 			if (betteryStack.getItemDamage() == betteryStack.getMaxDamage()) {
 				itemStackIn.getTagCompound().removeTag("betterySlot");
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.betteryrunout"));
+					playerIn.sendMessage(new TextComponentTranslation("chat.minecamera.betteryrunout"));
 			} else {
 				betteryStack.damageItem(1, playerIn);
 				NBTTagCompound itemTag = new NBTTagCompound();
 				betteryStack.writeToNBT(itemTag);
 				itemStackIn.getTagCompound().setTag("betterySlot", itemTag);
 			}
-			ItemStack filmStack = ItemStack
-					.loadItemStackFromNBT(itemStackIn.getTagCompound().getCompoundTag("filmSlot"));
+			/*ItemStack filmStack = ItemStack
+					.loadItemStackFromNBT(itemStackIn.getTagCompound().getCompoundTag("filmSlot"));*/
+			ItemStack filmStack=new ItemStack(ItemLoader.itemBattery);
+			betteryStack.deserializeNBT(itemStackIn.getTagCompound().getCompoundTag("filmSlot"));
 			String createdpid = playerIn.getName() + "%_%" + System.currentTimeMillis();
 			if (filmStack.hasTagCompound() && filmStack.getTagCompound().hasKey("pid")) {
 				if (!worldIn.isRemote)
-					playerIn.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.filmcantwrite")));
+					playerIn.sendMessage((new TextComponentTranslation("chat.minecamera.filmcantwrite")));
 				return new ActionResult(EnumActionResult.PASS, itemStackIn);
 			} else {
 				itemStackIn.getTagCompound().removeTag("filmSlot");
@@ -156,7 +161,7 @@ public class ItemCamera extends Item {
 			} 
 
 			if (!worldIn.isRemote)
-				playerIn.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.success")));
+				playerIn.sendMessage((new TextComponentTranslation("chat.minecamera.success")));
 		}
 
 		return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
@@ -172,10 +177,10 @@ public class ItemCamera extends Item {
 		return EnumAction.BOW;
 	}
 
-	@Override
+/*	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-	}
+	}*/
 }

@@ -6,6 +6,7 @@ import com.porpit.minecamera.client.entity.render.RenderEntityTripod;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,7 +21,7 @@ public class EntityLoader {
 
 	private static void registerEntity(Class<? extends Entity> entityClass, String name, int trackingRange,
 			int updateFrequency, boolean sendsVelocityUpdates) {
-		EntityRegistry.registerModEntity(entityClass, name, nextID++, MineCamera.instance, trackingRange,
+		EntityRegistry.registerModEntity(new ResourceLocation(MineCamera.MODID+":tripod"),entityClass, name, nextID++, MineCamera.instance, trackingRange,
 				updateFrequency, sendsVelocityUpdates);
 	}
 

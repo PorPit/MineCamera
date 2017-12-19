@@ -180,10 +180,10 @@ public class ContainerPictureBook extends Container {
 		if (index >= 0 && index <= 1) {
 			isMerged = mergeItemStack(newStack, 2, 38, true);
 		} else if (index >= 2 && index < 29) {
-			isMerged = !pictureInSlot.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
+			isMerged = !pictureInSlot.getHasStack() && newStack.getCount() <= 1 && mergeItemStack(newStack, 0, 1, false)
 					|| mergeItemStack(newStack, 29, 38, false);
 		} else if (index >= 29 && index < 38) {
-			isMerged = !pictureInSlot.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
+			isMerged = !pictureInSlot.getHasStack() && newStack.getCount() <= 1 && mergeItemStack(newStack, 0, 1, false)
 					|| mergeItemStack(newStack, 2, 29, false);
 		}
 
@@ -191,12 +191,13 @@ public class ContainerPictureBook extends Container {
 			return null;
 		}
 
-		if (newStack.stackSize == 0) {
+		if (newStack.getCount() == 0) {
 			slot.putStack(null);
 		} else {
 			slot.onSlotChanged();
 		}
-		slot.onPickupFromSlot(playerIn, newStack);
+		//slot.onPickupFromSlot(playerIn, newStack);
+        slot.onSlotChanged();
 		return oldStack;
 	}
 

@@ -4,6 +4,7 @@ import com.porpit.minecamera.item.ItemLoader;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class CreativeTabsMineCamera extends CreativeTabs {
 	public CreativeTabsMineCamera() {
@@ -12,8 +13,8 @@ public class CreativeTabsMineCamera extends CreativeTabs {
 	}
 
 	@Override
-	public Item getTabIconItem() {
-		return ItemLoader.itemCamera;
+	public ItemStack getTabIconItem() {
+		return new ItemStack(ItemLoader.itemCamera);
 	}
 
 	@Override

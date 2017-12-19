@@ -31,7 +31,8 @@ public class BlockLoader {
 	}
 
 	private static void register(Block block, String name) {
-		GameRegistry.registerBlock(block.setRegistryName(name));
+		GameRegistry.register(block.setRegistryName(name));
+		GameRegistry.register(new ItemBlock(block).setRegistryName(name));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -45,9 +46,4 @@ public class BlockLoader {
 		registerRender(block, 0, block.getRegistryName().getResourcePath());
 	}
 
-	private static void register(Block block, ItemBlock itemBlock, String name) {
-		GameRegistry.registerBlock(block.setRegistryName(name), (Class<? extends ItemBlock>) null);
-		GameRegistry.registerItem(itemBlock.setRegistryName(name));
-		GameData.getBlockItemMap().put(block, itemBlock);
-	}
 }

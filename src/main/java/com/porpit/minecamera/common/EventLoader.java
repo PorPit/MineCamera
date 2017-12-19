@@ -113,8 +113,8 @@ public class EventLoader {
 	public void renderPlayerPre(RenderPlayerEvent.Pre event) {
 		Minecraft mc = Minecraft.getMinecraft();
 		renderEntity = mc.getRenderManager().renderViewEntity;
-		mc.getRenderManager().renderViewEntity = mc.thePlayer;
-		mc.entityRenderer.loadEntityShader(mc.thePlayer);
+		mc.getRenderManager().renderViewEntity = mc.player;
+		mc.entityRenderer.loadEntityShader(mc.player);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -130,19 +130,18 @@ public class EventLoader {
 			TripodActiveThread thread = new TripodActiveThread(playername, delay);
 			thread.start();
 		} else {
-			Minecraft.getMinecraft().thePlayer
-					.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.isshooting"));
+			Minecraft.getMinecraft().player
+					.sendMessage(new TextComponentTranslation("chat.minecamera.isshooting"));
 		}
 	}
 
 	// 处理
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void rightClickBlock(RightClickBlock event) {
-		if (event.getEntityPlayer().getEntityData().hasKey("renderViewCamera") && event.getItemStack() == null
+		if (event.getEntityPlayer().getEntityData().hasKey("renderViewCamera") && (event.getItemStack() == null||event.getItemStack().isEmpty())
 				&& event.getSide().isClient() && event.getHand().equals(EnumHand.MAIN_HAND)) {
 			System.out.println("RightClickBlock,HandType=" + event.getHand());
-			ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+			ActiveTripod(Minecraft.getMinecraft().player.getName(),
 					((EntityTripod) event.getWorld()
 							.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
 									.getDelay());
@@ -153,13 +152,12 @@ public class EventLoader {
 	// 处理
 	private boolean rcicanactive = false;
 
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void rightClickItem(RightClickItem event) {
 		if (event.getSide().isClient() && event.getHand().equals(EnumHand.MAIN_HAND)) {
 			if (rcicanactive == true) {
 				System.out.println("RightClickItem,HandType=" + event.getHand());
-				ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+				ActiveTripod(Minecraft.getMinecraft().player.getName(),
 						((EntityTripod) event.getWorld()
 								.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
 										.getDelay());
@@ -173,17 +171,16 @@ public class EventLoader {
 	}
 
 	// 处理
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void rightClickEmpty(RightClickEmpty event) {
 		// System.out.println("RightClickEmpty,HandType="+event.getHand());
 		if (event.getEntityPlayer().getEntityData().hasKey("renderViewCamera") && event.getSide().isClient()
 				&& event.getHand().equals(EnumHand.MAIN_HAND)) {
-			System.out.println("delay=" + ((EntityTripod) Minecraft.getMinecraft().theWorld
-					.getEntityByID(Minecraft.getMinecraft().thePlayer.getEntityData().getInteger("renderViewCamera")))
+			System.out.println("delay=" + ((EntityTripod) Minecraft.getMinecraft().world
+					.getEntityByID(Minecraft.getMinecraft().player.getEntityData().getInteger("renderViewCamera")))
 							.getDelay());
 			System.out.println("RightClickEmpty,HandType=" + event.getHand());
-			ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+			ActiveTripod(Minecraft.getMinecraft().player.getName(),
 					((EntityTripod) event.getWorld()
 							.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
 									.getDelay());
@@ -196,9 +193,9 @@ public class EventLoader {
 		if (event.getEntityPlayer().getEntityData().hasKey("renderViewCamera")) {
 			event.setCanceled(true);
 			if (event.getSide().isClient() && event.getHand().equals(EnumHand.MAIN_HAND)
-					&& event.getItemStack() == null) {
+					&& (event.getItemStack() == null||event.getItemStack().isEmpty())) {
 				System.out.println("EntityInteract,HandType=" + event.getHand());
-				ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+				ActiveTripod(Minecraft.getMinecraft().player.getName(),
 						((EntityTripod) event.getWorld()
 								.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
 										.getDelay());
@@ -209,16 +206,16 @@ public class EventLoader {
 			Entity target = ((PlayerInteractEvent.EntityInteract) event).getTarget();
 			EntityPlayer player = event.getEntityPlayer();
 			if (!player.isSneaking()) {
-				if (player.inventory.armorInventory[3] != null
-						&& player.inventory.armorInventory[3].getItem() instanceof ItemGlassesHelmet) {
+				if (player.inventory.armorInventory.get(3) != null
+						&& player.inventory.armorInventory.get(3).getItem() instanceof ItemGlassesHelmet) {
 					if (player.getEntityWorld().isRemote) {
 						// System.out.println("123");
 						Minecraft.getMinecraft().setRenderViewEntity(target);
-						Minecraft.getMinecraft().ingameGUI.setRecordPlaying(new TextComponentTranslation("chat.tripod.info"), false);
+						Minecraft.getMinecraft().ingameGUI.setOverlayMessage(new TextComponentTranslation("chat.tripod.info"), false);
 					}
 					player.getEntityData().setInteger("renderViewCamera", target.getEntityId());
 				}else if(!event.getWorld().isRemote&&event.getHand().equals(EnumHand.MAIN_HAND)){
-					player.addChatComponentMessage(new TextComponentTranslation("chat.tripod.mustuseglass"));
+					player.sendMessage(new TextComponentTranslation("chat.tripod.mustuseglass"));
 				}
 			} else {
 				player.getEntityData().setInteger("usingGui", target.getEntityId());
@@ -262,9 +259,9 @@ public class EventLoader {
 		// System.out.println(event.toString());
 		if (Minecraft.getMinecraft().gameSettings.keyBindSneak.isPressed()) {
 			if (!EntityTripod.islock) {
-				Minecraft.getMinecraft().setRenderViewEntity(mc.thePlayer);
+				Minecraft.getMinecraft().setRenderViewEntity(mc.player);
 				// Minecraft.getMinecraft().entityRenderer.loadEntityShader(Minecraft.getMinecraft().thePlayer);
-				if (mc.thePlayer.getEntityData().hasKey("renderViewCamera")) {
+				if (mc.player.getEntityData().hasKey("renderViewCamera")) {
 
 					/*
 					 * MessageUpdatePitchYaw messagepy =new
@@ -279,7 +276,7 @@ public class EventLoader {
 					 * NetworkLoader.instance.sendToServer(messagepy);
 					 */
 					rcicanactive = false;
-					mc.thePlayer.getEntityData().removeTag("renderViewCamera");
+					mc.player.getEntityData().removeTag("renderViewCamera");
 					/*
 					 * AxisAlignedBB axisalignedbb=
 					 * mc.thePlayer.getEntityBoundingBox();
@@ -344,7 +341,7 @@ public class EventLoader {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderHand(RenderHandEvent event) {
-		if (Minecraft.getMinecraft().thePlayer.getEntityData().hasKey("renderViewCamera")) {
+		if (Minecraft.getMinecraft().player.getEntityData().hasKey("renderViewCamera")) {
 			event.setCanceled(true);
 		}
 	}

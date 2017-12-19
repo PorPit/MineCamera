@@ -89,18 +89,18 @@ public class EntityTripod extends Entity {
 		return axisalignedbb;
 	}
 
-	@Override
+/*	@Override
 	protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
 		if (!this.isInWater())
         {
             this.handleWaterMovement();
         }
 
-        if (!this.worldObj.isRemote && this.fallDistance > 3.0F && onGroundIn)
+        if (!this.world.isRemote && this.fallDistance > 3.0F && onGroundIn)
         {
             float f = (float)MathHelper.ceiling_float_int(this.fallDistance - 3.0F);
 
-            if (!state.getBlock().isAir(state, worldObj, pos))
+            if (!state.getBlock().isAir(state, world, pos))
             {
                 double d0 = Math.min((double)(0.2F + f / 15.0F), 2.5D);
                 int i = (int)(150.0D * d0);
@@ -108,14 +108,14 @@ public class EntityTripod extends Entity {
         }
 
         super.updateFallState(y, onGroundIn, state, pos);
-	}
+	}*/
 
 	@Override
 	public boolean canBeCollidedWith() {
 		return true;
 	}
 	
-	@Override
+/*	@Override
     public void fall(float distance, float damageMultiplier)
     {
         super.fall(distance, damageMultiplier);
@@ -127,15 +127,15 @@ public class EntityTripod extends Entity {
             int j = MathHelper.floor_double(this.posX);
             int k = MathHelper.floor_double(this.posY - 0.20000000298023224D);
             int l = MathHelper.floor_double(this.posZ);
-            IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(j, k, l));
+            IBlockState iblockstate = this.world.getBlockState(new BlockPos(j, k, l));
 
             if (iblockstate.getMaterial() != Material.AIR)
             {
-                SoundType soundtype = iblockstate.getBlock().getSoundType(iblockstate, worldObj, new BlockPos(j, k, l), this);
+                SoundType soundtype = iblockstate.getBlock().getSoundType(iblockstate, world, new BlockPos(j, k, l), this);
                 this.playSound(soundtype.getFallSound(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
             }
         }
-    }
+    }*/
 	
 
 	@Override
@@ -143,7 +143,7 @@ public class EntityTripod extends Entity {
 		super.onUpdate();
 		// System.out.println((this.getEntityWorld().isRemote?"Client":"Server")+":"+this.burnTime);
 		if (this.getEntityWorld().isRemote && !islock && Minecraft.getMinecraft().getRenderViewEntity().equals(this)) {
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
 			this.rotationYaw = this.rotationYaw += player.rotationYaw - player.prevRotationYawHead;
 			this.rotationPitch = player.rotationPitch;
 			player.rotationYaw = player.prevRotationYawHead;
@@ -177,7 +177,7 @@ public class EntityTripod extends Entity {
 			for (int i = Inventory.getSlots() - 2; i >= 0; --i) {
 				if (Inventory.getStackInSlot(i) != null) {
 					Block.spawnAsEntity(this.getEntityWorld(), this.getPosition(), Inventory.getStackInSlot(i));
-					((IItemHandlerModifiable) Inventory).setStackInSlot(i, null);
+					((IItemHandlerModifiable) Inventory).setStackInSlot(i, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -193,7 +193,7 @@ public class EntityTripod extends Entity {
 	}
 
 	@Override
-	public boolean processInitialInteract(EntityPlayer player, @Nullable ItemStack stack, EnumHand hand) {
+	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
 		this.timer = 90;
 		return false;
 	}
@@ -203,11 +203,10 @@ public class EntityTripod extends Entity {
 		return 2.5F;
 	}
 
-	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, @Nullable ItemStack stack,
-			EnumHand hand) {
+	/*@Override
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand stack) {
 		return EnumActionResult.PASS;
-	}
+	}*/
 
 	public int getDelay() {
 		return delay;

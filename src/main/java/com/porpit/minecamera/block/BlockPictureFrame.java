@@ -144,10 +144,10 @@ public class BlockPictureFrame extends BlockContainer {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// System.out.println(((TileEntityPictureFrame)
 		// worldIn.getTileEntity(pos)).imagename);
+		ItemStack heldItem=playerIn.getHeldItem(hand);
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()&&heldItem.getTagCompound().hasKey("pid")) {
 			//System.out.println(hand);
 			String imagename = heldItem.getTagCompound().getString("pid");
@@ -161,7 +161,7 @@ public class BlockPictureFrame extends BlockContainer {
 				//worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), ));
 			}
 			te.imagename = imagename;
-			heldItem.stackSize--;
+			heldItem.shrink(1);
 		}
 		// playerIn.addChatComponentMessage((new
 		// TextComponentTranslation("test")));
@@ -184,11 +184,10 @@ public class BlockPictureFrame extends BlockContainer {
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
-			int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		// System.out.println("hitX:=" + hitX + ",hitY:" + hitY + ",hitZ:" +
 		// hitZ);
-		IBlockState origin = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+		IBlockState origin = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 		EnumStateType enumState;
 		if (hitY == 1.0) {
 			enumState = EnumStateType.STANDING;

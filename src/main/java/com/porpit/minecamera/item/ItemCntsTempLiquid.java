@@ -24,12 +24,12 @@ public class ItemCntsTempLiquid extends Item {
 		this.setMaxDamage(4);
 	}
 
-	@Override
+/*	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
 		// itemStackIn.damageItem(1, playerIn);;
 		return new ActionResult(EnumActionResult.PASS, itemStackIn);
-	}
+	}*/
 
 	@Override
 	@SideOnly(Side.CLIENT)

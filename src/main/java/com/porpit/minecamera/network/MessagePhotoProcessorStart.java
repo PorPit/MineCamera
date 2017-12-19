@@ -56,11 +56,11 @@ public class MessagePhotoProcessorStart implements IMessage {
 						nbt.setString("pid", imagename);
 						itemstack.setTagCompound(nbt);
 						if (items.getStackInSlot(5) != null) {
-							items.extractItem(5, items.getStackInSlot(2).stackSize, false);
+							items.extractItem(5, items.getStackInSlot(2).getCount(), false);
 						}
 						items.insertItem(5, itemstack, false);
 						for (int i = 0; i <= 1; i++) {
-							if (items.getStackInSlot(i).stackSize == 0) {
+							if (items.getStackInSlot(i).getCount() == 0) {
 								items.extractItem(i, 1, false);
 							}
 						}

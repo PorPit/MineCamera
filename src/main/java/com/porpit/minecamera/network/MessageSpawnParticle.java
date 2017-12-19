@@ -85,7 +85,7 @@ public class MessageSpawnParticle implements IMessage {
 					e.printStackTrace();
 				}
 			}
-			Minecraft.getMinecraft().theWorld.spawnParticle(EnumParticleTypes.getParticleFromId(typeid), this.PosX,
+			Minecraft.getMinecraft().world.spawnParticle(EnumParticleTypes.getParticleFromId(typeid), this.PosX,
 					this.PosY, this.PosZ, this.SpeedX, this.SpeedY, this.SpeedZ, 0);
 		}
 	}

@@ -22,20 +22,20 @@ public class TripodActiveThread extends Thread {
 		}
 		try {
 			for (int i = delay; i > 0; i--) {
-				Minecraft.getMinecraft().thePlayer
-						.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.delayinfo", i));
+				Minecraft.getMinecraft().player
+						.sendMessage(new TextComponentTranslation("chat.minecamera.delayinfo", i));
 
 				Thread.sleep(1000);
 
-				if (!Minecraft.getMinecraft().thePlayer.getEntityData().hasKey("renderViewCamera")) {
-					Minecraft.getMinecraft().thePlayer
-							.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.leavetripod"));
+				if (!Minecraft.getMinecraft().player.getEntityData().hasKey("renderViewCamera")) {
+					Minecraft.getMinecraft().player
+							.sendMessage(new TextComponentTranslation("chat.minecamera.leavetripod"));
 					isshooting = false;
 					return;
 				}
 			}
-			Minecraft.getMinecraft().thePlayer
-					.addChatComponentMessage(new TextComponentTranslation("chat.minecamera.trytoshoot"));
+			Minecraft.getMinecraft().player
+					.sendMessage(new TextComponentTranslation("chat.minecamera.trytoshoot"));
 		} catch (InterruptedException e) {
 			isshooting = false;
 			e.printStackTrace();

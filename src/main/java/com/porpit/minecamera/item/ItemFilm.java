@@ -34,17 +34,17 @@ public class ItemFilm extends Item {
 	 * "none"); filmdata.setString("user", "none");
 	 * film.setTagCompound(filmdata); subItems.add(film); }
 	 */
-	@Override
+/*	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
 		// itemStackIn.getTagCompound().setString("pid",
 		// "Player735_1510202549059");
-		/*
+		
 		 * NBTTagCompound filmdata=new NBTTagCompound();
 		 * filmdata.setString("id", "none"); NBTTagCompound nc=new
 		 * NBTTagCompound(); itemStackIn.writeToNBT(nc); nc.setTag("tag",
 		 * filmdata); itemStackIn.readFromNBT(nc);
-		 */
+		 
 		System.out.println("0:" + hand);
 		System.out.println("1:" + playerIn.getActiveHand());
 		playerIn.setActiveHand(hand);
@@ -60,7 +60,7 @@ public class ItemFilm extends Item {
 		// itemStackIn.getTagCompound().setString("pid", "123456");
 		// itemStackIn.getTagCompound().setString("user", "PorPit");
 		return new ActionResult(EnumActionResult.PASS, itemStackIn);
-	}
+	}*/
 
 	@Override
 	@SideOnly(Side.CLIENT)

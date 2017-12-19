@@ -86,23 +86,32 @@ public class ContainerCamera extends Container {
 					cameraStack.setTagCompound(newnbt);
 				} else {
 					if (cameraStack.getTagCompound().hasKey("betterySlot")) {
-						ItemStack betteryStack = ItemStack
-								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("betterySlot"));
+						/*ItemStack betteryStack = ItemStack
+								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("betterySlot"));*/
+						ItemStack betteryStack=new ItemStack(ItemLoader.itemBattery);
+						betteryStack.deserializeNBT(cameraStack.getTagCompound().getCompoundTag("betterySlot"));
 						this.betterySlot.putStack(betteryStack);
 					}
 					if (cameraStack.getTagCompound().hasKey("filmSlot")) {
-						ItemStack filmStack = ItemStack
-								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("filmSlot"));
+						/*ItemStack filmStack = ItemStack
+								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("filmSlot"));*/
+						ItemStack filmStack=new ItemStack(ItemLoader.itemFilm);
+						filmStack.deserializeNBT(cameraStack.getTagCompound().getCompoundTag("filmSlot"));
 						this.filmSlot.putStack(filmStack);
 					}
 					if (cameraStack.getTagCompound().hasKey("filmOutSlot")) {
-						ItemStack filmStackStack = ItemStack
-								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("filmOutSlot"));
+						/*ItemStack filmStackStack = ItemStack
+								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("filmOutSlot"));*/
+						ItemStack filmStackStack=new ItemStack(ItemLoader.itemFilm);
+						filmStackStack.deserializeNBT(cameraStack.getTagCompound().getCompoundTag("filmOutSlot"));
 						this.filmOutSlot.putStack(filmStackStack);
 					}
+					System.out.println(cameraStack.getTagCompound());
 					if (cameraStack.getTagCompound().hasKey("filmOutCatch")) {
-						filmOutCatch = ItemStack
-								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("filmOutCatch"));
+						/*filmOutCatch = ItemStack
+								.loadItemStackFromNBT(cameraStack.getTagCompound().getCompoundTag("filmOutCatch"));*/
+						filmOutCatch=new ItemStack(ItemLoader.itemFilm);
+						filmOutCatch.deserializeNBT(cameraStack.getTagCompound().getCompoundTag("filmOutCatch"));
 					}
 					if (cameraStack.getTagCompound().hasKey("burnTime")) {
 						this.burnTime = cameraStack.getTagCompound().getInteger("burnTime");
@@ -142,8 +151,9 @@ public class ContainerCamera extends Container {
 			if (this.burnTime < this.totalBurnTime) {
 				this.burnTime++;
 				if (this.burnTime == this.totalBurnTime) {
-					//System.out.println("success");
-					if (filmOutCatch != null) {
+					
+					if (filmOutCatch != null&&!filmOutCatch.isEmpty()) {
+						System.out.println(filmOutCatch);
 						filmOutSlot.putStack(filmOutCatch);
 						if (type == 0) {
 							NBTTagCompound itemTag = new NBTTagCompound();
@@ -232,12 +242,12 @@ public class ContainerCamera extends Container {
 	            isMerged = mergeItemStack(newStack, 3, 39, true);
 	        }else if (index >= 3 && index < 30)
 	        {
-	            isMerged = ! betterySlot.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
+	            isMerged = ! betterySlot.getHasStack() && newStack.getCount() <= 1 && mergeItemStack(newStack, 0, 1, false)
 	                    || !filmSlot.getHasStack() && mergeItemStack(newStack, 1, 2, false)
 	                    || mergeItemStack(newStack, 30, 39, false);
 	        }else if (index >= 30 && index < 39)
 	        {
-	            isMerged = !betterySlot.getHasStack()&& newStack.stackSize <= 1&& mergeItemStack(newStack, 0, 1, false)
+	            isMerged = !betterySlot.getHasStack()&& newStack.getCount() <= 1&& mergeItemStack(newStack, 0, 1, false)
 	                    || !filmSlot.getHasStack() && mergeItemStack(newStack, 1, 2, false)
 	                    || mergeItemStack(newStack, 3, 30, false);
 	        }
@@ -247,7 +257,7 @@ public class ContainerCamera extends Container {
 	            return null;
 	        }
 
-	        if (newStack.stackSize == 0)
+	        if (newStack.getMaxStackSize() == 0)
 	        {
 	            slot.putStack(null);
 	        }
@@ -255,7 +265,8 @@ public class ContainerCamera extends Container {
 	        {
 	            slot.onSlotChanged();
 	        }
-	        slot.onPickupFromSlot(playerIn, newStack);
+	        //slot.onPickupFromSlot(playerIn, newStack);
+	        slot.onSlotChanged();
 	        return oldStack;
 	}
 
@@ -287,7 +298,7 @@ public class ContainerCamera extends Container {
 				NBTTagCompound newnbt = new NBTTagCompound();
 				cameraStack.setTagCompound(newnbt);
 			}
-			if (betteryStack != null) {
+			if (betteryStack != null&&!betteryStack.isEmpty()) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				betteryStack.writeToNBT(itemTag);
 				cameraStack.getTagCompound().setTag("betterySlot", itemTag);
@@ -295,7 +306,7 @@ public class ContainerCamera extends Container {
 				cameraStack.getTagCompound().removeTag("betterySlot");
 			}
 			ItemStack filmStack = this.filmSlot.getStack();
-			if (filmStack != null) {
+			if (filmStack != null&&!filmStack.isEmpty()) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				filmStack.writeToNBT(itemTag);
 				cameraStack.getTagCompound().setTag("filmSlot", itemTag);
@@ -303,7 +314,7 @@ public class ContainerCamera extends Container {
 				cameraStack.getTagCompound().removeTag("filmSlot");
 			}
 			ItemStack filmOutStack = this.filmOutSlot.getStack();
-			if (filmOutStack != null) {
+			if (filmOutStack != null&&!filmOutStack.isEmpty()) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				filmOutStack.writeToNBT(itemTag);
 				cameraStack.getTagCompound().setTag("filmOutSlot", itemTag);
@@ -311,7 +322,7 @@ public class ContainerCamera extends Container {
 				cameraStack.getTagCompound().removeTag("filmOutSlot");
 			}
 			cameraStack.getTagCompound().setInteger("burnTime", this.burnTime);
-			if (filmOutCatch != null) {
+			if (filmOutCatch != null&&!filmOutCatch.isEmpty()) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				filmOutCatch.writeToNBT(itemTag);
 				cameraStack.getTagCompound().setTag("filmOutCatch", itemTag);

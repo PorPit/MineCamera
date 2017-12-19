@@ -28,21 +28,21 @@ public class ItemTripod extends Item {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack stack=player.getHeldItem(hand);
 		if (!worldIn.isRemote) {
 			if(!facing.equals(EnumFacing.UP)){
-				playerIn.addChatComponentMessage(new TextComponentTranslation("chat.tripod.mustup"));
+				player.sendMessage(new TextComponentTranslation("chat.tripod.mustup"));
 				return EnumActionResult.PASS;
 			}
 			Entity entity = new EntityTripod(worldIn);
 			entity.setPositionAndUpdate(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-			entity.rotationYaw = playerIn.rotationYaw;
-			entity.rotationPitch = playerIn.rotationPitch;
-			worldIn.spawnEntityInWorld(entity);
+			entity.rotationYaw = player.rotationYaw;
+			entity.rotationPitch = player.rotationPitch;
+			worldIn.spawnEntity(entity);
+			System.out.println("spawn");
 			// worldIn.updateEntities();
-			stack.stackSize--;
+			stack.shrink(1);
 			return EnumActionResult.SUCCESS;
 		}
 		return EnumActionResult.PASS;

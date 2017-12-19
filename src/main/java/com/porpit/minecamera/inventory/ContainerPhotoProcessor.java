@@ -150,16 +150,16 @@ public class ContainerPhotoProcessor extends Container {
 	            isMerged = mergeItemStack(newStack, 5, 41, true);
 	        }else if (index >= 5 && index < 32)
 	        {
-	            isMerged = AllSlot.getStackInSlot(0)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 0, 1, false)
-	                    || AllSlot.getStackInSlot(1)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 1, 2, false)
-	                    || AllSlot.getStackInSlot(2)==null && newStack.stackSize <= 1 && mergeItemStack(newStack, 2, 3, false)
+	            isMerged = AllSlot.getStackInSlot(0)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 0, 1, false)
+	                    || AllSlot.getStackInSlot(1)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 1, 2, false)
+	                    || AllSlot.getStackInSlot(2)==null && newStack.getCount() <= 1 && mergeItemStack(newStack, 2, 3, false)
 	                    || mergeItemStack(newStack, 3, 4, false)
 	                    || mergeItemStack(newStack, 32, 41, false);
 	        }else if (index >= 32 && index < 41)
 	        {
-	        	isMerged = AllSlot.getStackInSlot(0)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 0, 1, false)
-	                    || AllSlot.getStackInSlot(1)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 1, 2, false)
-	                    || AllSlot.getStackInSlot(2)==null && newStack.stackSize <= 1 && mergeItemStack(newStack, 2, 3, false)
+	        	isMerged = AllSlot.getStackInSlot(0)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 0, 1, false)
+	                    || AllSlot.getStackInSlot(1)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 1, 2, false)
+	                    || AllSlot.getStackInSlot(2)==null && newStack.getCount() <= 1 && mergeItemStack(newStack, 2, 3, false)
 	                    || mergeItemStack(newStack, 3, 4, false)
 	                    || mergeItemStack(newStack, 5, 32, false);
 	        }
@@ -169,7 +169,7 @@ public class ContainerPhotoProcessor extends Container {
 	            return null;
 	        }
 
-	        if (newStack.stackSize == 0)
+	        if (newStack.getCount() == 0)
 	        {
 	            slot.putStack(null);
 	        }
@@ -177,7 +177,8 @@ public class ContainerPhotoProcessor extends Container {
 	        {
 	            slot.onSlotChanged();
 	        }
-	        slot.onPickupFromSlot(playerIn, newStack);
+	      //slot.onPickupFromSlot(playerIn, newStack);
+	        slot.onSlotChanged();
 	        return oldStack;
 	}
 
