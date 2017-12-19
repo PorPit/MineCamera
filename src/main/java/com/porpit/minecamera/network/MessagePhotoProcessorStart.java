@@ -2,7 +2,6 @@ package com.porpit.minecamera.network;
 
 import java.util.List;
 
-import com.porpit.minecamera.achievement.AchievementLoader;
 import com.porpit.minecamera.inventory.ContainerPhotoProcessor;
 import com.porpit.minecamera.item.ItemLoader;
 import com.porpit.minecamera.item.ItemTripod;
@@ -42,7 +41,7 @@ public class MessagePhotoProcessorStart implements IMessage {
 		public IMessage onMessage(MessagePhotoProcessorStart message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
 				//System.out.println(" ’µΩ£∫" + message.dimid + "," + message.bp);
-				EntityPlayerMP playerMP=ctx.getServerHandler().playerEntity;
+				EntityPlayerMP playerMP=ctx.getServerHandler().player;
 				if (playerMP!=null&&playerMP.openContainer!=null&&playerMP.openContainer instanceof ContainerPhotoProcessor&&((ContainerPhotoProcessor)playerMP.openContainer).getTileEntity()!=null) {
 						ContainerPhotoProcessor container=(ContainerPhotoProcessor) playerMP.openContainer;
 						TileEntityPhotoProcessor te = container.getTileEntity();
@@ -75,9 +74,10 @@ public class MessagePhotoProcessorStart implements IMessage {
 										SoundCategory.PLAYERS, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ(), 1.0F, 1.0F));
 							}
 						}
-						if(!playerMP.hasAchievement(AchievementLoader.craftpicture)){
+						//TODO
+						/*if(!playerMP.hasAchievement(AchievementLoader.craftpicture)){
 							playerMP.addStat(AchievementLoader.crafttripod);
-						}
+						}*/
 				}
 			}
 			return null;

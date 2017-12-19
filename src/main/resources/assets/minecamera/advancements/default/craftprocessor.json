@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:photoprocessor"
+        },
+        "title": {
+            "translate": "achievement.minecamera.craftprocessor"
+        },
+        "description": {
+            "translate": "achievement.minecamera.craftprocessor.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/root",
+    "criteria": {
+        "minecamera_craftprocessor": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:photoprocessor"
+                    }
+                ]
+            }
+        }
+    }
+}

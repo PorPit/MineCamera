@@ -15,8 +15,7 @@ import net.minecraft.util.EnumFacing;
 
 public class PictureFrameMultipleTileRenderer extends TileEntitySpecialRenderer<TileEntityPictureFrameMultiple> {
 	@Override
-	public void renderTileEntityAt(TileEntityPictureFrameMultiple frame, double x, double y, double z,
-			float partialTicks, int destroyStage) {
+	public void render(TileEntityPictureFrameMultiple frame, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (frame.shouldrender) {
 			// 1:normal 2:failtoload 3:loding
 			int rendertype = 0;

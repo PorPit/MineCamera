@@ -47,21 +47,21 @@ public class GuiPhotoProcessor extends GuiContainer {
 	@Override
 	public void initGui() {
 		super.initGui();
-		final FontRenderer fr = this.fontRendererObj;
+		final FontRenderer fr = this.fontRenderer;
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
 		this.buttonList.add(new GuiButton(BUTTON_START, offsetX + 11, offsetY + 101, 25, 16, "") {
 			@Override
-			public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+			public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 				if (this.visible) {
 					GlStateManager.color(1.0F, 1.0F, 1.0F);
 
 					mc.getTextureManager().bindTexture(TEXTURE);
-					int x = mouseX - this.xPosition, y = mouseY - this.yPosition;
+					int x = mouseX - this.x, y = mouseY - this.y;
 
 					if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 50, 206, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 50, 206, this.width, this.height);
 					} else {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 24, 206, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 24, 206, this.width, this.height);
 					}
 				}
 			}
@@ -134,10 +134,10 @@ public class GuiPhotoProcessor extends GuiContainer {
 		this.drawModalRectWithCustomSizedTexture(0, displayY, 0F, 0F, (int) donateWidth, (int) donateHeight, donateWidth,
 				donateHeight);
 		
-		this.fontRendererObj.drawString(info, offsetX + 31, offsetY + 4, 0xD3D3D3);
-		this.fontRendererObj.drawString(I18n.format("container.photoprocessor.text.lightlevel"), offsetX + 7, offsetY + 7, 0x6495ED);
+		this.fontRenderer.drawString(info, offsetX + 31, offsetY + 4, 0xD3D3D3);
+		this.fontRenderer.drawString(I18n.format("container.photoprocessor.text.lightlevel"), offsetX + 7, offsetY + 7, 0x6495ED);
 		int lightlevel=this.container.getTileEntity().getWorld().getLight(this.container.getTileEntity().getPos());
-		this.fontRendererObj.drawString(I18n.format(lightlevel+""), offsetX + 12, offsetY + 15, 0x6495ED);
+		this.fontRenderer.drawString(I18n.format(lightlevel+""), offsetX + 12, offsetY + 15, 0x6495ED);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 		this.mc.getTextureManager().bindTexture(TEXTURE);
 		String button = I18n.format("container.photoprocessor.button.start");
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
-		this.fontRendererObj.drawString(button, 15, 105, 0xD3D3D3);
+		this.fontRenderer.drawString(button, 15, 105, 0xD3D3D3);
 		int burnTime = this.container.getBurnTime();
 		int textureWidth;
 		if (burnTime >= TileEntityPhotoProcessor.totalburnTime) {

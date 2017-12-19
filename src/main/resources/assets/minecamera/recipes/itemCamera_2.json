@@ -1,0 +1,11 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+		{
+		  "item": "minecamera:tripod"
+		}
+	],
+    "result": {
+        "item": "minecamera:camera"
+    }
+}

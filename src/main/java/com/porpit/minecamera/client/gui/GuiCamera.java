@@ -42,16 +42,16 @@ public class GuiCamera extends GuiContainer {
 			int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
 			this.buttonList.add(new GuiButton(BUTTON_PLUS, offsetX + 29, offsetY + 5, 15, 13, "") {
 				@Override
-				public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+				public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 					if (this.visible) {
 						GlStateManager.color(1.0F, 1.0F, 1.0F);
 						mc.getTextureManager().bindTexture(TEXTURE);
-						int x = mouseX - this.xPosition, y = mouseY - this.yPosition;
+						int x = mouseX - this.x, y = mouseY - this.y;
 						if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-							this.drawTexturedModalRect(this.xPosition, this.yPosition, 39, 133, this.width,
+							this.drawTexturedModalRect(this.x, this.y, 39, 133, this.width,
 									this.height);
 						} else {
-							this.drawTexturedModalRect(this.xPosition, this.yPosition, 24, 133, this.width,
+							this.drawTexturedModalRect(this.x, this.y, 24, 133, this.width,
 									this.height);
 						}
 					}
@@ -68,17 +68,17 @@ public class GuiCamera extends GuiContainer {
 			});
 			this.buttonList.add(new GuiButton(BUTTON_MINUS, offsetX + 61, offsetY + 5, 15, 13, "") {
 				@Override
-				public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+				public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 					if (this.visible) {
 						GlStateManager.color(1.0F, 1.0F, 1.0F);
 						mc.getTextureManager().bindTexture(TEXTURE);
-						int x = mouseX - this.xPosition, y = mouseY - this.yPosition;
+						int x = mouseX - this.x, y = mouseY - this.y;
 
 						if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-							this.drawTexturedModalRect(this.xPosition, this.yPosition, 69, 133, this.width,
+							this.drawTexturedModalRect(this.x, this.y, 69, 133, this.width,
 									this.height);
 						} else {
-							this.drawTexturedModalRect(this.xPosition, this.yPosition, 54, 133, this.width,
+							this.drawTexturedModalRect(this.x, this.y, 54, 133, this.width,
 									this.height);
 						}
 					}
@@ -130,13 +130,13 @@ public class GuiCamera extends GuiContainer {
 		}
 		if (type == 1) {
 			this.drawTexturedModalRect(47, 6, 84, 133, 11, 11);
-			this.fontRendererObj.drawString(TextFormatting.GREEN + I18n.format("container.camera.text.delay"), 6, 7,
+			this.fontRenderer.drawString(TextFormatting.GREEN + I18n.format("container.camera.text.delay"), 6, 7,
 					0x191970);
 			int delaysecond = inventory.getDelay();
-			this.fontRendererObj.drawString(delaysecond + "s", 48, 7, 0x191970);
+			this.fontRenderer.drawString(delaysecond + "s", 48, 7, 0x191970);
 		}
 		if (info != null) {
-			this.fontRendererObj.drawString(info, 94, 39, 0xD3D3D3);
+			this.fontRenderer.drawString(info, 94, 39, 0xD3D3D3);
 		}
 	}
 }

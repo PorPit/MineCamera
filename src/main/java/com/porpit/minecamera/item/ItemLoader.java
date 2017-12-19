@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,7 +50,7 @@ public class ItemLoader {
 	}
 
 	private static void register(Item item, String name) {
-		GameRegistry.register(item.setRegistryName(name));
+		ForgeRegistries.ITEMS.register(item.setRegistryName(name));
 	}
 
 	@SideOnly(Side.CLIENT)

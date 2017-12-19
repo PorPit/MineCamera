@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:glasses_helmet"
+        },
+        "title": {
+            "translate": "achievement.minecamera.craftglasses"
+        },
+        "description": {
+            "translate": "achievement.minecamera.craftglasses.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/root",
+    "criteria": {
+        "minecamera_craftglasses": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:glasses_helmet"
+                    }
+                ]
+            }
+        }
+    }
+}

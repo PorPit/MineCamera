@@ -1,0 +1,22 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!!!", 
+		"@!@",
+		"@#@"
+    ],
+    "key": {
+		"!": {
+			"item": "minecraft:blaze_rod"
+		},
+		"@": {
+			"item": "minecraft:glass_pane"
+		},
+		"#": {
+			"item": "minecraft:water_bucket"
+		}
+    },
+    "result": {
+        "item": "minecamera:cnts_temp_liquid"
+    }
+}

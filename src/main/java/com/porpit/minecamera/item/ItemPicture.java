@@ -3,9 +3,12 @@ package com.porpit.minecamera.item;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,7 +36,7 @@ public class ItemPicture extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
 		// System.out.println(stack.hasTagCompound());
 		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("pid")){
 			String pid=stack.getTagCompound().getString("pid");

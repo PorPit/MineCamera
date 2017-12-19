@@ -1,0 +1,22 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        " ! ",
+		" @ ",
+		"@#@"
+    ],
+    "key": {
+		"!": {
+			"item": "minecamera:camera"
+		},
+		"@": {
+			"item": "minecraft:iron_block"
+		},
+		"#": {
+			"item": "minecraft:ender_eye"
+		}
+    },
+    "result": {
+        "item": "minecamera:tripod"
+    }
+}

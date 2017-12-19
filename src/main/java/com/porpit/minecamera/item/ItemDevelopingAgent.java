@@ -2,9 +2,12 @@ package com.porpit.minecamera.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,7 +36,7 @@ public class ItemDevelopingAgent extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
 		String info = (stack.getMaxDamage() - stack.getItemDamage() + 1) + "/" + (stack.getMaxDamage() + 1);
 		tooltip.add(TextFormatting.GREEN + I18n.format("lore.liquid.damage") + TextFormatting.GRAY + info);
 	}

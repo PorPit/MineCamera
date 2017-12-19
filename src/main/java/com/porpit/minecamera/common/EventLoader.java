@@ -11,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 import org.w3c.dom.events.EventException;
 
 import com.porpit.minecamera.MineCamera;
-import com.porpit.minecamera.achievement.AchievementLoader;
 import com.porpit.minecamera.block.BlockPictureFrameMultiple;
 import com.porpit.minecamera.block.BlockPhotoProcessor;
 import com.porpit.minecamera.block.BlockPictureFrame;
@@ -43,7 +42,6 @@ import net.minecraft.client.gui.GuiScreenDemo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -395,7 +393,8 @@ public class EventLoader {
 
 	@SubscribeEvent
 	public void onPlayerItemCrafted(ItemCraftedEvent event) {
-		if(Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPhotoProcessor &&!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftprocessor)){
+		//TODO
+/*		if(Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPhotoProcessor &&!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftprocessor)){
 			event.player.addStat(AchievementLoader.craftprocessor);
 		}
 		if(Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPictureFrame &&!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftpictureframe)){
@@ -419,11 +418,8 @@ public class EventLoader {
 		if(event.crafting.getItem() instanceof ItemPictureBook&&!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftpicture_book)){
 			event.player.addStat(AchievementLoader.craftpicture_book);
 		}
+		*/
 		if (event.crafting.getItem() instanceof ItemCamera) {
-			if(!event.player.getEntityWorld().isRemote&&!event.player.hasAchievement(AchievementLoader.craftcamera)){
-				System.out.println("has no stat");
-				event.player.addStat(AchievementLoader.craftcamera);
-			}
 			for (int i = 0; i < 9; i++) {
 				if (event.craftMatrix.getStackInSlot(i) != null
 						&& event.craftMatrix.getStackInSlot(i).getItem() instanceof ItemTripod) {

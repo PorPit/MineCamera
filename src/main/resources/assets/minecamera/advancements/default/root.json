@@ -1,0 +1,20 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:camera"
+        },
+        "title": {
+            "translate": "achievement.minecamera.start"
+        },
+        "description": {
+            "translate": "achievement.minecamera.start.desc"
+        },
+        "background": "minecamera:textures/gui/image/advancement_bg.png",
+		"frame": "challenge"
+    },
+    "criteria": {
+        "uhc_start": {
+            "trigger": "minecraft:tick"
+        }
+    }
+}

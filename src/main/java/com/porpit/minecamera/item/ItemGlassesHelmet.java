@@ -2,10 +2,13 @@ package com.porpit.minecamera.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.porpit.minecamera.MineCamera;
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -13,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +37,7 @@ public class ItemGlassesHelmet extends ItemArmor
     
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.glasses_helmet.info"));
 		tooltip.add(TextFormatting.DARK_GRAY + I18n.format("lore.glasses_helmet.info2"));
 	}

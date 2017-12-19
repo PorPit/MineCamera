@@ -1,8 +1,6 @@
 package com.porpit.minecamera.common;
 
-import com.porpit.minecamera.achievement.AchievementLoader;
 import com.porpit.minecamera.block.BlockLoader;
-import com.porpit.minecamera.crafting.CraftingLoader;
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 import com.porpit.minecamera.entity.EntityLoader;
 import com.porpit.minecamera.inventory.GuiElementLoader;
@@ -28,8 +26,11 @@ public class CommonProxy {
 		new NetworkLoader(event);
 		new GuiElementLoader();
 		new EntityLoader();
-		new CraftingLoader();
-		new AchievementLoader();
+		
+		//TODO
+		/*
+		 * new CraftingLoader();
+		 * new AchievementLoader();*/
 	}
 
 	public void init(FMLInitializationEvent event) {

@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,8 +31,8 @@ public class BlockLoader {
 	}
 
 	private static void register(Block block, String name) {
-		GameRegistry.register(block.setRegistryName(name));
-		GameRegistry.register(new ItemBlock(block).setRegistryName(name));
+		ForgeRegistries.BLOCKS.register(block.setRegistryName(name));
+		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(name));
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -22,6 +22,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -184,11 +185,6 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 			break;
 		}
 		return state;
-	}
-
-	@Override
-	public boolean isFullyOpaque(IBlockState state) {
-		return false;
 	}
 
 	@Override
@@ -711,7 +707,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced){
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.pictureframe_multiple.info"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.pictureframe_multiple.info2"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.pictureframe_multiple.info3"));

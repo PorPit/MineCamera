@@ -2,10 +2,13 @@ package com.porpit.minecamera.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 import com.porpit.minecamera.entity.EntityTripod;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -50,7 +53,7 @@ public class ItemTripod extends Item {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.tripod.info"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("lore.tripod.info2"));
 	}

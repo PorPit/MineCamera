@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!@#",
+        "$%@",
+        "@@@"
+    ],
+    "key": {
+        "@": {
+            "item": "minecraft:grass"
+        },
+		"!": {
+			"item": "minecraft:glowstone"
+		},
+		"#": {
+			"item": "minecraft:stone_button"
+		},
+		"$": {
+			"item": "minecraft:ender_eye"
+		},
+		"%": {
+			"item": "minecraft:redstone_block"
+		}
+    },
+    "result": {
+        "item": "minecamera:camera"
+    }
+}

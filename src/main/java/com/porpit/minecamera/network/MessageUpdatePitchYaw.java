@@ -31,7 +31,7 @@ public class MessageUpdatePitchYaw implements IMessage {
 		@Override
 		public IMessage onMessage(MessageUpdatePitchYaw message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+				EntityPlayerMP player = ctx.getServerHandler().player;
 				Entity entity =player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
 				// entity.setDelay(message.delay);

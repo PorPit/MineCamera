@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:picture"
+        },
+        "title": {
+            "translate": "achievement.minecamera.craftpicture"
+        },
+        "description": {
+            "translate": "achievement.minecamera.craftpicture.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/craftprocessor",
+    "criteria": {
+        "minecamera_craftpicture": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:picture"
+                    }
+                ]
+            }
+        }
+    }
+}

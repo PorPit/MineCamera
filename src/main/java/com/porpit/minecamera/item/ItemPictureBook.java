@@ -2,11 +2,14 @@ package com.porpit.minecamera.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.porpit.minecamera.MineCamera;
 import com.porpit.minecamera.creativetab.CreativeTabsLoader;
 import com.porpit.minecamera.inventory.GuiElementLoader;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
@@ -55,7 +58,7 @@ public class ItemPictureBook extends Item {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
 		int num=0;
 		if(stack.hasTagCompound())
 		{

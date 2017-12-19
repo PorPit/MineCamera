@@ -16,7 +16,6 @@ public class MessageCameraDelaySet implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-
 		this.delay = buf.readInt();
 	}
 
@@ -29,7 +28,7 @@ public class MessageCameraDelaySet implements IMessage {
 		@Override
 		public IMessage onMessage(MessageCameraDelaySet message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+				EntityPlayerMP player = ctx.getServerHandler().player;
 				Entity entity = player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("usingGui"));
 				if(player==null||entity==null||!(entity instanceof EntityTripod)){return null;}

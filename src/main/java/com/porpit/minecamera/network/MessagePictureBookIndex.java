@@ -27,7 +27,7 @@ public class MessagePictureBookIndex implements IMessage {
 		@Override
 		public IMessage onMessage(MessagePictureBookIndex message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+				EntityPlayerMP player = ctx.getServerHandler().player;
 				if (player != null && player.openContainer != null
 						&& player.openContainer instanceof ContainerPictureBook) {
 					ContainerPictureBook contaner = (ContainerPictureBook) player.openContainer;

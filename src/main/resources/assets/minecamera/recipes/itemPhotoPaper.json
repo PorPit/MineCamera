@@ -1,0 +1,20 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+		{
+		  "item": "minecraft:milk_bucket"
+		},
+		{
+		  "item": "minecraft:paper"
+		},
+		{
+		  "item": "minecraft:iron_ingot"
+		},
+		{
+		  "item": "minecraft:gold_ingot"
+		}
+	],
+    "result": {
+        "item": "minecamera:photo_paper"
+    }
+}

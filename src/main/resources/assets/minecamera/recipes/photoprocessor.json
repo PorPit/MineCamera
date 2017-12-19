@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!@!",
+		"!#!",
+		"!$!"
+    ],
+    "key": {
+		"!": {
+			"item": "minecraft:iron_block"
+		},
+		"@": {
+			"item": "minecraft:diamond"
+		},
+		"#": {
+			"item": "minecraft:ender_pearl"
+		},
+		"$": {
+			"item": "minecraft:redstone_block"
+		}
+    },
+    "result": {
+        "item": "minecamera:photoprocessor"
+    }
+}

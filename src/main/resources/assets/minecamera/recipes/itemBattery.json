@@ -1,0 +1,22 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!#!",
+        "!@!",
+        "!@!"
+    ],
+    "key": {
+		"!": {
+			"item": "minecraft:redstone_block"
+		},
+		"@": {
+			"item": "minecraft:obsidian"
+		},
+		"#": {
+			"item": "minecraft:stone_button"
+		}
+    },
+    "result": {
+        "item": "minecamera:battery"
+    }
+}

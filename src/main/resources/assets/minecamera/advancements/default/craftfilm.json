@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:film"
+        },
+        "title": {
+            "translate": "achievement.minecamera.craftfilm"
+        },
+        "description": {
+            "translate": "achievement.minecamera.craftfilm.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/craftcamera",
+    "criteria": {
+        "minecamera_craftfilm": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:film"
+                    }
+                ]
+            }
+        }
+    }
+}

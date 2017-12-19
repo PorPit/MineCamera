@@ -144,8 +144,8 @@ public class ContainerPictureBook extends Container {
 		}
 		// System.out.println(tileEntity.getBurnTime());
 		for (IContainerListener i : this.listeners) {
-			i.sendProgressBarUpdate(this, 0, totalPictureNum);
-			i.sendProgressBarUpdate(this, 1, index);
+			i.sendWindowProperty(this, 0, totalPictureNum);
+			i.sendWindowProperty(this, 1, index);
 		}
 
 	}

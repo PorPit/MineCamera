@@ -1,0 +1,20 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!!!", "!@#","!##"
+    ],
+    "key": {
+		"!": {
+			"item": "minecraft:paper"
+		},
+		"@": {
+			"item": "minecraft:slime_ball"
+		},
+		"#": {
+			"item": "minecraft:leather"
+		}
+    },
+    "result": {
+        "item": "minecamera:picture_book"
+    }
+}

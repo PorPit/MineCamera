@@ -21,8 +21,8 @@ public class MessagePlayerViewRender implements IMessage {
 		@Override
 		public IMessage onMessage(MessagePlayerViewRender message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				if(ctx.getServerHandler().playerEntity!=null){
-					ctx.getServerHandler().playerEntity.getEntityData().removeTag("renderViewCamera");
+				if(ctx.getServerHandler().player!=null){
+					ctx.getServerHandler().player.getEntityData().removeTag("renderViewCamera");
 				}
 			}
 			return null;

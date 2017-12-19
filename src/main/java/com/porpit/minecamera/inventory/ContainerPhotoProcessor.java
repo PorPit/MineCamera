@@ -101,7 +101,7 @@ public class ContainerPhotoProcessor extends Container {
 		super.detectAndSendChanges();
 		// System.out.println(tileEntity.getBurnTime());
 		for (IContainerListener i : this.listeners) {
-			i.sendProgressBarUpdate(this, 0, tileEntity.getBurnTime());
+			i.sendWindowProperty(this, 0, tileEntity.getBurnTime());
 		}
 
 	}

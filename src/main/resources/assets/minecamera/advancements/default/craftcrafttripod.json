@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:tripod"
+        },
+        "title": {
+            "translate": "achievement.minecamera.crafttripod"
+        },
+        "description": {
+            "translate": "achievement.minecamera.crafttripod.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/craftcamera",
+    "criteria": {
+        "minecamera_crafttripod": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:tripod"
+                    }
+                ]
+            }
+        }
+    }
+}

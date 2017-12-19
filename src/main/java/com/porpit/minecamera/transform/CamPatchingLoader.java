@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
-@IFMLLoadingPlugin.MCVersion("1.11.2")
+@IFMLLoadingPlugin.MCVersion("1.12.2")
 public class CamPatchingLoader implements IFMLLoadingPlugin {
 
 	public static File location;

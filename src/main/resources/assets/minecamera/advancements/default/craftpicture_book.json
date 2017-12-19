@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:picture_book"
+        },
+        "title": {
+            "translate": "achievement.minecamera.craftpicture_book"
+        },
+        "description": {
+            "translate": "achievement.minecamera.craftpicture_book.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/root",
+    "criteria": {
+        "minecamera_craftpicture_book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:picture_book"
+                    }
+                ]
+            }
+        }
+    }
+}

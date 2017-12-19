@@ -1,0 +1,20 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!!",
+        "@@"
+    ],
+    "key": {
+        "!": {
+            "type": "forge:ore_dict",
+            "ore": "plankWood"
+        },
+		"@": {
+			"item": "minecraft:wool",
+			"data": 0
+		}
+    },
+    "result": {
+        "item": "minecamera:pictureframe"
+    }
+}

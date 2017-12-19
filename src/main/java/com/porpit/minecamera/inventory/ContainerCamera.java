@@ -167,7 +167,7 @@ public class ContainerCamera extends Container {
 						filmOutCatch = null;
 					}
 				}
-				i.sendProgressBarUpdate(this, 0, this.burnTime);
+				i.sendWindowProperty(this, 0, this.burnTime);
 				if (type == 1 && ((EntityTripod) player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("usingGui"))) != null)
 					((EntityTripod) player.getEntityWorld()
@@ -175,7 +175,7 @@ public class ContainerCamera extends Container {
 			}
 			if (type == 1 && ((EntityTripod) player.getEntityWorld()
 					.getEntityByID(player.getEntityData().getInteger("usingGui")) != null)) {
-				i.sendProgressBarUpdate(this, 1, ((EntityTripod) player.getEntityWorld()
+				i.sendWindowProperty(this, 1, ((EntityTripod) player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("usingGui"))).getDelay());
 			}
 		}

@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecamera:pictureframe_multiple"
+        },
+        "title": {
+            "translate": "achievement.minecamera.craftpictureframe_multiple"
+        },
+        "description": {
+            "translate": "achievement.minecamera.craftpictureframe_multiple.desc"
+        },
+		"frame": "challenge"
+    },
+    "parent": "minecamera:default/craftpictureframe",
+    "criteria": {
+        "minecamera_craftpictureframe_multiple": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecamera:pictureframe_multiple"
+                    }
+                ]
+            }
+        }
+    }
+}

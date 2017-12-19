@@ -1,0 +1,23 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "!%!", "@#@","! !"
+    ],
+    "key": {
+		"!": {
+			"item": "minecraft:stick"
+		},
+		"@": {
+			"item": "minecraft:glass_pane"
+		},
+		"#": {
+			"item": "minecraft:obsidian"
+		},
+		"%": {
+			"item": "minecraft:ender_eye"
+		}
+    },
+    "result": {
+        "item": "minecamera:glasses_helmet"
+    }
+}

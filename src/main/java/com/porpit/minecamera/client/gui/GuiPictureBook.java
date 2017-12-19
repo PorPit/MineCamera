@@ -50,15 +50,15 @@ public class GuiPictureBook extends GuiContainer {
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
 		this.buttonList.add(new GuiButton(BUTTON_CONFIRM, offsetX + 225, offsetY + 30, 14, 8, "") {
 			@Override
-			public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+			public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 				if (this.visible) {
 					GlStateManager.color(1.0F, 1.0F, 1.0F);
 					mc.getTextureManager().bindTexture(TEXTURE);
-					int x = mouseX - this.xPosition, y = mouseY - this.yPosition;
+					int x = mouseX - this.x, y = mouseY - this.y;
 					if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 42, 220, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 42, 220, this.width, this.height);
 					} else {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 28, 220, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 28, 220, this.width, this.height);
 					}
 				}
 			}
@@ -70,15 +70,15 @@ public class GuiPictureBook extends GuiContainer {
 		});
 		this.buttonList.add(new GuiButton(BUTTON_UP, offsetX + 225, offsetY + 50, 14, 8, "") {
 			@Override
-			public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+			public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 				if (this.visible) {
 					GlStateManager.color(1.0F, 1.0F, 1.0F);
 					mc.getTextureManager().bindTexture(TEXTURE);
-					int x = mouseX - this.xPosition, y = mouseY - this.yPosition;
+					int x = mouseX - this.x, y = mouseY - this.y;
 					if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 14, 220, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 14, 220, this.width, this.height);
 					} else {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 220, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 0, 220, this.width, this.height);
 					}
 				}
 			}
@@ -94,15 +94,15 @@ public class GuiPictureBook extends GuiContainer {
 		});
 		this.buttonList.add(new GuiButton(BUTTON_DOWN, offsetX + 225, offsetY + 82, 14, 8, "") {
 			@Override
-			public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+			public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 				if (this.visible) {
 					GlStateManager.color(1.0F, 1.0F, 1.0F);
 					mc.getTextureManager().bindTexture(TEXTURE);
-					int x = mouseX - this.xPosition, y = mouseY - this.yPosition;
+					int x = mouseX - this.x, y = mouseY - this.y;
 					if (x >= 0 && y >= 0 && x < this.width && y < this.height) {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 14, 228, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 14, 228, this.width, this.height);
 					} else {
-						this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 228, this.width, this.height);
+						this.drawTexturedModalRect(this.x, this.y, 0, 228, this.width, this.height);
 					}
 				}
 			}
@@ -144,11 +144,11 @@ public class GuiPictureBook extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
-		this.fontRendererObj.drawString(I18n.format("container.picture_book.text.inputinfo"), 170,
+		this.fontRenderer.drawString(I18n.format("container.picture_book.text.inputinfo"), 170,
 				10, 0x8B4513);
-		this.fontRendererObj.drawString(I18n.format("container.picture_book.text.pictureindex")
+		this.fontRenderer.drawString(I18n.format("container.picture_book.text.pictureindex")
 				+" "+ (inventory.getIndex() + 1), 70, 124, 0x8B4513);
-		this.fontRendererObj.drawString(I18n.format("container.picture_book.text.totalpicturenum")
+		this.fontRenderer.drawString(I18n.format("container.picture_book.text.totalpicturenum")
 				+" "+ inventory.getTotalPictureNum(), 160, 124, 0x8B4513);
 
 		if (this.inventory.getSlot(1).getHasStack()) {
@@ -168,16 +168,16 @@ public class GuiPictureBook extends GuiContainer {
 						// TODO 自动生成的 catch 块
 						e.printStackTrace();
 					}
-					this.fontRendererObj.drawString(I18n.format("container.picture_book.text.owner") + author, 55,
+					this.fontRenderer.drawString(I18n.format("container.picture_book.text.owner") + author, 55,
 							10, 0x8B4513);
-					this.fontRendererObj.drawString(I18n.format("container.picture_book.text.time") + d, 85,
+					this.fontRenderer.drawString(I18n.format("container.picture_book.text.time") + d, 85,
 							115, 0x8B4513);
 				}else{
-					this.fontRendererObj.drawString(I18n.format("container.picture_book.text.error") , 55,
+					this.fontRenderer.drawString(I18n.format("container.picture_book.text.error") , 55,
 							10, 0x8B4513);
 				}
 			}else{
-				this.fontRendererObj.drawString(I18n.format("container.picture_book.text.null"), 55,
+				this.fontRenderer.drawString(I18n.format("container.picture_book.text.null"), 55,
 						10, 0x8B4513);
 			}
 		}

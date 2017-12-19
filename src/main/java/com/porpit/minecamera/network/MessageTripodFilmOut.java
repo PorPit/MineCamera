@@ -37,7 +37,7 @@ public class MessageTripodFilmOut implements IMessage {
 		@Override
 		public IMessage onMessage(MessageTripodFilmOut message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+				EntityPlayerMP player = ctx.getServerHandler().player;
 				Entity entity = player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
 				if (player != null && entity != null&&entity instanceof EntityTripod) {
@@ -69,7 +69,7 @@ public class MessageTripodFilmOut implements IMessage {
 						items.extractItem(0, 1, false);
 					}
 					items.extractItem(1, 64, false);
-					String imagename = ctx.getServerHandler().playerEntity.getName() + "%_%"
+					String imagename = ctx.getServerHandler().player.getName() + "%_%"
 							+ System.currentTimeMillis();
 					ItemStack itemfilm = new ItemStack(ItemLoader.itemFilm, 1);
 					NBTTagCompound nbt = new NBTTagCompound();
