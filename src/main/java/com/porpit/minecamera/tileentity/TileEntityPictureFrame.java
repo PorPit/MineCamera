@@ -4,16 +4,20 @@ import javax.annotation.Nullable;
 
 import com.porpit.minecamera.util.LoadImageFileThread;
 import com.porpit.minecamera.util.PictureFactory;
+import com.porpit.minecamera.util.VideoMemoryCleaner;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent.Tick;
 
 public class TileEntityPictureFrame extends TileEntity {
 
+	private int timer;
 	public int textureID;
 	public String imagename;
 
@@ -36,10 +40,18 @@ public class TileEntityPictureFrame extends TileEntity {
 	}
 	
 	public boolean istextureLoaded() {
-		if (PictureFactory.loadedPicture.containsKey(imagename)) {
-			textureID = PictureFactory.loadedPicture.get(imagename);
+		timer++;
+		boolean isLoaded=PictureFactory.loadedPicture.containsKey(imagename);
+		if(isLoaded){
+			textureID=PictureFactory.loadedPicture.get(imagename);
+			if(timer>=Minecraft.getDebugFPS()){
+				timer=0;
+				VideoMemoryCleaner.activeTexture.add(PictureFactory.loadedPicture.get(imagename));
+			}
+		}else{
+			textureID=-1;
 		}
-		return PictureFactory.loadedPicture.containsKey(imagename);
+		return isLoaded;
 	}
 
 	public void loadImage() {
