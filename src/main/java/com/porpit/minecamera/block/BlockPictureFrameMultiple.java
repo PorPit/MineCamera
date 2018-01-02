@@ -363,17 +363,17 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos){
-		return true;
-	}
-	
-	@Override
 	protected BlockState createBlockState() {
 		// return new BlockStateContainer(this, FACING,
 		// ISHEAD,LINE,COLUMN,RENDERTYPE);
 		return new BlockState(this, FACING, RENDERTYPE);
 	}
-
+	
+	@Override
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos){
+		return true;
+	}
+	
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		if (worldIn.getBlockState(pos.down()).getBlock() instanceof BlockPictureFrameMultiple) {
