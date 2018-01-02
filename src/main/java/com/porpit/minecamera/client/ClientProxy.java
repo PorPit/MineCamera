@@ -5,6 +5,7 @@ import com.porpit.minecamera.client.tilerender.PictureFrameTileRenderer;
 import com.porpit.minecamera.client.tilerender.TileRenderLoader;
 import com.porpit.minecamera.common.CommonProxy;
 import com.porpit.minecamera.tileentity.TileEntityPictureFrame;
+import com.porpit.minecamera.util.VideoMemoryCleaner;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -22,6 +23,8 @@ public class ClientProxy extends CommonProxy {
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPictureFrame.class, new PictureFrameTileRenderer());
 		new TileRenderLoader();
 		new EntityRenderLoader();
+		VideoMemoryCleaner vmCleaner=new VideoMemoryCleaner();
+		vmCleaner.start();
 	}
 
 	@Override

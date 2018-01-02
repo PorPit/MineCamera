@@ -231,14 +231,12 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 		// return facing | ishead;
 		return facing;
 	}
-
-	/*
-	 * £¨·Ç Javadoc£©
-	 * 
-	 * @see net.minecraft.block.Block#onBlockPlacedBy(net.minecraft.world.World,
-	 * net.minecraft.util.math.BlockPos, net.minecraft.block.state.IBlockState,
-	 * net.minecraft.entity.EntityLivingBase, net.minecraft.item.ItemStack)
-	 */
+	
+	@Override
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos){
+		return true;
+	}
+	
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
@@ -375,11 +373,6 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos){
-		return true;
-	}
-	
-	@Override
 	protected BlockStateContainer createBlockState() {
 		// return new BlockStateContainer(this, FACING,
 		// ISHEAD,LINE,COLUMN,RENDERTYPE);
@@ -389,7 +382,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		if (worldIn.getBlockState(pos.down()).getBlock() instanceof BlockPictureFrameMultiple) {
-			return this.canPlaceBlockAt(worldIn, pos);
+			return super.canPlaceBlockOnSide(worldIn, pos, side);
 		}
 		if (worldIn.getBlockState(pos.up()).getBlock() instanceof BlockPictureFrameMultiple) {
 			EnumFacing facing = worldIn.getBlockState(pos.up()).getValue(FACING).getOpposite().rotateY();
@@ -430,7 +423,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				return false;
 			}
 		}
-		return this.canPlaceBlockAt(worldIn, pos);
+		return super.canPlaceBlockOnSide(worldIn, pos, side);
 	}
 
 	@Override
