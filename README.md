@@ -13,6 +13,8 @@ Contacts|联系方式:<br/>
 
 EMail:692066768@qq.com
 
+更早更新日志在taobao SVN上面:http://code.taobao.org/p/MineCamera/logs/
+
 # 版权声明
 
 本作品作者为PorPit。
