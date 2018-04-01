@@ -9,9 +9,14 @@ import com.porpit.minecamera.util.VideoMemoryCleaner;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityPictureFrame extends TileEntity {
 
@@ -73,6 +78,30 @@ public class TileEntityPictureFrame extends TileEntity {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setString("imagename", this.imagename);
+	}
+	 
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("imagename", this.imagename);
+        return new S35PacketUpdateTileEntity(pos, getBlockMetadata(), nbt);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+    {
+		this.imagename = pkt.getNbtCompound().getString("imagename");
+		worldObj.markBlockRangeForRenderUpdate(pos, pos);
+    }
+	
+	public void updateBlock()
+	{
+		if(!worldObj.isRemote)
+		{
+			IBlockState state = worldObj.getBlockState(pos);
+			worldObj.markBlockForUpdate(pos);
+			markDirty();
+		}
 	}
 
 /*	@Override

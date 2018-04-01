@@ -34,7 +34,7 @@ public class BlockPictureFrame extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum<EnumStateType> STATETYPE = PropertyEnum.create("statetype", EnumStateType.class);
 	public AxisAlignedBB FACING_NORTH = new AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D, 1.0D);
-	
+
 	public BlockPictureFrame() {
 		super(Material.ground);
 		this.setUnlocalizedName("pictureframe");
@@ -68,18 +68,16 @@ public class BlockPictureFrame extends BlockContainer {
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
-    {
-        return true;
-    }
-	
+	public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+		return true;
+	}
+
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-    {
-		IBlockState state=worldIn.getBlockState(pos);
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+		IBlockState state = worldIn.getBlockState(pos);
 		System.out.println(state.getValue(FACING).getIndex());
 		if (state.getValue(STATETYPE).equals(EnumStateType.HANDGING)) {
 			switch (state.getValue(FACING).getIndex()) {
@@ -126,48 +124,26 @@ public class BlockPictureFrame extends BlockContainer {
 				return;
 			}
 		}
-    }
+	}
 	/*
-	@Override
-	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
-		return super.getSelectedBoundingBox(worldIn, pos);
-		IBlockState state=worldIn.getBlockState(pos);
-		if (state.getValue(STATETYPE).equals(EnumStateType.HANDGING)) {
-			switch (state.getValue(FACING).getIndex()) {
-			// north
-			case 2:
-				return new AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D, 1.0D);
-			// south
-			case 3:
-				return new AxisAlignedBB(0.0D, 0.1D, 0.0D, 1.0D, 0.9D, 0.05D);
-			// west
-			case 4:
-				return new AxisAlignedBB(0.95D, 0.1D, 0.0D, 1.0D, 0.9D, 1.0D);
-			// east
-			case 5:
-				return new AxisAlignedBB(0.0D, 0.1D, 0.0D, 0.05D, 0.9D, 1.0D);
-			default:
-				return new AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D, 1.0D);
-			}
-		} else {
-			switch (state.getValue(FACING).getIndex()) {
-			// north
-			case 2:
-				return new AxisAlignedBB(0.0D, 0.0D, 0.35D, 1.0D, 0.75D, 0.8D);
-			// south
-			case 3:
-				return new AxisAlignedBB(0.0D, 0.0D, 0.20D, 1.0D, 0.75D, 0.65D);
-			// west
-			case 4:
-				return new AxisAlignedBB(0.35D, 0.0D, 0.0D, 0.8D, 0.75D, 1.0D);
-			// east
-			case 5:
-				return new AxisAlignedBB(0.2D, 0.0D, 0.0D, 0.65D, 0.75D, 1.0D);
-			default:
-				return new AxisAlignedBB(0.0D, 0.0D, 0.35D, 1.0D, 0.75D, 0.8D);
-			}
-		}
-	}*/
+	 * @Override public AxisAlignedBB getSelectedBoundingBox(World worldIn,
+	 * BlockPos pos) { return super.getSelectedBoundingBox(worldIn, pos);
+	 * IBlockState state=worldIn.getBlockState(pos); if
+	 * (state.getValue(STATETYPE).equals(EnumStateType.HANDGING)) { switch
+	 * (state.getValue(FACING).getIndex()) { // north case 2: return new
+	 * AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D, 1.0D); // south case 3:
+	 * return new AxisAlignedBB(0.0D, 0.1D, 0.0D, 1.0D, 0.9D, 0.05D); // west
+	 * case 4: return new AxisAlignedBB(0.95D, 0.1D, 0.0D, 1.0D, 0.9D, 1.0D); //
+	 * east case 5: return new AxisAlignedBB(0.0D, 0.1D, 0.0D, 0.05D, 0.9D,
+	 * 1.0D); default: return new AxisAlignedBB(0.0D, 0.1D, 0.95D, 1.0D, 0.9D,
+	 * 1.0D); } } else { switch (state.getValue(FACING).getIndex()) { // north
+	 * case 2: return new AxisAlignedBB(0.0D, 0.0D, 0.35D, 1.0D, 0.75D, 0.8D);
+	 * // south case 3: return new AxisAlignedBB(0.0D, 0.0D, 0.20D, 1.0D, 0.75D,
+	 * 0.65D); // west case 4: return new AxisAlignedBB(0.35D, 0.0D, 0.0D, 0.8D,
+	 * 0.75D, 1.0D); // east case 5: return new AxisAlignedBB(0.2D, 0.0D, 0.0D,
+	 * 0.65D, 0.75D, 1.0D); default: return new AxisAlignedBB(0.0D, 0.0D, 0.35D,
+	 * 1.0D, 0.75D, 0.8D); } } }
+	 */
 
 	@Override
 	protected BlockState createBlockState() {
@@ -175,16 +151,15 @@ public class BlockPictureFrame extends BlockContainer {
 	}
 
 	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
-    {
-        return false;
-    }
-	
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+		return false;
+	}
+
 	@Override
 	public boolean isFullCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
@@ -201,29 +176,45 @@ public class BlockPictureFrame extends BlockContainer {
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos){
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		return true;
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumFacing side, float hitX, float hitY, float hitZ) {
 		// System.out.println(((TileEntityPictureFrame)
 		// worldIn.getTileEntity(pos)).imagename);
-		ItemStack heldItem= playerIn.getHeldItem();
-		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()&&heldItem.getTagCompound().hasKey("pid")) {
-			//System.out.println(hand);
+		ItemStack heldItem = playerIn.getHeldItem();
+		if (!(worldIn.getTileEntity(pos) instanceof TileEntityPictureFrame)) {
+			return true;
+		}
+		TileEntityPictureFrame te = (TileEntityPictureFrame) worldIn.getTileEntity(pos);
+		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()
+				&& heldItem.getTagCompound().hasKey("pid")) {
+			// System.out.println(hand);
 			String imagename = heldItem.getTagCompound().getString("pid");
-			TileEntityPictureFrame te = (TileEntityPictureFrame) worldIn.getTileEntity(pos);
 			if (!worldIn.isRemote && !te.imagename.equals("")) {
 				ItemStack picture = new ItemStack(ItemLoader.itemPicture);
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("pid", te.imagename);
 				picture.setTagCompound(nbt);
 				Block.spawnAsEntity(worldIn, pos, picture);
-				//worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), ));
+				// worldIn.spawnEntityInWorld(new EntityItem(worldIn,
+				// pos.getX(), pos.getY(), pos.getZ(), ));
 			}
 			te.imagename = imagename;
+			te.updateBlock();
 			heldItem.stackSize--;
+		}
+		if (!worldIn.isRemote && heldItem == null && !te.imagename.equals("")) {
+			ItemStack picture = new ItemStack(ItemLoader.itemPicture);
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("pid", te.imagename);
+			picture.setTagCompound(nbt);
+			Block.spawnAsEntity(worldIn, pos, picture);
+			te.imagename = "";
+			te.updateBlock();
 		}
 		// playerIn.addChatComponentMessage((new
 		// TextComponentTranslation("test")));
@@ -281,10 +272,13 @@ public class BlockPictureFrame extends BlockContainer {
 			return this.name;
 		}
 	}
-	//TODO
-/*	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		tooltip.add(TextFormatting.BLUE+ I18n.format("lore.pictureframe.info"));
-	}*/
+	// TODO
+	/*
+	 * @Override
+	 * 
+	 * @SideOnly(Side.CLIENT) public void addInformation(ItemStack stack,
+	 * EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	 * tooltip.add(TextFormatting.BLUE+ I18n.format("lore.pictureframe.info"));
+	 * }
+	 */
 }

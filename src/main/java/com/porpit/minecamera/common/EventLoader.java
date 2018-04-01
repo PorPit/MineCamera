@@ -19,6 +19,7 @@ import com.porpit.minecamera.item.ItemPictureBook;
 import com.porpit.minecamera.item.ItemTripod;
 import com.porpit.minecamera.network.MessagePlayerViewRender;
 import com.porpit.minecamera.network.NetworkLoader;
+import com.porpit.minecamera.util.PictureFactory;
 import com.porpit.minecamera.util.TripodActiveThread;
 
 import net.minecraft.block.Block;
@@ -71,13 +72,14 @@ public class EventLoader {
 			event.setCanceled(true);
 	}
 
-	
 	private boolean rcicanactive = false;
+
 	@SubscribeEvent
 	public void PlayerInteract(PlayerInteractEvent event) {
 		System.out.println("active camera");
-		if(rcicanactive == true&&event.isCancelable() &&event.entityPlayer.getEntityData().hasKey("renderViewCamera")){
-			if(event.world.isRemote&&!event.action.equals(Action.RIGHT_CLICK_BLOCK)){
+		if (rcicanactive == true && event.isCancelable()
+				&& event.entityPlayer.getEntityData().hasKey("renderViewCamera")) {
+			if (event.world.isRemote && !event.action.equals(Action.RIGHT_CLICK_BLOCK)) {
 				ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
 						((EntityTripod) event.world
 								.getEntityByID(event.entityPlayer.getEntityData().getInteger("renderViewCamera")))
@@ -85,19 +87,18 @@ public class EventLoader {
 			}
 			event.setCanceled(true);
 		}
-		if(event.entityPlayer.getEntityData().hasKey("renderViewCamera")){
+		if (event.entityPlayer.getEntityData().hasKey("renderViewCamera")) {
 			rcicanactive = true;
 		}
 	}
-	
-	
+
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderPlayerPre(RenderPlayerEvent.Pre event) {
 		Minecraft mc = Minecraft.getMinecraft();
 		renderEntity = mc.getRenderViewEntity();
 		mc.setRenderViewEntity(mc.thePlayer);
-		//mc.entityRenderer.loadEntityShader(mc.thePlayer);
+		// mc.entityRenderer.loadEntityShader(mc.thePlayer);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -109,7 +110,7 @@ public class EventLoader {
 	}
 
 	private void ActiveTripod(String playername, int delay) {
-		
+
 		if (!TripodActiveThread.isshooting) {
 			TripodActiveThread thread = new TripodActiveThread(playername, delay);
 			thread.start();
@@ -120,68 +121,66 @@ public class EventLoader {
 	}
 
 	// 处理
-/*	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void rightClickBlock(RightClickBlock event) {
-		if (event.entityPlayer.getEntityData().hasKey("renderViewCamera") && event.getItemStack() == null
-				&& event.getSide().isClient() && event.getHand().equals(EnumHand.MAIN_HAND)) {
-			System.out.println("RightClickBlock,HandType=" + event.getHand());
-			ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
-					((EntityTripod) event.getWorld()
-							.getEntityByID(event.entityPlayer.getEntityData().getInteger("renderViewCamera")))
-									.getDelay());
-			event.setCanceled(true);
-		}
-	}*/
+	/*
+	 * @SideOnly(Side.CLIENT)
+	 * 
+	 * @SubscribeEvent public void rightClickBlock(RightClickBlock event) { if
+	 * (event.entityPlayer.getEntityData().hasKey("renderViewCamera") &&
+	 * event.getItemStack() == null && event.getSide().isClient() &&
+	 * event.getHand().equals(EnumHand.MAIN_HAND)) {
+	 * System.out.println("RightClickBlock,HandType=" + event.getHand());
+	 * ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+	 * ((EntityTripod) event.getWorld()
+	 * .getEntityByID(event.entityPlayer.getEntityData().getInteger(
+	 * "renderViewCamera"))) .getDelay()); event.setCanceled(true); } }
+	 */
 
 	// 处理
 
-/*	
+	/*
+	 * 
+	 * @SideOnly(Side.CLIENT)
+	 * 
+	 * @SubscribeEvent public void rightClickItem(RightClickItem event) { if
+	 * (event.getSide().isClient() &&
+	 * event.getHand().equals(EnumHand.MAIN_HAND)) { if (rcicanactive == true) {
+	 * System.out.println("RightClickItem,HandType=" + event.getHand());
+	 * ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+	 * ((EntityTripod) event.getWorld()
+	 * .getEntityByID(event.entityPlayer.getEntityData().getInteger(
+	 * "renderViewCamera"))) .getDelay()); event.setCanceled(true); } if
+	 * (event.entityPlayer.getEntityData().hasKey("renderViewCamera")) {
+	 * rcicanactive = true; }
+	 * 
+	 * } }
+	 */
 
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void rightClickItem(RightClickItem event) {
-		if (event.getSide().isClient() && event.getHand().equals(EnumHand.MAIN_HAND)) {
-			if (rcicanactive == true) {
-				System.out.println("RightClickItem,HandType=" + event.getHand());
-				ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
-						((EntityTripod) event.getWorld()
-								.getEntityByID(event.entityPlayer.getEntityData().getInteger("renderViewCamera")))
-										.getDelay());
-				event.setCanceled(true);
-			}
-			if (event.entityPlayer.getEntityData().hasKey("renderViewCamera")) {
-				rcicanactive = true;
-			}
-
-		}
-	}*/
-
-/*	// 处理
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void rightClickEmpty(RightClickEmpty event) {
-		// System.out.println("RightClickEmpty,HandType="+event.getHand());
-		if (event.entityPlayer.getEntityData().hasKey("renderViewCamera") && event.getSide().isClient()
-				&& event.getHand().equals(EnumHand.MAIN_HAND)) {
-			System.out.println("delay=" + ((EntityTripod) Minecraft.getMinecraft().theWorld
-					.getEntityByID(Minecraft.getMinecraft().thePlayer.getEntityData().getInteger("renderViewCamera")))
-							.getDelay());
-			System.out.println("RightClickEmpty,HandType=" + event.getHand());
-			ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
-					((EntityTripod) event.getWorld()
-							.getEntityByID(event.entityPlayer.getEntityData().getInteger("renderViewCamera")))
-									.getDelay());
-		}
-	}*/
+	/*
+	 * // 处理
+	 * 
+	 * @SideOnly(Side.CLIENT)
+	 * 
+	 * @SubscribeEvent public void rightClickEmpty(RightClickEmpty event) { //
+	 * System.out.println("RightClickEmpty,HandType="+event.getHand()); if
+	 * (event.entityPlayer.getEntityData().hasKey("renderViewCamera") &&
+	 * event.getSide().isClient() && event.getHand().equals(EnumHand.MAIN_HAND))
+	 * { System.out.println("delay=" + ((EntityTripod)
+	 * Minecraft.getMinecraft().theWorld
+	 * .getEntityByID(Minecraft.getMinecraft().thePlayer.getEntityData().
+	 * getInteger("renderViewCamera"))) .getDelay());
+	 * System.out.println("RightClickEmpty,HandType=" + event.getHand());
+	 * ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
+	 * ((EntityTripod) event.getWorld()
+	 * .getEntityByID(event.entityPlayer.getEntityData().getInteger(
+	 * "renderViewCamera"))) .getDelay()); } }
+	 */
 
 	// 处理
 	@SubscribeEvent
 	public void entityInteract(EntityInteractEvent event) {
 		if (event.entityPlayer.getEntityData().hasKey("renderViewCamera")) {
 			event.setCanceled(true);
-			if (!event.entityPlayer.isServerWorld()
-					&& event.entityPlayer.getHeldItem() == null) {
+			if (!event.entityPlayer.isServerWorld() && event.entityPlayer.getHeldItem() == null) {
 				ActiveTripod(Minecraft.getMinecraft().thePlayer.getName(),
 						((EntityTripod) event.entityPlayer.getEntityWorld()
 								.getEntityByID(event.entityPlayer.getEntityData().getInteger("renderViewCamera")))
@@ -198,24 +197,23 @@ public class EventLoader {
 					if (player.getEntityWorld().isRemote) {
 						// System.out.println("123");
 						Minecraft.getMinecraft().setRenderViewEntity(target);
-						Minecraft.getMinecraft().ingameGUI.setRecordPlaying(new ChatComponentTranslation("chat.tripod.info"), false);
+						Minecraft.getMinecraft().ingameGUI
+								.setRecordPlaying(new ChatComponentTranslation("chat.tripod.info"), false);
 					}
 					player.getEntityData().setInteger("renderViewCamera", target.getEntityId());
-				}else if(!event.entityPlayer.getEntityWorld().isRemote){
+				} else if (!event.entityPlayer.getEntityWorld().isRemote) {
 					player.addChatComponentMessage(new ChatComponentTranslation("chat.tripod.mustuseglass"));
 				}
 			} else {
-				System.out.println("id:"+target.getEntityId());
+				System.out.println("id:" + target.getEntityId());
 				System.out.println(event.entityPlayer.getEntityWorld().getEntityByID(target.getEntityId()));
-				
+
 				player.getEntityData().setInteger("usingGui", target.getEntityId());
 				player.openGui(MineCamera.instance, GuiElementLoader.GUI_TRIPOD_CAMERA, target.getEntityWorld(),
 						(int) target.posX, (int) target.posY, (int) target.posZ);
 			}
 		}
 	}
-
-
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
@@ -321,20 +319,20 @@ public class EventLoader {
 				GlStateManager.color(1F, 1F, 1F);
 				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(0, 0, 0, 0, 82, 82);
-				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(Minecraft.getMinecraft().displayWidth / 2 - 81,
+				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(PictureFactory.getMcScaledWidth() - 81,
 						0, 82, 0, 81, 81);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(0,
-						Minecraft.getMinecraft().displayHeight / 2 - 81, 0, 82, 81, 81);
-				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(Minecraft.getMinecraft().displayWidth / 2 - 81,
-						Minecraft.getMinecraft().displayHeight / 2 - 82, 82, 82, 81, 81);
+						PictureFactory.getMcScaledHeight() - 81, 0, 82, 81, 81);
+				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(PictureFactory.getMcScaledWidth() - 81,
+						PictureFactory.getMcScaledHeight() - 82, 82, 82, 81, 81);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(
-						Minecraft.getMinecraft().displayWidth / 2 / 2 - 46,
-						Minecraft.getMinecraft().displayHeight / 2 / 2 - 46, 163, 0, 93, 93);
+						PictureFactory.getMcScaledWidth() / 2 - 46,
+						PictureFactory.getMcScaledHeight() / 2 - 46, 163, 0, 93, 93);
 				String locked = I18n.format("gui.camgameoverlay.locked");
 				String unlocked = I18n.format("gui.camgameoverlay.unlocked");
 				Minecraft.getMinecraft().ingameGUI.drawString(Minecraft.getMinecraft().ingameGUI.getFontRenderer(),
 						"§2§l" + (EntityTripod.islock ? locked : unlocked), 82,
-						Minecraft.getMinecraft().displayHeight / 2 - 40, 0x99FFFF);
+						PictureFactory.getMcScaledHeight() - 40, 0x99FFFF);
 			}
 			if (event.type.equals(ElementType.EXPERIENCE)) {
 				event.setCanceled(true);
@@ -360,44 +358,49 @@ public class EventLoader {
 
 	@SubscribeEvent
 	public void onPlayerItemCrafted(ItemCraftedEvent event) {
-		if(Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPhotoProcessor &&!event.player.getEntityWorld().isRemote){
+		if (Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPhotoProcessor
+				&& !event.player.getEntityWorld().isRemote) {
 			event.player.triggerAchievement(AchievementLoader.craftprocessor);
 		}
-		if(Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPictureFrame &&!event.player.getEntityWorld().isRemote){
+		if (Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPictureFrame
+				&& !event.player.getEntityWorld().isRemote) {
 			event.player.triggerAchievement(AchievementLoader.craftpictureframe);
 		}
-		if(Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPictureFrameMultiple &&!event.player.getEntityWorld().isRemote){
+		if (Block.getBlockFromItem(event.crafting.getItem()) instanceof BlockPictureFrameMultiple
+				&& !event.player.getEntityWorld().isRemote) {
 			event.player.triggerAchievement(AchievementLoader.craftpictureframe_multiple);
 		}
-		if(event.crafting.getItem() instanceof ItemPhotoPaper&!event.player.getEntityWorld().isRemote){
+		if (event.crafting.getItem() instanceof ItemPhotoPaper & !event.player.getEntityWorld().isRemote) {
 			event.player.triggerAchievement(AchievementLoader.craftphoto_paper);
 		}
-		if(event.crafting.getItem() instanceof ItemGlassesHelmet&!event.player.getEntityWorld().isRemote){
+		if (event.crafting.getItem() instanceof ItemGlassesHelmet & !event.player.getEntityWorld().isRemote) {
 			event.player.triggerAchievement(AchievementLoader.craftglasses);
 		}
-		if(event.crafting.getItem() instanceof ItemFilm&&!event.player.getEntityWorld().isRemote){
+		if (event.crafting.getItem() instanceof ItemFilm && !event.player.getEntityWorld().isRemote) {
 			event.player.triggerAchievement(AchievementLoader.craftfilm);
 		}
-		if(event.crafting.getItem() instanceof ItemTripod){
+		if (event.crafting.getItem() instanceof ItemTripod) {
 			event.player.triggerAchievement(AchievementLoader.crafttripod);
 		}
-		if(event.crafting.getItem() instanceof ItemPictureBook){
+		if (event.crafting.getItem() instanceof ItemPictureBook) {
 			event.player.triggerAchievement(AchievementLoader.craftpicture_book);
 		}
 		if (event.crafting.getItem() instanceof ItemCamera) {
-			if(!event.player.getEntityWorld().isRemote){
+			if (!event.player.getEntityWorld().isRemote) {
 				System.out.println("has no stat");
 				event.player.triggerAchievement(AchievementLoader.craftcamera);
 			}
 			for (int i = 0; i < 9; i++) {
 				if (event.craftMatrix.getStackInSlot(i) != null
 						&& event.craftMatrix.getStackInSlot(i).getItem() instanceof ItemTripod) {
-					if (!event.player.inventory.addItemStackToInventory(new ItemStack(ItemLoader.itemCamera))) {
-						if (!event.player.getEntityWorld().isRemote) {
-							Block.spawnAsEntity(event.player.getEntityWorld(), event.player.getPosition(),
-									new ItemStack(ItemLoader.itemCamera));
-						}
-					}
+					// if (!event.player.inventory.addItemStackToInventory(new
+					// ItemStack(ItemLoader.itemCamera))) {
+					// if (!event.player.getEntityWorld().isRemote) {
+					// Block.spawnAsEntity(event.player.getEntityWorld(),
+					// event.player.getPosition(),
+					// new ItemStack(ItemLoader.itemCamera));
+					// }
+					// }
 					if (!event.player.inventory.addItemStackToInventory(new ItemStack(Blocks.iron_block, 3))) {
 						if (!event.player.getEntityWorld().isRemote) {
 							Block.spawnAsEntity(event.player.getEntityWorld(), event.player.getPosition(),

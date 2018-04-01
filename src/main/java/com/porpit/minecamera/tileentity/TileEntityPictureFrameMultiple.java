@@ -1,6 +1,9 @@
 package com.porpit.minecamera.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityPictureFrameMultiple extends TileEntityPictureFrame {
@@ -29,4 +32,23 @@ public class TileEntityPictureFrameMultiple extends TileEntityPictureFrame {
 		compound.setInteger("width", width);
 		compound.setInteger("height", height);
 	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("imagename", this.imagename);
+		nbt.setBoolean("shouldrender", shouldrender);
+		nbt.setInteger("width", width);
+		nbt.setInteger("height", height);
+        return new S35PacketUpdateTileEntity(pos, getBlockMetadata(), nbt);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+    {
+		this.shouldrender=pkt.getNbtCompound().getBoolean("shouldrender");
+		this.width = pkt.getNbtCompound().getInteger("width");
+		this.height=pkt.getNbtCompound().getInteger("height");
+		super.onDataPacket(net, pkt);
+    }
 }

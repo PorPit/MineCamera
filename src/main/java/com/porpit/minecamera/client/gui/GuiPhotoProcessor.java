@@ -69,7 +69,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 			@Override
 			public void mouseReleased(int mouseX, int mouseY) {
 				infolock = true;
-				int lightlevel=container.getTileEntity().getWorld().getLight(container.getTileEntity().getPos());
+				int lightlevel = container.getTileEntity().getWorld().getLight(container.getTileEntity().getPos());
 				if (!container.getSlot(0).getHasStack()) {
 					info = "§c" + I18n.format("container.photoprocessor.text.nonectl");
 					return;
@@ -87,7 +87,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 					return;
 				} else if (container.getBurnTime() != container.totalBurnTime) {
 					return;
-				}else if(lightlevel>5){
+				} else if (lightlevel > 5) {
 					info = "§c" + I18n.format("container.photoprocessor.text.lightleveltoohigh");
 					return;
 				}
@@ -96,8 +96,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 					String imagename = container.getSlot(2).getStack().getTagCompound().getString("pid");
 					EnumFailLoadImage flag = PictureFactory.isFailedToLoad(imagename);
 					if (flag != null) {
-						info = "§c"
-								+ I18n.format("container.photoprocessor.text.failed." + flag.toString());
+						info = "§c" + I18n.format("container.photoprocessor.text.failed." + flag.toString());
 						return;
 					}
 					MessagePhotoProcessorStart message = new MessagePhotoProcessorStart();
@@ -122,22 +121,14 @@ public class GuiPhotoProcessor extends GuiContainer {
 		this.mc.getTextureManager().bindTexture(TEXTURE);
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(PictureFactory.DONATEIMAGE);
-		float donateHeight=Minecraft.getMinecraft().displayWidth/10-Minecraft.getMinecraft().displayWidth%10;
-		if (mouseX > 0 && mouseX < 0.75F*donateHeight && mouseY > Minecraft.getMinecraft().displayHeight / 2/2-(int)donateHeight/2
-				&& mouseY < Minecraft.getMinecraft().displayHeight / 2/2-(int)donateHeight/2+0.75F*donateHeight) {
-			donateHeight=(float) (Minecraft.getMinecraft().displayWidth*0.2-(Minecraft.getMinecraft().displayWidth*0.2)%10);
-		}
-		float donateWidth=0.75F*donateHeight;
-		int displayY=Minecraft.getMinecraft().displayHeight / 2/2-(int)donateHeight/2;
-		this.drawModalRectWithCustomSizedTexture(0, displayY, 0F, 0F, (int) donateWidth, (int) donateHeight, donateWidth,
-				donateHeight);
-		
+
+		PictureFactory.drawDonateImage(this, mouseX, mouseY);
+
 		this.fontRendererObj.drawString(info, offsetX + 31, offsetY + 4, 0xD3D3D3);
-		this.fontRendererObj.drawString(I18n.format("container.photoprocessor.text.lightlevel"), offsetX + 7, offsetY + 7, 0x6495ED);
-		int lightlevel=this.container.getTileEntity().getWorld().getLight(this.container.getTileEntity().getPos());
-		this.fontRendererObj.drawString(I18n.format(lightlevel+""), offsetX + 12, offsetY + 15, 0x6495ED);
+		this.fontRendererObj.drawString(I18n.format("container.photoprocessor.text.lightlevel"), offsetX + 7,
+				offsetY + 7, 0x6495ED);
+		int lightlevel = this.container.getTileEntity().getWorld().getLight(this.container.getTileEntity().getPos());
+		this.fontRendererObj.drawString(I18n.format(lightlevel + ""), offsetX + 12, offsetY + 15, 0x6495ED);
 	}
 
 	@Override
@@ -163,25 +154,25 @@ public class GuiPhotoProcessor extends GuiContainer {
 		float speedFloat = 100F / (float) Minecraft.getDebugFPS();
 		if (mouseX > offsetX + 33 && mouseX < offsetX + 33 + 129 && mouseY > offsetY + 16
 				&& mouseY < offsetY + 16 + 73) {
-			if (imageRelativeX > Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX) {
+			if (imageRelativeX > PictureFactory.getMcScaledWidth() * 0.15 - offsetX) {
 				imageRelativeX -= 8 * speedFloat;
-				if (imageRelativeX <= Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX) {
-					imageRelativeX = (float) (Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX);
+				if (imageRelativeX <= PictureFactory.getMcScaledWidth() * 0.15 - offsetX) {
+					imageRelativeX = (float) (PictureFactory.getMcScaledWidth() * 0.15 - offsetX);
 				}
 			}
-			if (imageRelativeY > Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY) {
+			if (imageRelativeY > PictureFactory.getMcScaledHeight() * 0.1 - offsetY) {
 				imageRelativeY -= 2 * speedFloat;
-				if (imageRelativeY <= Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY) {
-					imageRelativeY = (float) (Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY);
+				if (imageRelativeY <= PictureFactory.getMcScaledHeight() * 0.1 - offsetY) {
+					imageRelativeY = (float) (PictureFactory.getMcScaledHeight() * 0.1 - offsetY);
 				}
 			}
-			if (imageW < Minecraft.getMinecraft().displayWidth / 2 * 0.7) {
+			if (imageW < PictureFactory.getMcScaledWidth() * 0.7) {
 				imageW += 12 * speedFloat;
-				if (imageW >= Minecraft.getMinecraft().displayWidth / 2 * 0.7) {
-					imageW = (float) (Minecraft.getMinecraft().displayWidth / 2 * 0.7);
+				if (imageW >= PictureFactory.getMcScaledWidth() * 0.7) {
+					imageW = (float) (PictureFactory.getMcScaledWidth() * 0.7);
 				}
 			}
-			imageH=imageW*0.6F;
+			imageH = imageW * 0.6F;
 		} else {
 			if (imageRelativeX < 33) {
 				imageRelativeX += 8 * speedFloat;
@@ -201,7 +192,7 @@ public class GuiPhotoProcessor extends GuiContainer {
 					imageW = 129;
 				}
 			}
-			imageH=imageW*73/129;
+			imageH = imageW * 73 / 129;
 		}
 		int imageX = (int) imageRelativeX;
 		int imageY = (int) imageRelativeY;
@@ -235,11 +226,10 @@ public class GuiPhotoProcessor extends GuiContainer {
 						imageH);
 				GlStateManager.enableDepth();
 				if (infolock == false) {
-					info = "§2" + I18n.format("container.photoprocessor.text.lodingfilm")
-							+ imagename.split("%_%")[0];
+					info = "§2" + I18n.format("container.photoprocessor.text.lodingfilm") + imagename.split("%_%")[0];
 				}
 				if (!PictureFactory.lodingPicture.contains(imagename)) {
-					//System.out.println("需要加载");
+					// System.out.println("需要加载");
 					PictureFactory.lodingPicture.add(imagename);
 					LoadImageFileThread thread = new LoadImageFileThread(imagename);
 					thread.start();
