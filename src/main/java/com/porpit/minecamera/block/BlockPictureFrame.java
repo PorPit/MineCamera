@@ -147,11 +147,14 @@ public class BlockPictureFrame extends BlockContainer {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// System.out.println(((TileEntityPictureFrame)
 		// worldIn.getTileEntity(pos)).imagename);
+		if(!(worldIn.getTileEntity(pos) instanceof TileEntityPictureFrame)){
+			return true;
+		}
+		TileEntityPictureFrame te=(TileEntityPictureFrame) worldIn.getTileEntity(pos);
 		ItemStack heldItem=playerIn.getHeldItem(hand);
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()&&heldItem.getTagCompound().hasKey("pid")) {
 			//System.out.println(hand);
 			String imagename = heldItem.getTagCompound().getString("pid");
-			TileEntityPictureFrame te = (TileEntityPictureFrame) worldIn.getTileEntity(pos);
 			if (!worldIn.isRemote && !te.imagename.equals("")) {
 				ItemStack picture = new ItemStack(ItemLoader.itemPicture);
 				NBTTagCompound nbt = new NBTTagCompound();
@@ -161,7 +164,17 @@ public class BlockPictureFrame extends BlockContainer {
 				//worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), ));
 			}
 			te.imagename = imagename;
+			te.updateBlock();
 			heldItem.shrink(1);
+		}
+		if(!worldIn.isRemote&&heldItem == null&&!te.imagename.equals("")){
+			ItemStack picture = new ItemStack(ItemLoader.itemPicture);
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("pid", te.imagename);
+			picture.setTagCompound(nbt);
+			Block.spawnAsEntity(worldIn, pos, picture);
+			te.imagename = "";
+			te.updateBlock();
 		}
 		// playerIn.addChatComponentMessage((new
 		// TextComponentTranslation("test")));
