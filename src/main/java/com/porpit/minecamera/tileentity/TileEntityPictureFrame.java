@@ -9,11 +9,14 @@ import com.porpit.minecamera.util.VideoMemoryCleaner;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent.Tick;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityPictureFrame extends TileEntity {
 
@@ -73,20 +76,50 @@ public class TileEntityPictureFrame extends TileEntity {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+		compound=super.writeToNBT(compound);
 		compound.setString("imagename", this.imagename);
 		return compound;
 	}
 
+
+	
 	@Override
-	@Nullable
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		//System.out.println("update");
-		return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("imagename", this.imagename);
+		return new SPacketUpdateTileEntity(this.pos, getBlockMetadata(), nbt);
 	}
 
 	@Override
+	public void handleUpdateTag(NBTTagCompound tag)
+    {
+        this.readFromNBT(tag);
+    }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+    {
+		this.imagename = pkt.getNbtCompound().getString("imagename");
+		System.out.println(this.imagename);
+		worldObj.markBlockRangeForRenderUpdate(pos, pos);
+    }
+	
+	@Override
 	public NBTTagCompound getUpdateTag() {
 		return this.writeToNBT(new NBTTagCompound());
+	}
+	
+	
+	public void updateBlock()
+	{
+		if(!worldObj.isRemote)
+		{
+			IBlockState state = worldObj.getBlockState(pos);
+			worldObj.notifyBlockUpdate(pos, state, state, 3);
+			worldObj.markChunkDirty(getPos(), this);
+			//worldObj.markBlockForUpdate(pos);
+			//markDirty();
+		}
 	}
 }

@@ -22,8 +22,11 @@ import com.porpit.minecamera.network.MessageImage;
 import com.porpit.minecamera.network.NetworkLoader;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ScreenShotHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,7 +40,10 @@ public final class PictureFactory {
 	public static Map<String, Integer> loadedPicture = new HashMap<String, Integer>();
 	public static Map<String, EnumFailLoadImage> fildToLoadPicture = new HashMap<String, EnumFailLoadImage>();
 	public static Set<String> lodingPicture = new HashSet<String>();
-
+	private static int mcScaledWidth = 0;
+	private static int mcScaledHeight = 0;
+	private static int lastFrameIndex=0;
+	
 	private PictureFactory() {
 	}
 
@@ -48,7 +54,46 @@ public final class PictureFactory {
 		g.drawImage(imageIn, 0, 0, 854, 480, null);
 		return image;
 	}
+	@SideOnly(Side.CLIENT)
+	public static int getMcScaledWidth(){
+		updateMinecraftScaledSize(Minecraft.getMinecraft());
+		return mcScaledWidth;
+	}
+	@SideOnly(Side.CLIENT)
+	public static int getMcScaledHeight(){
+		updateMinecraftScaledSize(Minecraft.getMinecraft());
+		return mcScaledHeight;
+	}
+	@SideOnly(Side.CLIENT)
+	public static void updateMinecraftScaledSize(Minecraft mc){
+		if(mc.frameTimer.getLastIndex()==lastFrameIndex){
+			return;
+		}
+		lastFrameIndex=mc.frameTimer.getLastIndex();
+		mcScaledWidth=mc.displayWidth;
+		mcScaledHeight = mc.displayHeight;
+		int scaleFactor = 1;
+        boolean flag = mc.isUnicode();
+        int i = mc.gameSettings.guiScale;
+		
+        
+        if (i == 0)
+        {
+            i = 1000;
+        }
+        while (scaleFactor < i && mcScaledWidth / (scaleFactor + 1) >= 320 && mcScaledHeight / (scaleFactor + 1) >= 240)
+        {
+            ++scaleFactor;
+        }
 
+        if (flag && scaleFactor % 2 != 0 && scaleFactor != 1)
+        {
+            --scaleFactor;
+        }
+        mcScaledWidth = ceiling_double_int((double)mcScaledWidth / (double)scaleFactor);
+        mcScaledHeight =ceiling_double_int((double)mcScaledHeight / (double)scaleFactor);
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public static BufferedImage getScreenshot() {
 		BufferedImage image = ScreenShotHelper.createScreenshot(Minecraft.getMinecraft().displayWidth,
@@ -182,4 +227,22 @@ public final class PictureFactory {
 
 		return result;
 	}
+	@SideOnly(Side.CLIENT)
+	public static void drawDonateImage(GuiContainer gui,int mouseX, int mouseY){
+		Minecraft.getMinecraft().getTextureManager().bindTexture(PictureFactory.DONATEIMAGE);
+		float donateHeight=PictureFactory.getMcScaledHeight()/3;
+		if (mouseX > 0 && mouseX < 0.75F*donateHeight && mouseY > PictureFactory.getMcScaledHeight()/2-(int)donateHeight/2
+				&& mouseY < PictureFactory.getMcScaledHeight()/2-(int)donateHeight/2+donateHeight) {
+			donateHeight=(float) (donateHeight*1.7);
+		}
+		float donateWidth=0.75F*donateHeight;
+		int displayY=PictureFactory.getMcScaledHeight()/2-(int)donateHeight/2;
+		gui.drawModalRectWithCustomSizedTexture(0, displayY, 0F, 0F, (int) donateWidth, (int) donateHeight, donateWidth,
+				donateHeight);
+	}
+	public static int ceiling_double_int(double value)
+    {
+        int i = (int)value;
+        return value > (double)i ? i + 1 : i;
+    }
 }

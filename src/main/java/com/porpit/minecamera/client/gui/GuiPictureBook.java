@@ -126,19 +126,7 @@ public class GuiPictureBook extends GuiContainer {
 		int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(PictureFactory.DONATEIMAGE);
-		float donateHeight = Minecraft.getMinecraft().displayWidth / 10 - Minecraft.getMinecraft().displayWidth % 10;
-		if (mouseX > 0 && mouseX < 0.75F * donateHeight
-				&& mouseY > Minecraft.getMinecraft().displayHeight / 2 / 2 - (int) donateHeight / 2
-				&& mouseY < Minecraft.getMinecraft().displayHeight / 2 / 2 - (int) donateHeight / 2
-						+ 0.75F * donateHeight) {
-			donateHeight = (float) (Minecraft.getMinecraft().displayWidth * 0.2
-					- (Minecraft.getMinecraft().displayWidth * 0.2) % 10);
-		}
-		float donateWidth = 0.75F * donateHeight;
-		int displayY = Minecraft.getMinecraft().displayHeight / 2 / 2 - (int) donateHeight / 2;
-		this.drawModalRectWithCustomSizedTexture(0, displayY, 0F, 0F, (int) donateWidth, (int) donateHeight,
-				donateWidth, donateHeight);
+		PictureFactory.drawDonateImage(this,mouseX, mouseY);
 	}
 
 	@Override
@@ -186,22 +174,22 @@ public class GuiPictureBook extends GuiContainer {
 		float speedFloat = 100F / (float) Minecraft.getDebugFPS();
 		if (mouseX > offsetX + 57 && mouseX < offsetX + 57 + 153 && mouseY > offsetY + 25
 				&& mouseY < offsetY + 25 + 75) {
-			if (imageRelativeX > Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX) {
+			if (imageRelativeX > PictureFactory.getMcScaledWidth() * 0.15 - offsetX) {
 				imageRelativeX -= 8 * speedFloat;
-				if (imageRelativeX <= Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX) {
-					imageRelativeX = (float) (Minecraft.getMinecraft().displayWidth / 2 * 0.15 - offsetX);
+				if (imageRelativeX <= PictureFactory.getMcScaledWidth() * 0.15 - offsetX) {
+					imageRelativeX = (float) (PictureFactory.getMcScaledWidth() * 0.15 - offsetX);
 				}
 			}
-			if (imageRelativeY > Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY) {
+			if (imageRelativeY > PictureFactory.getMcScaledHeight() * 0.1 - offsetY) {
 				imageRelativeY -= 2 * speedFloat;
-				if (imageRelativeY <= Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY) {
-					imageRelativeY = (float) (Minecraft.getMinecraft().displayHeight / 2 * 0.1 - offsetY);
+				if (imageRelativeY <= PictureFactory.getMcScaledHeight() * 0.1 - offsetY) {
+					imageRelativeY = (float) (PictureFactory.getMcScaledHeight() * 0.1 - offsetY);
 				}
 			}
-			if (imageW < Minecraft.getMinecraft().displayWidth / 2 * 0.7) {
+			if (imageW < PictureFactory.getMcScaledWidth() * 0.7) {
 				imageW += 12 * speedFloat;
-				if (imageW >= Minecraft.getMinecraft().displayWidth / 2 * 0.7) {
-					imageW = (float) (Minecraft.getMinecraft().displayWidth / 2 * 0.7);
+				if (imageW >= PictureFactory.getMcScaledWidth() * 0.7) {
+					imageW = (float) (PictureFactory.getMcScaledWidth() * 0.7);
 				}
 			}
 			imageH = imageW * 0.6F;

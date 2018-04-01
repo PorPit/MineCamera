@@ -20,6 +20,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -148,10 +150,13 @@ public class BlockPictureFrame extends BlockContainer {
 			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		// System.out.println(((TileEntityPictureFrame)
 		// worldIn.getTileEntity(pos)).imagename);
+		if(!(worldIn.getTileEntity(pos) instanceof TileEntityPictureFrame)){
+			return true;
+		}
+		TileEntityPictureFrame te=(TileEntityPictureFrame) worldIn.getTileEntity(pos);
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()&&heldItem.getTagCompound().hasKey("pid")) {
 			//System.out.println(hand);
 			String imagename = heldItem.getTagCompound().getString("pid");
-			TileEntityPictureFrame te = (TileEntityPictureFrame) worldIn.getTileEntity(pos);
 			if (!worldIn.isRemote && !te.imagename.equals("")) {
 				ItemStack picture = new ItemStack(ItemLoader.itemPicture);
 				NBTTagCompound nbt = new NBTTagCompound();
@@ -160,8 +165,19 @@ public class BlockPictureFrame extends BlockContainer {
 				Block.spawnAsEntity(worldIn, pos, picture);
 				//worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), ));
 			}
+			
 			te.imagename = imagename;
+			te.updateBlock();
 			heldItem.stackSize--;
+		}
+		if(!worldIn.isRemote&&heldItem == null&&!te.imagename.equals("")){
+			ItemStack picture = new ItemStack(ItemLoader.itemPicture);
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("pid", te.imagename);
+			picture.setTagCompound(nbt);
+			Block.spawnAsEntity(worldIn, pos, picture);
+			te.imagename = "";
+			te.updateBlock();
 		}
 		// playerIn.addChatComponentMessage((new
 		// TextComponentTranslation("test")));
