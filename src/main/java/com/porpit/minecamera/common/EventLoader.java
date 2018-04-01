@@ -29,6 +29,7 @@ import com.porpit.minecamera.network.MessagePlayerViewRender;
 import com.porpit.minecamera.network.MessageUpdatePitchYaw;
 import com.porpit.minecamera.network.NetworkLoader;
 import com.porpit.minecamera.tileentity.TileEntityPictureFrameMultiple;
+import com.porpit.minecamera.util.PictureFactory;
 import com.porpit.minecamera.util.SaveImageThread;
 import com.porpit.minecamera.util.TripodActiveThread;
 
@@ -354,20 +355,20 @@ public class EventLoader {
 				GlStateManager.color(1F, 1F, 1F);
 				Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(0, 0, 0, 0, 82, 82);
-				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(Minecraft.getMinecraft().displayWidth / 2 - 81,
+				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(PictureFactory.getMcScaledWidth() - 81,
 						0, 82, 0, 81, 81);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(0,
-						Minecraft.getMinecraft().displayHeight / 2 - 81, 0, 82, 81, 81);
-				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(Minecraft.getMinecraft().displayWidth / 2 - 81,
-						Minecraft.getMinecraft().displayHeight / 2 - 82, 82, 82, 81, 81);
+						PictureFactory.getMcScaledHeight() - 81, 0, 82, 81, 81);
+				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(PictureFactory.getMcScaledWidth() - 81,
+						PictureFactory.getMcScaledHeight() - 82, 82, 82, 81, 81);
 				Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(
-						Minecraft.getMinecraft().displayWidth / 2 / 2 - 46,
-						Minecraft.getMinecraft().displayHeight / 2 / 2 - 46, 163, 0, 93, 93);
+						PictureFactory.getMcScaledWidth() / 2 - 46,
+						PictureFactory.getMcScaledHeight() / 2 - 46, 163, 0, 93, 93);
 				String locked = I18n.format("gui.camgameoverlay.locked");
 				String unlocked = I18n.format("gui.camgameoverlay.unlocked");
 				Minecraft.getMinecraft().ingameGUI.drawString(Minecraft.getMinecraft().ingameGUI.getFontRenderer(),
 						TextFormatting.GREEN.BOLD + (EntityTripod.islock ? locked : unlocked), 82,
-						Minecraft.getMinecraft().displayHeight / 2 - 40, 0x99FFFF);
+						PictureFactory.getMcScaledHeight() - 40, 0x99FFFF);
 			}
 			if (event.getType().equals(ElementType.EXPERIENCE)) {
 				event.setCanceled(true);
@@ -423,12 +424,12 @@ public class EventLoader {
 			for (int i = 0; i < 9; i++) {
 				if (event.craftMatrix.getStackInSlot(i) != null
 						&& event.craftMatrix.getStackInSlot(i).getItem() instanceof ItemTripod) {
-					if (!event.player.inventory.addItemStackToInventory(new ItemStack(ItemLoader.itemCamera))) {
-						if (!event.player.getEntityWorld().isRemote) {
-							Block.spawnAsEntity(event.player.getEntityWorld(), event.player.getPosition(),
-									new ItemStack(ItemLoader.itemCamera));
-						}
-					}
+//					if (!event.player.inventory.addItemStackToInventory(new ItemStack(ItemLoader.itemCamera))) {
+//						if (!event.player.getEntityWorld().isRemote) {
+//							Block.spawnAsEntity(event.player.getEntityWorld(), event.player.getPosition(),
+//									new ItemStack(ItemLoader.itemCamera));
+//						}
+//					}
 					if (!event.player.inventory.addItemStackToInventory(new ItemStack(Blocks.IRON_BLOCK, 3))) {
 						if (!event.player.getEntityWorld().isRemote) {
 							Block.spawnAsEntity(event.player.getEntityWorld(), event.player.getPosition(),

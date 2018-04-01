@@ -521,6 +521,10 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// System.out.println("LINE:"+state.getValue(LINE));
 		ItemStack heldItem=playerIn.getHeldItem(hand);
+		if (!(worldIn.getTileEntity(pos) instanceof TileEntityPictureFrameMultiple)) {
+			return true;
+		}
+		TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
 		if (heldItem != null && heldItem.getItem().equals(ItemLoader.itemPicture) && heldItem.hasTagCompound()
 				&& heldItem.getTagCompound().hasKey("pid")) {
 			int width = 1;
@@ -556,7 +560,6 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 						playerIn.sendMessage(
 								new TextComponentTranslation("chat.framemultiple.widthorheighttoosmall"));
 					}
-					TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
 					te.shouldrender = false;
 					return true;
 				}
@@ -572,8 +575,6 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 								playerIn.sendMessage(
 										new TextComponentTranslation("chat.framemultiple.failedtobuild"));
 							}
-							TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn
-									.getTileEntity(pos);
 							if (!worldIn.isRemote && !te.imagename.equals("")) {
 								ItemStack picture = new ItemStack(ItemLoader.itemPicture);
 								NBTTagCompound nbt = new NBTTagCompound();
@@ -627,7 +628,6 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 					}
 				}
 
-				TileEntityPictureFrameMultiple te = (TileEntityPictureFrameMultiple) worldIn.getTileEntity(pos);
 				if (!te.imagename.equals("")) {
 					if (!te.getWorld().isRemote) {
 						ItemStack picture = new ItemStack(ItemLoader.itemPicture);
@@ -642,6 +642,7 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 				te.shouldrender = true;
 				te.width = width;
 				te.height = height;
+				te.updateBlock();
 				if(!worldIn.isRemote){
 					heldItem.shrink(1);
 				}
@@ -653,7 +654,16 @@ public class BlockPictureFrameMultiple extends BlockContainer {
 			}
 			return true;
 		}
-		return false;
+		if (!te.getWorld().isRemote && heldItem == null && !te.imagename.equals("")) {
+			ItemStack picture = new ItemStack(ItemLoader.itemPicture);
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("pid", te.imagename);
+			picture.setTagCompound(nbt);
+			te.imagename = "";
+			te.updateBlock();
+			Block.spawnAsEntity(worldIn, pos, picture);
+		}
+		return true;
 	}
 
 	@Override
