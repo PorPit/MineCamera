@@ -24,13 +24,13 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerCamera extends Container {
+public class ContainerCamera extends ContainerFix {
 	protected EntityPlayer player;
 	protected Slot betterySlot;
 	protected Slot filmSlot;
 	protected Slot filmOutSlot;
 	protected ItemStack filmOutCatch;
-	public static int totalBurnTime = 100;
+	public static int totalBurnTime = 50;
 	protected int burnTime = totalBurnTime;
 	private int delay = 0;
 	protected IItemHandler items;// = new ItemStackHandler(3);
@@ -54,8 +54,13 @@ public class ContainerCamera extends Container {
 			}
 
 			@Override
-			public int getItemStackLimit(ItemStack stack) {
+			public int getSlotStackLimit() {
 				return 1;
+			}
+
+			@Override
+			public int getItemStackLimit(ItemStack stack) {
+				return  getSlotStackLimit();
 			}
 		});
 
@@ -66,8 +71,12 @@ public class ContainerCamera extends Container {
 			}
 
 			@Override
-			public int getItemStackLimit(ItemStack stack) {
+			public int getSlotStackLimit() {
 				return 1;
+			}
+			@Override
+			public int getItemStackLimit(ItemStack stack) {
+				return  getSlotStackLimit();
 			}
 		});
 
@@ -217,46 +226,41 @@ public class ContainerCamera extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		 Slot slot = inventorySlots.get(index);
+		ItemStack itemstack = null;
+		Slot slot = this.inventorySlots.get(index);
+		if (slot != null && slot.getHasStack()){
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (index >= 0 && index <= 2) {
+				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
+					return null;
+				}
 
-	        if (slot == null || !slot.getHasStack())
-	        {
-	            return null;
-	        }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (index >= 3 && index < 30) {
+				if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
+					return null;
+				}
+			} else if (index >= 30 && index < 39) {
+				if (!this.mergeItemStack(itemstack1, 0, 2, false)) {
+					return null;
+				}
+			}
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack)null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-	        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
-	        boolean isMerged = false;
-	        
-	        if (index >= 0 && index <= 2)
-	        {
-	            isMerged = mergeItemStack(newStack, 3, 39, true);
-	        }else if (index >= 3 && index < 30)
-	        {
-	            isMerged = ! betterySlot.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
-	                    || !filmSlot.getHasStack() && mergeItemStack(newStack, 1, 2, false)
-	                    || mergeItemStack(newStack, 30, 39, false);
-	        }else if (index >= 30 && index < 39)
-	        {
-	            isMerged = !betterySlot.getHasStack()&& newStack.stackSize <= 1&& mergeItemStack(newStack, 0, 1, false)
-	                    || !filmSlot.getHasStack() && mergeItemStack(newStack, 1, 2, false)
-	                    || mergeItemStack(newStack, 3, 30, false);
-	        }
-	        
-	        if (!isMerged)
-	        {
-	            return null;
-	        }
+			if (itemstack1.stackSize == itemstack.stackSize)
+			{
+				return null;
+			}
 
-	        if (newStack.stackSize == 0)
-	        {
-	            slot.putStack(null);
-	        }
-	        else
-	        {
-	            slot.onSlotChanged();
-	        }
-	        slot.onPickupFromSlot(playerIn, newStack);
-	        return oldStack;
+			slot.onPickupFromSlot(playerIn, itemstack1);
+		}
+
+		return itemstack;
 	}
 
 	@Override

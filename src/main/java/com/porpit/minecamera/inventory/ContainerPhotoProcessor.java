@@ -19,7 +19,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerPhotoProcessor extends Container {
+public class ContainerPhotoProcessor extends ContainerFix {
 
 	protected IItemHandler AllSlot;
 	public static int totalBurnTime = TileEntityPhotoProcessor.totalburnTime;
@@ -42,8 +42,12 @@ public class ContainerPhotoProcessor extends Container {
 			}
 
 			@Override
-			public int getItemStackLimit(ItemStack stack) {
+			public int getSlotStackLimit() {
 				return 10;
+			}
+			@Override
+			public int getItemStackLimit(ItemStack stack) {
+				return  getSlotStackLimit();
 			}
 		});
 		this.addSlotToContainer(new SlotItemHandler(AllSlot, 1, 9, 59) {
@@ -53,8 +57,12 @@ public class ContainerPhotoProcessor extends Container {
 			}
 
 			@Override
-			public int getItemStackLimit(ItemStack stack) {
+			public int getSlotStackLimit() {
 				return 10;
+			}
+			@Override
+			public int getItemStackLimit(ItemStack stack) {
+				return  getSlotStackLimit();
 			}
 		});
 		this.addSlotToContainer(new SlotItemHandler(AllSlot, 2, 44, 101) {
@@ -64,8 +72,12 @@ public class ContainerPhotoProcessor extends Container {
 			}
 
 			@Override
-			public int getItemStackLimit(ItemStack stack) {
+			public int getSlotStackLimit() {
 				return 1;
+			}
+			@Override
+			public int getItemStackLimit(ItemStack stack) {
+				return  getSlotStackLimit();
 			}
 		});
 		this.addSlotToContainer(new SlotItemHandler(AllSlot, 3, 80, 101) {
@@ -73,10 +85,13 @@ public class ContainerPhotoProcessor extends Container {
 			public boolean isItemValid(ItemStack stack) {
 				return stack != null && stack.getItem() == ItemLoader.itemPhotoPaper && super.isItemValid(stack);
 			}
-
+			@Override
+			public int getSlotStackLimit() {
+				return 64;
+			}
 			@Override
 			public int getItemStackLimit(ItemStack stack) {
-				return 64;
+				return  getSlotStackLimit();
 			}
 		});
 		this.addSlotToContainer(new SlotItemHandler(AllSlot, 4, 152, 101) {
@@ -135,50 +150,43 @@ public class ContainerPhotoProcessor extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		 Slot slot = inventorySlots.get(index);
+		ItemStack itemstack = null;
+		Slot slot = this.inventorySlots.get(index);
+		if (slot != null && slot.getHasStack()){
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (index >= 0 && index <= 4) {
+				if (!this.mergeItemStack(itemstack1, 5, 41, true)) {
+					return null;
+				}
 
-	        if (slot == null || !slot.getHasStack())
-	        {
-	            return null;
-	        }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (index >= 5 && index < 32) {
+				if (!this.mergeItemStack(itemstack1, 0, 4, false)) {
+					return null;
+				}
+			} else if (index >= 32 && index < 41) {
+				if (!this.mergeItemStack(itemstack1, 0, 4, false)) {
+					return null;
+				}
+			}
 
-	        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
-	        boolean isMerged = false;
-	        
-	        if (index >= 0 && index <= 4)
-	        {
-	            isMerged = mergeItemStack(newStack, 5, 41, true);
-	        }else if (index >= 5 && index < 32)
-	        {
-	            isMerged = AllSlot.getStackInSlot(0)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 0, 1, false)
-	                    || AllSlot.getStackInSlot(1)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 1, 2, false)
-	                    || AllSlot.getStackInSlot(2)==null && newStack.stackSize <= 1 && mergeItemStack(newStack, 2, 3, false)
-	                    || mergeItemStack(newStack, 3, 4, false)
-	                    || mergeItemStack(newStack, 32, 41, false);
-	        }else if (index >= 32 && index < 41)
-	        {
-	        	isMerged = AllSlot.getStackInSlot(0)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 0, 1, false)
-	                    || AllSlot.getStackInSlot(1)==null && newStack.stackSize <= 10 && mergeItemStack(newStack, 1, 2, false)
-	                    || AllSlot.getStackInSlot(2)==null && newStack.stackSize <= 1 && mergeItemStack(newStack, 2, 3, false)
-	                    || mergeItemStack(newStack, 3, 4, false)
-	                    || mergeItemStack(newStack, 5, 32, false);
-	        }
-	        
-	        if (!isMerged)
-	        {
-	            return null;
-	        }
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack)null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-	        if (newStack.stackSize == 0)
-	        {
-	            slot.putStack(null);
-	        }
-	        else
-	        {
-	            slot.onSlotChanged();
-	        }
-	        slot.onPickupFromSlot(playerIn, newStack);
-	        return oldStack;
+			if (itemstack1.stackSize == itemstack.stackSize)
+			{
+				return null;
+			}
+
+			slot.onPickupFromSlot(playerIn, itemstack1);
+		}
+
+		return itemstack;
+
 	}
 
 	@Override
@@ -191,4 +199,5 @@ public class ContainerPhotoProcessor extends Container {
 	public EntityPlayer getPlayer() {
 		return player;
 	}
+
 }

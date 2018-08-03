@@ -109,6 +109,8 @@ chat.minecamera.success=拍摄成功,请打开照相机进行处理~
 
 chat.picturebook.tomany=相册照片数量过多,已无法添加
 
+achievement.minecamera.start=首次安装
+achievement.minecamera.start.desc=感谢安装摄影工艺模组！
 achievement.minecamera.craftcamera=怀旧摄影师
 achievement.minecamera.craftcamera.desc=在当今数码时代,使用胶卷摄像机真是件稀奇的事情!
 achievement.minecamera.craftprocessor=尝试旧技艺
@@ -129,3 +131,6 @@ achievement.minecamera.craftpicture_book=沉甸甸的书
 achievement.minecamera.craftpicture_book.desc=装着记忆的小册子
 achievement.minecamera.craftpicture=带有色彩的记忆
 achievement.minecamera.craftpicture.desc=好好保存好你的照片吧,最好准备个小册子？
+
+key.categories.mincamera=摄影工艺
+key.minecamera.cameralock=控制模式更改

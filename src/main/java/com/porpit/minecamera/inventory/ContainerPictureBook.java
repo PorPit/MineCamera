@@ -22,7 +22,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerPictureBook extends Container {
+public class ContainerPictureBook extends ContainerFix {
 	protected EntityPlayer player;
 	protected Slot pictureInSlot;
 	protected Slot pictureOutSlot;
@@ -43,9 +43,13 @@ public class ContainerPictureBook extends Container {
 				return stack != null && stack.getItem() == ItemLoader.itemPicture && super.isItemValid(stack);
 			}
 
+            @Override
+            public int getSlotStackLimit(){
+				return 1;
+			}
 			@Override
 			public int getItemStackLimit(ItemStack stack) {
-				return 1;
+				return  getSlotStackLimit();
 			}
 		});
 
@@ -55,9 +59,13 @@ public class ContainerPictureBook extends Container {
 				return false;
 			}
 
+            @Override
+            public int getSlotStackLimit() {
+				return 1;
+			}
 			@Override
 			public int getItemStackLimit(ItemStack stack) {
-				return 1;
+				return  getSlotStackLimit();
 			}
 		});
 		for (int i = 0; i < 3; ++i) {
@@ -168,36 +176,43 @@ public class ContainerPictureBook extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		Slot slot = inventorySlots.get(index);
-		//System.out.println(index);
-		if (slot == null || !slot.getHasStack()) {
-			return null;
+		ItemStack itemstack = null;
+		Slot slot = this.inventorySlots.get(index);
+		if (slot != null && slot.getHasStack()){
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (index >= 0 && index <= 1) {
+				if (!this.mergeItemStack(itemstack1, 2, 38, true)) {
+					return null;
+				}
+
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (index >= 2 && index < 29) {
+				if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+					return null;
+				}
+			} else if (index >= 29 && index < 38) {
+				if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+					return null;
+				}
+			}
+
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack)null);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			if (itemstack1.stackSize == itemstack.stackSize)
+			{
+				return null;
+			}
+
+			slot.onPickupFromSlot(playerIn, itemstack1);
 		}
 
-		ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
-		boolean isMerged = false;
+		return itemstack;
 
-		if (index >= 0 && index <= 1) {
-			isMerged = mergeItemStack(newStack, 2, 38, true);
-		} else if (index >= 2 && index < 29) {
-			isMerged = !pictureInSlot.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
-					|| mergeItemStack(newStack, 29, 38, false);
-		} else if (index >= 29 && index < 38) {
-			isMerged = !pictureInSlot.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
-					|| mergeItemStack(newStack, 2, 29, false);
-		}
-
-		if (!isMerged) {
-			return null;
-		}
-
-		if (newStack.stackSize == 0) {
-			slot.putStack(null);
-		} else {
-			slot.onSlotChanged();
-		}
-		slot.onPickupFromSlot(playerIn, newStack);
-		return oldStack;
 	}
 
 	@Override
@@ -254,4 +269,5 @@ public class ContainerPictureBook extends Container {
 			}
 		}
 	}
+
 }
