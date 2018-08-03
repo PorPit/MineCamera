@@ -124,9 +124,12 @@ public class EventLoader {
 		mc.getRenderManager().renderViewEntity = renderEntity;
 	}
 
-	private void ActiveTripod(String playername, int delay) {
+	private void ActiveTripod(String playername, EntityTripod entityTripod) {
+		if(entityTripod==null){
+			return;
+		}
 		if (!TripodActiveThread.isshooting) {
-			TripodActiveThread thread = new TripodActiveThread(playername, delay);
+			TripodActiveThread thread = new TripodActiveThread(playername, entityTripod.getDelay());
 			thread.start();
 		} else {
 			Minecraft.getMinecraft().player
@@ -143,7 +146,7 @@ public class EventLoader {
 			ActiveTripod(Minecraft.getMinecraft().player.getName(),
 					((EntityTripod) event.getWorld()
 							.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
-									.getDelay());
+									);
 			event.setCanceled(true);
 		}
 	}
@@ -159,7 +162,7 @@ public class EventLoader {
 				ActiveTripod(Minecraft.getMinecraft().player.getName(),
 						((EntityTripod) event.getWorld()
 								.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
-										.getDelay());
+										);
 				event.setCanceled(true);
 			}
 			if (event.getEntityPlayer().getEntityData().hasKey("renderViewCamera")) {
@@ -182,7 +185,7 @@ public class EventLoader {
 			ActiveTripod(Minecraft.getMinecraft().player.getName(),
 					((EntityTripod) event.getWorld()
 							.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
-									.getDelay());
+									);
 		}
 	}
 
@@ -197,7 +200,7 @@ public class EventLoader {
 				ActiveTripod(Minecraft.getMinecraft().player.getName(),
 						((EntityTripod) event.getWorld()
 								.getEntityByID(event.getEntityPlayer().getEntityData().getInteger("renderViewCamera")))
-										.getDelay());
+										);
 			}
 			return;
 		}
@@ -205,7 +208,7 @@ public class EventLoader {
 			Entity target = ((PlayerInteractEvent.EntityInteract) event).getTarget();
 			EntityPlayer player = event.getEntityPlayer();
 			if (!player.isSneaking()) {
-				if (player.inventory.armorInventory.get(3) != null
+				if (player.inventory.armorInventory.get(3)!= null
 						&& player.inventory.armorInventory.get(3).getItem() instanceof ItemGlassesHelmet) {
 					if (player.getEntityWorld().isRemote) {
 						// System.out.println("123");

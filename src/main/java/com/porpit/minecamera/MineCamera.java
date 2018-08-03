@@ -16,11 +16,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.reflect.internal.Trees.This;
 
-@Mod(modid = MineCamera.MODID, name = MineCamera.NAME, version = MineCamera.VERSION, dependencies="after:MineCameraDummy;", acceptedMinecraftVersions = "1.10.2")
+@Mod(modid = MineCamera.MODID, name = MineCamera.NAME, version = MineCamera.VERSION, dependencies="after:MineCameraDummy;", acceptedMinecraftVersions = "1.12.2")
 public class MineCamera {
 	public static final String MODID = "minecamera";
 	public static final String NAME = "MineCamera";
-	public static final String VERSION = "beta_1.0";
+	public static final String VERSION = "1.1.0";
 
 	public static String ServerCatchFile;
 	public static String ClientCatchFile ;

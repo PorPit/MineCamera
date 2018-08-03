@@ -17,7 +17,19 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TileEntityPhotoProcessor extends TileEntity implements ITickable {
 	public static int totalburnTime = 440;
 	protected int burnTime = totalburnTime;
-	protected ItemStackHandler Inventory = new ItemStackHandler(6);
+	protected ItemStackHandler Inventory = new ItemStackHandler(6){
+		@Override
+		public int getSlotLimit(int slot) {
+			switch (slot){
+				case 0:case 1:
+					return 10;
+				case 2: case 4:
+					return 1;
+				default:
+					return 64;
+			}
+		}
+	};
 
 	public TileEntityPhotoProcessor() {
 	}

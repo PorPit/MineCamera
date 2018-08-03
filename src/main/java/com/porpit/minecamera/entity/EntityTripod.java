@@ -39,7 +39,12 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class EntityTripod extends Entity {
 	public static boolean islock = false;
-	protected ItemStackHandler Inventory = new ItemStackHandler(4);
+	protected ItemStackHandler Inventory = new ItemStackHandler(4){
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
+        }
+    };
 	private int burnTime;
 	private int delay = 0;
 	private int timer;

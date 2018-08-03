@@ -1,5 +1,6 @@
 package com.porpit.minecamera.client.entity.model;
 
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
@@ -61,6 +62,7 @@ public class ModelEntityTripod extends ModelBase {
 			float rotatePitch, float scale) {
 		GL11.glScalef(0.014F, 0.014F, 0.014F);
 		GL11.glTranslatef(0F, -165F, 0F);
+		GlStateManager.disableLighting();
 		this.setRotationAngles(limbSwing, limbSwingAmount, rotateFloat, rotateYaw, rotatePitch, scale, entity);
 		this.top1.render(scale);
 		this.top2.render(scale);
@@ -87,6 +89,7 @@ public class ModelEntityTripod extends ModelBase {
 		// this.leg3.setRotationPoint(0, 0, 0);
 		// setRotation(leg3, 0F,-0.4F, 1.6F);
 		this.leg3.render(scale);
+		GlStateManager.enableLighting();
 
 	}
 

@@ -101,7 +101,7 @@ public class ItemCamera extends Item {
 			/*ItemStack filmStack = ItemStack
 					.loadItemStackFromNBT(itemStackIn.getTagCompound().getCompoundTag("filmSlot"));*/
 			ItemStack filmStack=new ItemStack(ItemLoader.itemBattery);
-			betteryStack.deserializeNBT(itemStackIn.getTagCompound().getCompoundTag("filmSlot"));
+			filmStack.deserializeNBT(itemStackIn.getTagCompound().getCompoundTag("filmSlot"));
 			String createdpid = playerIn.getName() + "%_%" + System.currentTimeMillis();
 			if (filmStack.hasTagCompound() && filmStack.getTagCompound().hasKey("pid")) {
 				if (!worldIn.isRemote)

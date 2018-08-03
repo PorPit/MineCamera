@@ -11,7 +11,7 @@ public class KeyLoader {
 
     public KeyLoader()
     {
-		KeyLoader.cameralock = new KeyBinding("key.minecamera.cameralock", Keyboard.KEY_LCONTROL, "key.categories.minecraft");
+		KeyLoader.cameralock = new KeyBinding("key.minecamera.cameralock", Keyboard.KEY_LCONTROL, "key.categories.mincamera");
         
         ClientRegistry.registerKeyBinding(KeyLoader.cameralock);
     }

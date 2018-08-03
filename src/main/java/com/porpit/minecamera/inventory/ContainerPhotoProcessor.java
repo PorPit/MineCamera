@@ -135,51 +135,43 @@ public class ContainerPhotoProcessor extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-		 Slot slot = inventorySlots.get(index);
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = this.inventorySlots.get(index);
+		if (slot != null && slot.getHasStack()){
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (index >= 0 && index <= 4)
+			{
+				if (!this.mergeItemStack(itemstack1, 5, 41, true)) {
+					return ItemStack.EMPTY;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
 
-	        if (slot == null || !slot.getHasStack())
-	        {
-	            return null;
-	        }
+			}else if (index >= 5 && index < 32)
+			{
+				if (!this.mergeItemStack(itemstack1, 0, 4, false)) {
+					return ItemStack.EMPTY;
+				}
+			}else if (index >= 32 && index < 41)
+			{
+				if (!this.mergeItemStack(itemstack1, 0, 4, false)) {
+					return ItemStack.EMPTY;
+				}
+			}
+			if (itemstack1.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
 
-	        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
-	        boolean isMerged = false;
-	        
-	        if (index >= 0 && index <= 4)
-	        {
-	            isMerged = mergeItemStack(newStack, 5, 41, true);
-	        }else if (index >= 5 && index < 32)
-	        {
-	            isMerged = AllSlot.getStackInSlot(0)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 0, 1, false)
-	                    || AllSlot.getStackInSlot(1)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 1, 2, false)
-	                    || AllSlot.getStackInSlot(2)==null && newStack.getCount() <= 1 && mergeItemStack(newStack, 2, 3, false)
-	                    || mergeItemStack(newStack, 3, 4, false)
-	                    || mergeItemStack(newStack, 32, 41, false);
-	        }else if (index >= 32 && index < 41)
-	        {
-	        	isMerged = AllSlot.getStackInSlot(0)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 0, 1, false)
-	                    || AllSlot.getStackInSlot(1)==null && newStack.getCount() <= 10 && mergeItemStack(newStack, 1, 2, false)
-	                    || AllSlot.getStackInSlot(2)==null && newStack.getCount() <= 1 && mergeItemStack(newStack, 2, 3, false)
-	                    || mergeItemStack(newStack, 3, 4, false)
-	                    || mergeItemStack(newStack, 5, 32, false);
-	        }
-	        
-	        if (!isMerged)
-	        {
-	            return null;
-	        }
+			if (itemstack1.getCount() == itemstack.getCount()) {
+				return ItemStack.EMPTY;
+			}
 
-	        if (newStack.getCount() == 0)
-	        {
-	            slot.putStack(null);
-	        }
-	        else
-	        {
-	            slot.onSlotChanged();
-	        }
-	      //slot.onPickupFromSlot(playerIn, newStack);
-	        slot.onSlotChanged();
-	        return oldStack;
+			slot.onTake(playerIn, itemstack1);
+		}
+	return itemstack;
+
 	}
 
 	@Override

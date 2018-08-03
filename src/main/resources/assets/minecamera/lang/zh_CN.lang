@@ -131,3 +131,6 @@ achievement.minecamera.craftpicture_book=沉甸甸的书
 achievement.minecamera.craftpicture_book.desc=装着记忆的小册子
 achievement.minecamera.craftpicture=带有色彩的记忆
 achievement.minecamera.craftpicture.desc=好好保存好你的照片吧,最好准备个小册子？
+
+key.categories.mincamera=摄影工艺
+key.minecamera.cameralock=控制模式更改
