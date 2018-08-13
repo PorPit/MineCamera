@@ -23,4 +23,6 @@ EMail:692066768@qq.com
 
 请勿抹去一切作者信息以及捐赠信息!
 
+捐赠方式:https://afdian.net/@PorPit
+
 ![](http://i2.fuimg.com/508137/2e4758e8d2d4138c.png)  
