@@ -37,8 +37,8 @@ public class MessageTripodFilmOut implements IMessage {
 		@Override
 		public IMessage onMessage(MessageTripodFilmOut message, MessageContext ctx) {
 			if (ctx.side == Side.SERVER) {
-				EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-				Entity entity = player.getEntityWorld()
+				final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+				final Entity entity = player.getEntityWorld()
 						.getEntityByID(player.getEntityData().getInteger("renderViewCamera"));
 				if (player != null && entity != null&&entity instanceof EntityTripod) {
 					IItemHandler items = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
@@ -83,30 +83,37 @@ public class MessageTripodFilmOut implements IMessage {
 					((EntityTripod)entity).setBurnTime(0);
 					player.addChatComponentMessage((new TextComponentTranslation("chat.minecamera.success")));
 					// effect
-					double particlePosX = entity.posX, particlePosY = entity.posY + 1.35, particlePosZ = entity.posZ;
-					particlePosX = particlePosX + (-Math.sin(Math.toRadians(entity.rotationYaw + 15)) * 0.7);
-					particlePosZ = particlePosZ + (Math.cos(Math.toRadians(entity.rotationYaw + 15)) * 0.7);
-					List<EntityPlayer> listentity = entity.getEntityWorld().getEntitiesWithinAABB(EntityPlayer.class,
-							new AxisAlignedBB(entity.posX - 16, entity.posY - 16, entity.posZ - 16, entity.posX + 16,
-									entity.posY + 16, entity.posZ + 16));
-					// System.out.println("listsize:"+listentity.size());
-					if (listentity != null) {
-						for (EntityPlayer i : listentity) {
-							EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
-							entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.kacha",
-									SoundCategory.BLOCKS, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
-							MessageSpawnParticle message2 = new MessageSpawnParticle();
-							message2.delay = 200;
-							message2.typeid = EnumParticleTypes.FIREWORKS_SPARK.getParticleID();
-							message2.PosX = particlePosX;
-							message2.PosY = particlePosY;
-							message2.PosZ = particlePosZ;
-							message2.SpeedX = 0;
-							message2.SpeedY = 0;
-							message2.SpeedZ = 0;
-							NetworkLoader.instance.sendTo(message2, entityplayermp);
+
+					ctx.getServerHandler().playerEntity.getServer().addScheduledTask(new Runnable() {
+						@Override
+						public void run() {
+							double particlePosX = entity.posX, particlePosY = entity.posY + 1.35, particlePosZ = entity.posZ;
+							particlePosX = particlePosX + (-Math.sin(Math.toRadians(entity.rotationYaw + 15)) * 0.7);
+							particlePosZ = particlePosZ + (Math.cos(Math.toRadians(entity.rotationYaw + 15)) * 0.7);
+							List<EntityPlayer> listentity = entity.getEntityWorld().getEntitiesWithinAABB(EntityPlayer.class,
+									new AxisAlignedBB(entity.posX - 16, entity.posY - 16, entity.posZ - 16, entity.posX + 16,
+											entity.posY + 16, entity.posZ + 16));
+							// System.out.println("listsize:"+listentity.size());
+							if (listentity != null) {
+								for (EntityPlayer i : listentity) {
+									EntityPlayerMP entityplayermp = (EntityPlayerMP) i;
+									entityplayermp.connection.sendPacket(new SPacketCustomSound("minecamera:minecamera.kacha",
+											SoundCategory.BLOCKS, player.posX, player.posY, player.posZ, 1.0F, 1.0F));
+									MessageSpawnParticle message2 = new MessageSpawnParticle();
+									message2.delay = 200;
+									message2.typeid = EnumParticleTypes.FIREWORKS_SPARK.getParticleID();
+									message2.PosX = particlePosX;
+									message2.PosY = particlePosY;
+									message2.PosZ = particlePosZ;
+									message2.SpeedX = 0;
+									message2.SpeedY = 0;
+									message2.SpeedZ = 0;
+									NetworkLoader.instance.sendTo(message2, entityplayermp);
+								}
+							}
 						}
-					}
+					});
+
 
 					MessageImageSyncSave message2 = new MessageImageSyncSave();
 					message2.imageName = imagename;
