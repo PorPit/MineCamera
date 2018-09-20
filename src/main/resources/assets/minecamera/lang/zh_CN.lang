@@ -48,10 +48,10 @@ chat.framemultiple.removeuselesspart=相框多余部分已经被拆除
 
 itemGroup.minecamera=摄影工艺
 
-item.glasses_helmet.name=黑框眼镜
+item.glasses_helmet.name=末影眼镜
 item.camera.name=胶卷照相机
 item.picture.name=照片
-item.battery.name=南糊电池
+item.battery.name=电池
 item.film.name=胶卷
 item.tripod.name=三脚架相机
 item.cnst_temp_liquid.name=恒温液
@@ -71,12 +71,12 @@ lore.pictureframe_multiple.info2=按住shift+右键可以快速放置3X2,
 lore.pictureframe_multiple.info3=同时shift+敲掉相框,可以快速敲落相框
 
 lore.glasses_helmet.info=戴上这眼睛可以与三脚架相机视觉交换
-lore.glasses_helmet.info2=听说戴上这副眼镜可以增加史蒂夫寿命？
+lore.glasses_helmet.info2=~~~
 
 lore.liquid.damage=剂量:
 lore.battery.damage=电量:
 
-lore.battery.info=塑料聚能环逼格高,一节更比六节强♂
+lore.battery.info=一节更比六节强
 
 
 lore.picture.null=照片信息为空
@@ -91,13 +91,13 @@ lore.film.info.used=已使用
 lore.film.info.unused=未使用
 
 lore.tripod.info=可以摆放在地上进行拍摄
-lore.tripod.info2=并且使用黑框眼镜交换视野
+lore.tripod.info2=并且使用末影眼镜交换视野
 
 lore.picturebook.info=照片数量:
 
-chat.tripod.mustuseglass=你必须戴上黑框眼镜才可以与三脚架相机交换视野
+chat.tripod.mustuseglass=你必须戴上末影眼镜才可以与三脚架相机交换视野
 chat.tripod.mustup=脚架必须放在地面上
-chat.tripod.info=按键CTRL切换控制模式,SHIFT离开摄像头
+chat.tripod.info=按键CTRL切换控制模式,SHIFT(胶卷控制下)离开摄像头
 
 chat.minecamera.isouting=胶卷还未处理,请打开摄像机进行胶卷处理
 chat.minecamera.nofilm=请在相机内放入胶卷以拍摄!
@@ -125,8 +125,8 @@ achievement.minecamera.craftpictureframe_multiple=照片墙
 achievement.minecamera.craftpictureframe_multiple.desc=让你的一面墙都成为你的回忆吧.
 achievement.minecamera.crafttripod=尝试脚架拍摄
 achievement.minecamera.crafttripod.desc=自我陶醉,或者与你的朋友合照吧
-achievement.minecamera.craftglasses=香港记者?
-achievement.minecamera.craftglasses.desc=香港记者?(误;试试感受脚架拍摄的魅力吧
+achievement.minecamera.craftglasses=拍摄的魅力
+achievement.minecamera.craftglasses.desc=试试感受脚架拍摄的魅力吧
 achievement.minecamera.craftpicture_book=沉甸甸的书
 achievement.minecamera.craftpicture_book.desc=装着记忆的小册子
 achievement.minecamera.craftpicture=带有色彩的记忆
